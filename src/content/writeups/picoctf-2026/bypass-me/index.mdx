@@ -1,0 +1,474 @@
+---
+title: "Bypass Me — picoCTF 2026"
+date: 2026-06-26
+author: "Imattas aka Zemi"
+slug: "picoctf-2026-bypass-me"
+order: 59
+writeupKind: "challenge"
+ctfSlug: "picoctf-2026"
+ctfTitle: "picoCTF 2026"
+---
+
+# Bypass Me — picoCTF 2026
+
+> **Category:** `Reverse Engineering`  
+> **Difficulty:** Easy  
+> **Points:** 100  
+> **Author:** Imattas aka Zemi
+
+---
+
+## Challenge Description
+
+> Your task is to analyze and exploit a password-protected binary called bypassme.bin and binary performs a multi-step verification process before granting access.
+
+---
+
+## Recon / Initial Analysis
+
+This is a classic reverse engineering challenge where a binary performs multiple password verification steps. The goal is to either:
+
+1. **Extract the password** by reverse engineering the verification logic, or
+2. **Bypass the checks entirely** by patching the binary (changing conditional jumps)
+
+The "multi-step verification" suggests the binary has several sequential checks, such as:
+- String length verification
+- Character-by-character comparison
+- Hash/checksum validation
+- Anti-debugging checks
+- Obfuscated comparisons
+
+Initial reconnaissance:
+
+```bash
+file bypassme.bin
+checksec --file=bypassme.bin
+strings bypassme.bin | grep -i "pass\|flag\|correct\|wrong\|step\|verify"
+```
+
+---
+
+## Vulnerability / Observation
+
+Each verification step likely compares parts of the input against expected values. By analyzing the comparison instructions in the disassembly, we can extract what values are expected or simply patch the binary to skip the checks.
+
+Key techniques that apply here:
+- **Static analysis**: Decompile with Ghidra/IDA to understand the verification logic
+- **Dynamic analysis**: Use GDB to step through checks and observe comparisons
+- **Binary patching**: Modify conditional jumps (e.g., `jne` -> `je` or `jmp`) to bypass checks
+- **ltrace/strace**: Intercept library calls like `strcmp`, `strncmp`, `memcmp`
+
+If `strcmp`/`strncmp` is used, the expected password will surface directly in an `ltrace` trace; otherwise the comparison instructions in `main()` reveal the expected values.
+
+---
+
+## Exploitation / Solution
+
+### Step 1: Initial reconnaissance
+```bash
+file bypassme.bin
+checksec --file=bypassme.bin
+strings bypassme.bin | grep -i "pass\|flag\|correct\|wrong\|step\|verify"
+```
+
+### Step 2: Dynamic analysis with ltrace
+```bash
+ltrace ./bypassme.bin
+```
+
+### Step 3: Static analysis with Ghidra/objdump
+```bash
+objdump -d -M intel bypassme.bin | less
+```
+
+In Ghidra:
+1. Open bypassme.bin
+2. Navigate to `main()` or search for string references ("Enter password", "Correct", etc.)
+3. Identify the verification function(s)
+4. Note the expected values at each comparison
+
+### Step 4: Bypass via GDB
+```bash
+gdb ./bypassme.bin
+
+b *<address_of_first_cmp>
+b *<address_of_second_cmp>
+run
+
+continue
+```
+
+### Step 5: Bypass via binary patching
+```python
+
+```
+
+### Step 6: Run the patched binary or supply the extracted password
+```bash
+./bypassme_patched.bin
+```
+
+---
+
+## Full Exploit Script
+
+```python
+import subprocess
+import sys
+import os
+import re
+import struct
+import tempfile
+import shutil
+
+FLAG_PATTERN = re.compile(r"picoCTF\{[^}]+\}")
+
+def try_ltrace(binary_path):
+
+    print("[*] Method 1: ltrace interception")
+    test_input = b"AAAAAAAAAAAAAAAA\n"
+
+    try:
+        proc = subprocess.run(
+            ["ltrace", "-s", "256", "-e", "strcmp+strncmp+memcmp+strcasecmp", binary_path],
+            input=test_input,
+            capture_output=True,
+            text=True,
+            timeout=10,
+        )
+        output = proc.stderr + proc.stdout
+
+        passwords = []
+        patterns = [
+            r'str(?:n?)cmp\(".*?",\s*"([^"]+)"',
+            r'str(?:n?)cmp\("([^"]+)",\s*".*?"',
+            r'memcmp\(.*?,\s*"([^"]+)"',
+            r'strcasecmp\(".*?",\s*"([^"]+)"',
+        ]
+        for pat in patterns:
+            matches = re.findall(pat, output)
+            for m in matches:
+                if m != test_input.decode().strip() and len(m) > 0:
+                    passwords.append(m)
+
+        if passwords:
+            print(f"[+] Intercepted password(s): {passwords}")
+            return passwords
+        else:
+            print("[-] No passwords intercepted via ltrace")
+
+    except FileNotFoundError:
+        print("[-] ltrace not found, skipping")
+    except subprocess.TimeoutExpired:
+        print("[-] ltrace timed out")
+
+    return []
+
+def try_strings(binary_path):
+
+    print("[*] Method 2: String extraction")
+
+    result = subprocess.run(
+        ["strings", "-a", binary_path], capture_output=True, text=True
+    )
+    all_strings = result.stdout
+
+    flag_match = FLAG_PATTERN.search(all_strings.encode())
+    if flag_match:
+        print(f"[+] Flag found in strings: {flag_match.group().decode()}")
+        return flag_match.group().decode()
+
+    interesting = []
+    for line in all_strings.split("\n"):
+        line = line.strip()
+
+        if 4 <= len(line) <= 64 and re.match(r'^[a-zA-Z0-9_!@#$%^&*(){}]+$', line):
+            interesting.append(line)
+
+    return interesting
+
+def try_patching(binary_path):
+
+    print("[*] Method 3: Binary patching")
+
+    with open(binary_path, "rb") as f:
+        data = bytearray(f.read())
+
+    original_data = bytes(data)
+
+    try:
+        result = subprocess.run(
+            ["objdump", "-d", "-M", "intel", binary_path],
+            capture_output=True, text=True
+        )
+        disasm = result.stdout
+    except FileNotFoundError:
+        print("[-] objdump not found")
+        return None
+
+    patch_count = 0
+
+    for match in re.finditer(
+        r'^\s*([0-9a-f]+):\s+75 ([0-9a-f]{2})\s+jne?\s',
+        disasm, re.MULTILINE
+    ):
+        addr = int(match.group(1), 16)
+
+        offset = data.find(b'\x75' + bytes([int(match.group(2), 16)]))
+        if offset != -1:
+
+            data[offset] = 0x74
+            patch_count += 1
+
+    for match in re.finditer(
+        r'^\s*([0-9a-f]+):\s+0f 85\s',
+        disasm, re.MULTILINE
+    ):
+        addr = int(match.group(1), 16)
+        idx = 0
+        while True:
+            idx = data.find(b'\x0f\x85', idx)
+            if idx == -1:
+                break
+            data[idx + 1] = 0x84
+            patch_count += 1
+            idx += 2
+
+    if patch_count == 0:
+
+        data = bytearray(original_data)
+        for match in re.finditer(
+            r'^\s*([0-9a-f]+):\s+74 ([0-9a-f]{2})\s+je?\s',
+            disasm, re.MULTILINE
+        ):
+            offset = data.find(b'\x74' + bytes([int(match.group(2), 16)]))
+            if offset != -1:
+                data[offset] = 0x75
+                patch_count += 1
+
+    if patch_count > 0:
+        print(f"[+] Applied {patch_count} patches")
+        patched_path = binary_path + ".patched"
+        with open(patched_path, "wb") as f:
+            f.write(data)
+        os.chmod(patched_path, 0o755)
+        print(f"[+] Patched binary saved to: {patched_path}")
+        return patched_path
+
+    print("[-] No suitable patches found")
+    return None
+
+def try_angr(binary_path):
+
+    print("[*] Method 4: angr symbolic execution")
+
+    try:
+        import angr
+        import claripy
+    except ImportError:
+        print("[-] angr not installed (pip install angr)")
+        return None
+
+    proj = angr.Project(binary_path, auto_load_libs=False)
+
+    sym_input = claripy.BVS("input", 200 * 8)
+    state = proj.factory.entry_state(
+        stdin=angr.SimFile("/dev/stdin", content=sym_input),
+        add_options={
+            angr.options.ZERO_FILL_UNCONSTRAINED_MEMORY,
+            angr.options.ZERO_FILL_UNCONSTRAINED_REGISTERS,
+        }
+    )
+
+    simgr = proj.factory.simulation_manager(state)
+
+    find_strs = [b"Correct", b"correct", b"Success", b"success",
+                  b"Access granted", b"Welcome", b"picoCTF", b"flag"]
+    avoid_strs = [b"Wrong", b"wrong", b"Incorrect", b"incorrect",
+                   b"Denied", b"denied", b"fail", b"Fail", b"Invalid"]
+
+    def is_find(s):
+        out = s.posix.dumps(1)
+        return any(f in out for f in find_strs)
+
+    def is_avoid(s):
+        out = s.posix.dumps(1)
+        return any(a in out for a in avoid_strs)
+
+    simgr.explore(find=is_find, avoid=is_avoid)
+
+    if simgr.found:
+        solution = simgr.found[0].posix.dumps(0)
+        solution = solution.split(b"\x00")[0].strip()
+        stdout = simgr.found[0].posix.dumps(1)
+        print(f"[+] angr found input: {solution}")
+        print(f"[+] Program output: {stdout.decode(errors='replace')}")
+
+        flag_match = FLAG_PATTERN.search(stdout)
+        if flag_match:
+            print(f"[+] FLAG: {flag_match.group().decode()}")
+
+        return solution
+    else:
+        print("[-] angr could not find a solution")
+        return None
+
+def try_gdb_script(binary_path):
+
+    print("[*] Method 5: GDB scripted analysis")
+
+    gdb_script =
+
+    script_path = "/tmp/gdb_bypass_script.gdb"
+    with open(script_path, "w") as f:
+        f.write(gdb_script)
+
+    try:
+        result = subprocess.run(
+            ["gdb", "-batch", "-x", script_path, binary_path],
+            capture_output=True, text=True, timeout=15
+        )
+        output = result.stdout + result.stderr
+
+        passwords = []
+        for match in re.finditer(r'RSI \(arg2\):\s+\S+\s+"([^"]+)"', output):
+            val = match.group(1)
+            if val != "TESTPASSWORD123" and len(val) > 0:
+                passwords.append(val)
+
+        for match in re.finditer(r'RDI \(arg1\):\s+\S+\s+"([^"]+)"', output):
+            val = match.group(1)
+            if val != "TESTPASSWORD123" and len(val) > 0:
+                passwords.append(val)
+
+        if passwords:
+            print(f"[+] GDB extracted password(s): {passwords}")
+            return passwords
+
+    except FileNotFoundError:
+        print("[-] GDB not found")
+    except subprocess.TimeoutExpired:
+        print("[-] GDB timed out")
+
+    return []
+
+def run_binary(binary_path, password):
+
+    try:
+        proc = subprocess.run(
+            [binary_path],
+            input=password.encode() if isinstance(password, str) else password,
+            capture_output=True,
+            text=True,
+            timeout=10,
+        )
+        return proc.stdout + proc.stderr
+    except:
+        return ""
+
+def main():
+    binary_path = sys.argv[1] if len(sys.argv) > 1 else "./bypassme.bin"
+    binary_path = os.path.abspath(binary_path)
+
+    if not os.path.exists(binary_path):
+        print(f"[-] Binary not found: {binary_path}")
+        print("Usage: python3 solve.py [path_to_bypassme.bin]")
+        sys.exit(1)
+
+    print(f"[*] Target: {binary_path}")
+    print(f"[*] File info: {subprocess.getoutput(f'file {binary_path}')}")
+    print()
+
+    passwords = try_ltrace(binary_path)
+    if passwords:
+        for pw in passwords:
+            output = run_binary(binary_path, pw)
+            print(f"[*] Trying '{pw}': {output.strip()}")
+            flag = FLAG_PATTERN.search(output)
+            if flag:
+                print(f"\n[+] FLAG: {flag.group()}")
+                return
+
+        combined = "".join(passwords)
+        output = run_binary(binary_path, combined)
+        print(f"[*] Trying combined '{combined}': {output.strip()}")
+        flag = FLAG_PATTERN.search(output)
+        if flag:
+            print(f"\n[+] FLAG: {flag.group()}")
+            return
+
+    print()
+
+    result = try_strings(binary_path)
+    if isinstance(result, str) and "picoCTF" in result:
+        print(f"\n[+] FLAG: {result}")
+        return
+
+    print()
+
+    patched = try_patching(binary_path)
+    if patched:
+        print(f"[*] Running patched binary with dummy input...")
+        output = run_binary(patched, "anything")
+        print(f"[*] Output: {output.strip()}")
+        flag = FLAG_PATTERN.search(output)
+        if flag:
+            print(f"\n[+] FLAG: {flag.group()}")
+            return
+
+    print()
+
+    gdb_passwords = try_gdb_script(binary_path)
+    if gdb_passwords:
+        for pw in gdb_passwords:
+            output = run_binary(binary_path, pw)
+            print(f"[*] Trying '{pw}': {output.strip()}")
+            flag = FLAG_PATTERN.search(output)
+            if flag:
+                print(f"\n[+] FLAG: {flag.group()}")
+                return
+
+    print()
+
+    angr_result = try_angr(binary_path)
+    if angr_result:
+        output = run_binary(binary_path, angr_result)
+        print(f"[*] Output: {output.strip()}")
+        flag = FLAG_PATTERN.search(output)
+        if flag:
+            print(f"\n[+] FLAG: {flag.group()}")
+            return
+
+    print()
+    print("=" * 60)
+    print("MANUAL STEPS (if automatic methods failed):")
+    print("=" * 60)
+    print("1. Open in Ghidra: ghidra -> Import bypassme.bin -> Analyze")
+    print("2. Find main() and trace the verification logic")
+    print("3. In GDB:")
+    print("   gdb ./bypassme.bin")
+    print("   b main")
+    print("   run")
+    print("   # Step through, watching for cmp/test instructions")
+    print("   # At each comparison, check register values:")
+    print("   info registers")
+    print("   x/s $rdi")
+    print("   x/s $rsi")
+    print("4. Patch binary:")
+    print("   # In radare2: r2 -w bypassme.bin")
+    print("   # s <addr_of_jne>")
+    print("   # wa je <target>  OR  wa nop; nop")
+
+if __name__ == "__main__":
+    main()
+```
+
+---
+
+## Key Takeaways
+
+- A password-protected binary with sequential checks can be defeated either by **extracting** the expected values or by **bypassing** the conditional logic entirely.
+- `ltrace` is the fastest win when comparisons use libc functions (`strcmp`/`strncmp`/`memcmp`) — the expected password appears directly as a function argument.
+- Conditional-jump patching (`jne` 0x75 ↔ `je` 0x74, or long-form `0F 85` ↔ `0F 84`) inverts or skips a check without ever knowing the password.
+- GDB can dump comparison arguments at runtime (`x/s $rdi` / `x/s $rsi`) or force a branch by flipping the zero flag in `$eflags`.
+- `angr` symbolic execution is a strong fallback: explore toward "Correct"/"picoCTF" strings while avoiding "Wrong"/"Invalid".

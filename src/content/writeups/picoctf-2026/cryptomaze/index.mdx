@@ -1,0 +1,487 @@
+---
+title: "cryptomaze — picoCTF 2026"
+date: 2026-06-26
+author: "Imattas aka Zemi"
+slug: "picoctf-2026-cryptomaze"
+order: 26
+writeupKind: "challenge"
+ctfSlug: "picoctf-2026"
+ctfTitle: "picoCTF 2026"
+---
+
+# cryptomaze — picoCTF 2026
+
+> **Category:** `Cryptography`  
+> **Difficulty:** Easy  
+> **Points:** 100  
+> **Author:** Imattas aka Zemi
+
+---
+
+## Challenge Description
+
+> In this challenge, you are tasked with recovering a hidden flag that has been encrypted using a combination of Linear Feedback Shift Register and other techniques.
+
+---
+
+## Recon / Initial Analysis
+
+This challenge combines a **Linear Feedback Shift Register (LFSR)** with additional encryption techniques to hide the flag. LFSRs are deterministic pseudo-random number generators that produce a sequence of bits based on an initial state (seed) and a feedback polynomial. The security of an LFSR-based cipher depends on keeping the seed and polynomial secret, but both can be recovered if enough output is known.
+
+### What is an LFSR?
+
+An LFSR is a shift register whose input bit is a linear function (typically XOR) of its previous state. Given:
+
+- **State**: An n-bit register `[s_0, s_1, ..., s_{n-1}]`
+- **Feedback polynomial**: Defines which bit positions are XORed to produce the new input bit
+- **Output**: The bit shifted out at each step
+
+The LFSR generates a pseudo-random bitstream that is XORed with the plaintext (the flag) to produce the ciphertext.
+
+The description mentions "other techniques" beyond LFSR. This could include:
+
+- A simple substitution or transposition cipher applied before/after LFSR encryption
+- Base64 encoding of the ciphertext
+- A second XOR layer with a static key
+- Byte-level permutation or shuffling
+
+---
+
+## Vulnerability / Observation
+
+The security of an LFSR keystream collapses entirely once enough output bits are known, and the flag's `picoCTF{` prefix hands us exactly that. For a 100-point challenge, the LFSR is breakable with one or more of these approaches:
+
+1. **Known plaintext attack**: Since we know the flag starts with `picoCTF{`, we have at least 8 bytes (64 bits) of known plaintext. XORing the known plaintext with the ciphertext gives us the first 64 bits of the LFSR keystream. If the LFSR state is small enough (e.g., 16 or 32 bits), this is more than enough to recover the full state.
+
+2. **Berlekamp-Massey algorithm**: Given a sequence of LFSR output bits, the Berlekamp-Massey algorithm can recover the minimal feedback polynomial and initial state. We need at least 2n consecutive output bits to recover an n-bit LFSR.
+
+3. **Brute-force the seed**: If the LFSR state is small (e.g., 16 bits), we can brute-force all 2^16 = 65536 possible initial states and check which one produces a decryption starting with `picoCTF{`.
+
+4. **Provided polynomial**: The challenge may provide the feedback polynomial (or it may be embedded in the source code), leaving only the initial state to recover.
+
+---
+
+## Exploitation / Solution
+
+### Step 1: Extract the ciphertext and parameters
+
+Download the challenge files. Extract:
+
+- The ciphertext (encrypted flag)
+- The LFSR feedback polynomial (tap positions)
+- The LFSR state size (number of bits)
+- Any additional encryption parameters
+
+### Step 2: Recover the LFSR keystream
+
+XOR the known plaintext prefix `picoCTF{` with the corresponding ciphertext bytes to recover the first bits of the LFSR output stream:
+
+```python
+known = b'picoCTF{'
+keystream_bits = xor(ciphertext[:8], known)
+```
+
+### Step 3: Recover the LFSR state
+
+Using the recovered keystream bits:
+
+- If the polynomial is known, solve a system of linear equations (GF(2)) to find the initial state.
+- If the polynomial is unknown, apply the Berlekamp-Massey algorithm.
+- If the state is small, brute-force all possible initial states.
+
+### Step 4: Decrypt the flag
+
+Generate the full LFSR keystream from the recovered initial state and XOR it with the entire ciphertext to recover the flag.
+
+### Step 5: Undo any additional transformations
+
+If additional encryption layers were applied (base64, substitution, permutation), reverse them to obtain the final flag.
+
+---
+
+## Full Exploit Script
+
+```python
+import argparse
+import sys
+import os
+import re
+import struct
+import base64
+import json
+from itertools import product
+
+class LFSR:
+
+    def __init__(self, state, taps, nbits):
+
+        self.state = state & ((1 << nbits) - 1)
+        self.taps = taps
+        self.nbits = nbits
+        self.mask = (1 << nbits) - 1
+
+    def clock(self):
+
+        output = self.state & 1
+
+        feedback = 0
+        for tap in self.taps:
+            feedback ^= (self.state >> tap) & 1
+
+        self.state = (self.state >> 1) | (feedback << (self.nbits - 1))
+
+        return output
+
+    def generate_bits(self, n):
+
+        return [self.clock() for _ in range(n)]
+
+    def generate_bytes(self, n):
+
+        result = []
+        for _ in range(n):
+            byte_val = 0
+            for bit_pos in range(8):
+                byte_val |= self.clock() << bit_pos
+            result.append(byte_val)
+        return bytes(result)
+
+def berlekamp_massey(bits):
+
+    n = len(bits)
+
+    C = [1]
+    B = [1]
+    L = 0
+    m = 1
+    b = 1
+
+    for i in range(n):
+
+        d = bits[i]
+        for j in range(1, L + 1):
+            if j < len(C):
+                d ^= C[j] & bits[i - j]
+
+        if d == 0:
+            m += 1
+        elif 2 * L <= i:
+
+            T = list(C)
+
+            padded_B = [0] * m + B
+            while len(C) < len(padded_B):
+                C.append(0)
+            for j in range(len(padded_B)):
+                C[j] ^= padded_B[j]
+            L = i + 1 - L
+            B = T
+            m = 1
+        else:
+
+            padded_B = [0] * m + B
+            while len(C) < len(padded_B):
+                C.append(0)
+            for j in range(len(padded_B)):
+                C[j] ^= padded_B[j]
+            m += 1
+
+    taps = [i - 1 for i in range(1, len(C)) if C[i] == 1]
+    return taps, L
+
+def xor_bytes(a, b):
+
+    return bytes(x ^ y for x, y in zip(a, b))
+
+def bytes_to_bits(data):
+
+    bits = []
+    for byte_val in data:
+        for i in range(8):
+            bits.append((byte_val >> i) & 1)
+    return bits
+
+def bits_to_bytes(bits):
+
+    result = []
+    for i in range(0, len(bits), 8):
+        byte_val = 0
+        for j in range(min(8, len(bits) - i)):
+            byte_val |= bits[i + j] << j
+        result.append(byte_val)
+    return bytes(result)
+
+def known_plaintext_attack(ciphertext, known_prefix=b'picoCTF{'):
+
+    keystream = xor_bytes(ciphertext[:len(known_prefix)], known_prefix)
+    keystream_bits = bytes_to_bits(keystream)
+
+    print(f"[*] Recovered {len(keystream_bits)} keystream bits from known plaintext")
+    print(f"[*] Keystream (hex): {keystream.hex()}")
+
+    taps, lfsr_length = berlekamp_massey(keystream_bits)
+    print(f"[*] Berlekamp-Massey: LFSR length = {lfsr_length}, taps = {taps}")
+
+    if lfsr_length > len(keystream_bits) // 2:
+        print(f"[!] Warning: LFSR length ({lfsr_length}) >= half of known bits ({len(keystream_bits) // 2})")
+        print(f"[!] Result may be unreliable. Consider brute-force approach.")
+
+    initial_state = 0
+    for i in range(min(lfsr_length, len(keystream_bits))):
+        initial_state |= keystream_bits[i] << i
+
+    return taps, lfsr_length, initial_state
+
+def brute_force_attack(ciphertext, taps, nbits, known_prefix=b'picoCTF{'):
+
+    total = 1 << nbits
+    print(f"[*] Brute-forcing {total} possible states for {nbits}-bit LFSR...")
+
+    for state in range(1, total):
+        lfsr = LFSR(state, taps, nbits)
+        keystream = lfsr.generate_bytes(len(known_prefix))
+        decrypted_prefix = xor_bytes(ciphertext[:len(known_prefix)], keystream)
+
+        if decrypted_prefix == known_prefix:
+            print(f"[+] Found matching state: {state} (0x{state:x})")
+
+            lfsr = LFSR(state, taps, nbits)
+            full_keystream = lfsr.generate_bytes(len(ciphertext))
+            plaintext = xor_bytes(ciphertext, full_keystream)
+
+            return state, plaintext
+
+        if state % 10000 == 0:
+            print(f"  [{state}/{total}]...", end='\r', file=sys.stderr)
+
+    print("[-] No matching state found.")
+    return None, None
+
+def parse_challenge_source(filepath):
+
+    with open(filepath, 'r') as f:
+        source = f.read()
+
+    params = {
+        'ciphertext': None,
+        'taps': None,
+        'nbits': None,
+        'initial_state': None,
+        'additional_key': None,
+    }
+
+    hex_pattern = r'(?:cipher|ct|encrypted|enc|output|flag_enc)\s*=\s*["\']([0-9a-fA-F]+)["\']'
+    match = re.search(hex_pattern, source)
+    if match:
+        params['ciphertext'] = bytes.fromhex(match.group(1))
+
+    bytes_pattern = r'(?:cipher|ct|encrypted|enc|output|flag_enc)\s*=\s*b["\'](.+?)["\']'
+    match = re.search(bytes_pattern, source)
+    if match and params['ciphertext'] is None:
+        try:
+            params['ciphertext'] = eval(f"b'{match.group(1)}'")
+        except Exception:
+            pass
+
+    b64_pattern = r'(?:cipher|ct|encrypted|enc|output|flag_enc)\s*=\s*["\']([A-Za-z0-9+/=]{16,})["\']'
+    match = re.search(b64_pattern, source)
+    if match and params['ciphertext'] is None:
+        try:
+            params['ciphertext'] = base64.b64decode(match.group(1))
+        except Exception:
+            pass
+
+    taps_pattern = r'(?:taps|poly|polynomial|feedback)\s*=\s*\[([0-9,\s]+)\]'
+    match = re.search(taps_pattern, source)
+    if match:
+        params['taps'] = [int(x.strip()) for x in match.group(1).split(',')]
+
+    size_pattern = r'(?:nbits|size|length|n|bits|degree)\s*=\s*(\d+)'
+    match = re.search(size_pattern, source)
+    if match:
+        params['nbits'] = int(match.group(1))
+
+    seed_pattern = r'(?:state|seed|init|initial|key)\s*=\s*(0x[0-9a-fA-F]+|\d+)'
+    match = re.search(seed_pattern, source)
+    if match:
+        val = match.group(1)
+        params['initial_state'] = int(val, 16) if val.startswith('0x') else int(val)
+
+    xor_key_pattern = r'(?:xor_key|key2|extra_key|mask)\s*=\s*(0x[0-9a-fA-F]+|\d+)'
+    match = re.search(xor_key_pattern, source)
+    if match:
+        val = match.group(1)
+        params['additional_key'] = int(val, 16) if val.startswith('0x') else int(val)
+
+    return params
+
+def solve(ciphertext, taps=None, nbits=None, initial_state=None, additional_key=None):
+
+    if additional_key is not None:
+        print(f"[*] Removing additional XOR layer with key 0x{additional_key:x}")
+        if isinstance(additional_key, int):
+            key_bytes = (additional_key).to_bytes(
+                max(1, (additional_key.bit_length() + 7) // 8), 'little'
+            )
+            ciphertext = bytes(c ^ key_bytes[i % len(key_bytes)] for i, c in enumerate(ciphertext))
+
+    if taps is not None and nbits is not None and initial_state is not None:
+        print(f"[*] All LFSR parameters known. Decrypting directly.")
+        lfsr = LFSR(initial_state, taps, nbits)
+        keystream = lfsr.generate_bytes(len(ciphertext))
+        plaintext = xor_bytes(ciphertext, keystream)
+        return plaintext
+
+    print("[*] Attempting known-plaintext attack...")
+    try:
+        recovered_taps, lfsr_length, recovered_state = known_plaintext_attack(ciphertext)
+
+        if taps is None:
+            taps = recovered_taps
+        if nbits is None:
+            nbits = lfsr_length
+
+        lfsr = LFSR(recovered_state, taps, nbits)
+        keystream = lfsr.generate_bytes(len(ciphertext))
+        plaintext = xor_bytes(ciphertext, keystream)
+
+        if plaintext.startswith(b'picoCTF{') and plaintext.endswith(b'}'):
+            return plaintext
+
+        print("[*] Direct recovery didn't produce valid flag. Trying brute-force...")
+    except Exception as e:
+        print(f"[-] Known-plaintext attack failed: {e}")
+
+    if taps is not None and nbits is not None:
+        state, plaintext = brute_force_attack(ciphertext, taps, nbits)
+        if plaintext:
+            return plaintext
+
+    if taps is None:
+        common_lfsrs = [
+
+            (8, [7, 5, 4, 3]),
+            (8, [7, 3, 2, 1]),
+            (16, [15, 14, 12, 3]),
+            (16, [15, 13, 12, 10]),
+            (16, [15, 4, 2, 1]),
+            (32, [31, 21, 1, 0]),
+            (32, [31, 30, 29, 27]),
+            (24, [23, 22, 21, 16]),
+            (20, [19, 16]),
+        ]
+
+        print("[*] No taps specified. Trying common LFSR configurations...")
+        for test_nbits, test_taps in common_lfsrs:
+            print(f"  Trying {test_nbits}-bit LFSR with taps {test_taps}...", end='')
+            state, plaintext = brute_force_attack(ciphertext, test_taps, test_nbits)
+            if plaintext and plaintext.startswith(b'picoCTF{'):
+                print(f" FOUND!")
+                return plaintext
+            print(" no match")
+
+    return None
+
+def main():
+    parser = argparse.ArgumentParser(description='cryptomaze solver - picoCTF 2026')
+    parser.add_argument('--ciphertext', help='Ciphertext as hex string')
+    parser.add_argument('--ciphertext-file', help='File containing ciphertext (raw bytes or hex)')
+    parser.add_argument('--source', help='Path to challenge source file')
+    parser.add_argument('--taps', help='LFSR tap positions (comma-separated)')
+    parser.add_argument('--nbits', type=int, help='LFSR register size in bits')
+    parser.add_argument('--state', help='LFSR initial state (hex or decimal)')
+    parser.add_argument('--additional-key', help='Additional XOR key (hex or decimal)')
+    args = parser.parse_args()
+
+    ciphertext = None
+    taps = None
+    nbits = args.nbits
+    initial_state = None
+    additional_key = None
+
+    if args.taps:
+        taps = [int(x.strip()) for x in args.taps.split(',')]
+
+    if args.state:
+        initial_state = int(args.state, 16) if args.state.startswith('0x') else int(args.state)
+
+    if args.additional_key:
+        val = args.additional_key
+        additional_key = int(val, 16) if val.startswith('0x') else int(val)
+
+    if args.source and os.path.exists(args.source):
+        print(f"[*] Parsing challenge source: {args.source}")
+        params = parse_challenge_source(args.source)
+        ciphertext = params.get('ciphertext') or ciphertext
+        taps = params.get('taps') or taps
+        nbits = params.get('nbits') or nbits
+        initial_state = params.get('initial_state') or initial_state
+        additional_key = params.get('additional_key') or additional_key
+
+    if args.ciphertext:
+        ciphertext = bytes.fromhex(args.ciphertext)
+
+    if args.ciphertext_file and os.path.exists(args.ciphertext_file):
+        with open(args.ciphertext_file, 'rb') as f:
+            raw = f.read()
+
+        try:
+            ciphertext = bytes.fromhex(raw.decode().strip())
+        except (ValueError, UnicodeDecodeError):
+            ciphertext = raw
+
+    if ciphertext is None:
+        print("[!] No ciphertext provided.")
+        print("\nUsage:")
+        print("  python3 solve.py --source challenge.py")
+        print("  python3 solve.py --ciphertext <hex_string>")
+        print("  python3 solve.py --ciphertext-file challenge.enc")
+        print("  python3 solve.py --ciphertext <hex> --taps 15,14,12,3 --nbits 16")
+        print("\nExample:")
+        print("  python3 solve.py --ciphertext 'a1b2c3...' --taps '7,5,4,3' --nbits 8")
+        sys.exit(1)
+
+    print(f"[*] Ciphertext: {len(ciphertext)} bytes")
+    print(f"[*] Ciphertext (hex): {ciphertext.hex()}")
+    if taps:
+        print(f"[*] LFSR taps: {taps}")
+    if nbits:
+        print(f"[*] LFSR size: {nbits} bits")
+    if initial_state is not None:
+        print(f"[*] Initial state: 0x{initial_state:x}")
+    print()
+
+    plaintext = solve(ciphertext, taps, nbits, initial_state, additional_key)
+
+    if plaintext:
+
+        try:
+            text = plaintext.decode('ascii')
+            print(f"\n[+] Decrypted plaintext: {text}")
+        except UnicodeDecodeError:
+            text = plaintext.decode('ascii', errors='replace')
+            print(f"\n[+] Decrypted plaintext (lossy): {text}")
+            print(f"[+] Hex: {plaintext.hex()}")
+
+        flag_match = re.search(r'picoCTF\{[^}]+\}', text)
+        if flag_match:
+            print(f"\n[+] FLAG: {flag_match.group(0)}")
+        else:
+            print("\n[-] No picoCTF flag pattern found in decrypted text.")
+            print("[*] The plaintext may need additional decoding steps.")
+    else:
+        print("\n[-] Could not recover the flag.")
+        print("[*] Try providing more parameters (taps, nbits) or the challenge source.")
+
+if __name__ == '__main__':
+    main()
+```
+
+---
+
+## Key Takeaways
+
+- An LFSR stream cipher is a deterministic keystream generator; XORing the known `picoCTF{` prefix against the ciphertext leaks the first 64 keystream bits for free.
+- With recovered keystream bits, the LFSR can be fully reconstructed via Berlekamp-Massey (needs ~2n bits for an n-bit register), or simply brute-forced if the register is small (e.g., 16 bits = 65536 states).
+- Watch for layered "other techniques" — base64 wrapping, a second XOR key, or byte permutation — which must be peeled off before/after the LFSR layer.
+- The Berlekamp-Massey algorithm over GF(2) is the canonical tool for recovering the minimal LFSR from a bit sequence.

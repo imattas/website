@@ -1,0 +1,188 @@
+---
+title: "ClusterRSA — picoCTF 2026"
+date: 2026-06-26
+author: "Imattas aka Zemi"
+slug: "picoctf-2026-clusterrsa"
+order: 15
+writeupKind: "challenge"
+ctfSlug: "picoctf-2026"
+ctfTitle: "picoCTF 2026"
+---
+
+# ClusterRSA — picoCTF 2026
+
+> **Category:** `Cryptography`  
+> **Difficulty:** Hard  
+> **Points:** 400  
+> **Author:** Imattas aka Zemi
+
+---
+
+## Challenge Description
+
+> A message has been encrypted using RSA, but this time something feels... more crowded than usual. Can you decrypt it?
+
+---
+
+## Recon / Initial Analysis
+
+The challenge name "ClusterRSA" strongly hints at **multi-prime RSA** -- an RSA variant where the modulus `n` is the product of many small primes rather than the standard two large primes. The word "crowded" in the description reinforces this: instead of `n = p * q`, we have `n = p1 * p2 * p3 * ... * pk` for some number of primes k.
+
+The challenge typically provides `n`, `e`, and `c` in a file (e.g., `output.txt` or `ciphertext.txt`).
+
+---
+
+## Vulnerability / Observation
+
+### Why Multi-Prime RSA is Vulnerable
+
+Standard RSA security relies on the difficulty of factoring a large semiprime (product of two large primes). When the modulus is instead composed of many smaller primes, each individual prime is much smaller and easier to find. For example, a 2048-bit modulus composed of 16 primes means each prime is only ~128 bits -- well within range of modern factoring algorithms.
+
+Because each prime factor is small, the modulus can be fully factored with off-the-shelf tools, after which the totient and private key follow directly.
+
+---
+
+## Exploitation / Solution
+
+### Attack Strategy
+
+1. **Factor the modulus `n`**: Since each prime factor is relatively small, we can use services like [factordb.com](http://factordb.com) or tools like `sympy.factorint()`, `yafu`, or `msieve` to factor `n`.
+2. **Compute Euler's totient**: For multi-prime RSA, the totient is:
+   ```
+   phi(n) = (p1 - 1) * (p2 - 1) * ... * (pk - 1)
+   ```
+3. **Compute the private exponent**: `d = e^(-1) mod phi(n)`
+4. **Decrypt**: `m = c^d mod n`
+
+### Step-by-step
+
+1. Download the challenge files. You should receive values for `n` (modulus), `e` (public exponent, commonly 65537), and `c` (ciphertext).
+2. Factor `n` using an automated tool. Because the primes are small, factoring should complete quickly.
+3. Calculate `phi(n)` as the product of `(p_i - 1)` for each prime factor.
+4. Compute `d = inverse(e, phi(n))`.
+5. Decrypt `m = pow(c, d, n)` and convert the resulting integer to bytes to reveal the flag.
+
+---
+
+## Full Exploit Script
+
+```python
+import sys
+import re
+from sympy import factorint
+from functools import reduce
+
+n = None
+e = None
+c = None
+
+def load_from_file(filepath):
+
+    global n, e, c
+    with open(filepath, 'r') as f:
+        content = f.read()
+
+    patterns = {
+        'n': r'[nN]\s*[=:]\s*(\d+)',
+        'e': r'[eE]\s*[=:]\s*(\d+)',
+        'c': r'[cC](?:iphertext)?\s*[=:]\s*(\d+)',
+    }
+    for var, pattern in patterns.items():
+        match = re.search(pattern, content)
+        if match:
+            globals()[var] = int(match.group(1))
+
+    if n is None:
+        try:
+            exec_globals = {}
+            exec(content, exec_globals)
+            n = exec_globals.get('n', exec_globals.get('N', n))
+            e = exec_globals.get('e', exec_globals.get('E', e))
+            c = exec_globals.get('c', exec_globals.get('C', exec_globals.get('ct', exec_globals.get('ciphertext', c))))
+        except Exception:
+            pass
+
+def int_to_bytes(n):
+
+    byte_length = (n.bit_length() + 7) // 8
+    return n.to_bytes(byte_length, byteorder='big')
+
+def solve():
+    global n, e, c
+
+    if len(sys.argv) > 2 and sys.argv[1] == '--file':
+        load_from_file(sys.argv[2])
+    elif len(sys.argv) > 1 and not sys.argv[1].startswith('-'):
+        load_from_file(sys.argv[1])
+
+    if n is None or e is None or c is None:
+
+        import os
+        for fname in ['output.txt', 'ciphertext.txt', 'data.txt', 'challenge.txt', 'flag.enc']:
+            if os.path.exists(fname):
+                load_from_file(fname)
+                break
+
+    if n is None or e is None or c is None:
+        print("[!] Missing challenge values. Please either:")
+        print("    1. Edit this script and set n, e, c directly")
+        print("    2. Run: python3 solve.py output.txt")
+        print("    3. Place challenge data in output.txt in the same directory")
+        sys.exit(1)
+
+    print(f"[*] n = {str(n)[:80]}... ({n.bit_length()} bits)")
+    print(f"[*] e = {e}")
+    print(f"[*] c = {str(c)[:80]}...")
+    print()
+
+    print("[*] Factoring n (multi-prime RSA -- expecting many small factors)...")
+    factors = factorint(n)
+    print(f"[+] Found {len(factors)} prime factors!")
+
+    for p, exp in sorted(factors.items()):
+        print(f"    p = {str(p)[:60]}{'...' if len(str(p)) > 60 else ''} (exp={exp}, {p.bit_length()} bits)")
+
+    phi_n = 1
+    for p, exp in factors.items():
+        phi_n *= (p ** (exp - 1)) * (p - 1)
+
+    print(f"\n[*] phi(n) computed ({phi_n.bit_length()} bits)")
+
+    d = pow(e, -1, phi_n)
+    print(f"[*] Private exponent d computed ({d.bit_length()} bits)")
+
+    m = pow(c, d, n)
+    print(f"[*] Decrypted message integer: {str(m)[:80]}...")
+
+    plaintext = int_to_bytes(m)
+    print(f"\n[+] Decrypted plaintext (raw bytes): {plaintext}")
+
+    try:
+        flag = plaintext.decode('utf-8').strip('\x00')
+        print(f"\n[+] FLAG: {flag}")
+    except UnicodeDecodeError:
+
+        plaintext = plaintext.lstrip(b'\x00')
+        try:
+            flag = plaintext.decode('utf-8')
+            print(f"\n[+] FLAG: {flag}")
+        except UnicodeDecodeError:
+            print(f"\n[+] Raw plaintext (hex): {plaintext.hex()}")
+
+            if b'picoCTF' in plaintext:
+                start = plaintext.index(b'picoCTF')
+                end = plaintext.index(b'}', start) + 1
+                print(f"[+] FLAG: {plaintext[start:end].decode()}")
+
+if __name__ == '__main__':
+    solve()
+```
+
+---
+
+## Key Takeaways
+
+- Multi-prime RSA (`n = p1 * p2 * ... * pk`) trades security for performance — each prime is far smaller than the two primes of standard RSA, making `n` factorable.
+- Once `n` is factored, the totient generalizes to `phi(n) = product((p_i - 1))` (or `product(p_i^(a_i-1) * (p_i - 1))` for repeated primes), and the rest is textbook RSA.
+- `sympy.factorint()` quickly factors moduli built from small primes; factordb, `yafu`, and `msieve` are alternatives.
+- Recover the message with `d = pow(e, -1, phi(n))` and `m = pow(c, d, n)`, then convert the integer to bytes.

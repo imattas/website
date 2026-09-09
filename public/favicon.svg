@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" fill="#14120f" />
+  <text x="6" y="46" fill="#f4f1ea" font-family="Arial, sans-serif" font-size="35" font-weight="800" letter-spacing="-3">IM</text>
+  <rect x="48" y="48" width="8" height="8" fill="#ff4d00" />
+</svg>
