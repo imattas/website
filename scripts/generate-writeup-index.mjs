@@ -75,6 +75,14 @@ function validateDocumentStructure(body, slug) {
     for (const image of line.matchAll(/!\[([^\]]*)\]\(/g)) {
       if (!image[1].trim()) throw new Error(`Missing image alt text in ${slug}`);
     }
+    for (const link of line.matchAll(/!?\[[^\]]*\]\(([^)]*)\)/g)) {
+      const rawDestination = link[1].trim();
+      const destination = rawDestination.match(/^<([^>]*)>/)?.[1] ?? rawDestination.split(/\s+/)[0] ?? "";
+      if (!destination) throw new Error(`Empty Markdown destination in ${slug}`);
+      if (/^(?:javascript|data|vbscript|file):/i.test(destination)) {
+        throw new Error(`Unsafe Markdown destination in ${slug}: ${destination}`);
+      }
+    }
   }
   if (h1Count !== 1) throw new Error(`Expected exactly one H1 in ${slug}, found ${h1Count}`);
 }
