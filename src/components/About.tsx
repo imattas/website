@@ -98,18 +98,28 @@ export default function About() {
           <p id="roadmap-title" className="section-label">Roadmap</p>
           <div className="roadmap-track">
             {roadmap.map((item, index) => (
-              <div className={`roadmap-point${coarsePointer || openRoadmap === index ? " is-open" : ""}`} key={item.title}>
+              <div
+                className={`roadmap-point${coarsePointer || openRoadmap === index ? " is-open" : ""}`}
+                key={item.title}
+              >
                 <button
                   className="roadmap-marker"
                   type="button"
                   aria-expanded={coarsePointer || openRoadmap === index}
                   aria-controls={`roadmap-card-${index}`}
                   aria-label={`${item.label}: ${item.title}`}
+                  onFocus={(event) => {
+                    if (event.currentTarget.matches(":focus-visible")) setOpenRoadmap(index);
+                  }}
                   onClick={() => setOpenRoadmap(openRoadmap === index ? null : index)}
                 >
                   <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
                 </button>
-                <div id={`roadmap-card-${index}`} className="roadmap-card">
+                <div
+                  id={`roadmap-card-${index}`}
+                  className="roadmap-card"
+                  aria-hidden={!(coarsePointer || openRoadmap === index)}
+                >
                   <span className="roadmap-label">{item.label}</span>
                   <strong>{item.title}</strong>
                   <p>{item.detail}</p>
