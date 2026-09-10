@@ -6,6 +6,8 @@ const source = await fs.readFile(path.join(dist, "index.html"), "utf8");
 const replace = (html, pattern, value) => html.replace(pattern, (_match, prefix, suffix) => `${prefix}${value}${suffix}`);
 
 let fallback = source.replace(/<title>[\s\S]*?<\/title>/, "<title>Page Not Found — Ian Mattas</title>");
+fallback = fallback.replace(/\s*<link rel="canonical" href="[^"]*" \/>/, "");
+fallback = fallback.replace(/\s*<meta property="og:url" content="[^"]*" \/>/, "");
 fallback = replace(fallback, /(<meta\s+name="description"\s+content=")[^"]*(")/s, "The requested page could not be found on Ian Mattas's portfolio.");
 fallback = replace(fallback, /(<meta\s+name="robots"\s+content=")[^"]*(")/s, "noindex, follow");
 fallback = replace(fallback, /(<meta property="og:title" content=")[^"]*(" \/>)/, "Page Not Found — Ian Mattas");
