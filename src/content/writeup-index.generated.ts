@@ -11,6 +11,26 @@ export const writeupIndex = [
     "order": 98
   },
   {
+    "path": "./writeups/boroctf-2026/64-is-life/index.mdx",
+    "slug": "boroctf-2026-64-is-life",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "64 is life — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 164
+  },
+  {
+    "path": "./writeups/boroctf-2026/a-basic-start/index.mdx",
+    "slug": "boroctf-2026-a-basic-start",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "A basic start — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 143
+  },
+  {
     "path": "./writeups/boroctf-2026/a-purpose-beyond-satoshi/index.mdx",
     "slug": "boroctf-2026-a-purpose-beyond-satoshi",
     "ctfSlug": "boroctf-2026",
@@ -19,6 +39,636 @@ export const writeupIndex = [
     "title": "A Purpose Beyond Satoshi — BoroCTF 2026",
     "date": "2026-06-18",
     "order": 115
+  },
+  {
+    "path": "./writeups/boroctf-2026/ai-slop/index.mdx",
+    "slug": "boroctf-2026-ai-slop",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "AI Slop — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 158
+  },
+  {
+    "path": "./writeups/boroctf-2026/alphacode/index.mdx",
+    "slug": "boroctf-2026-alphacode",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "AlphaCode — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 203
+  },
+  {
+    "path": "./writeups/boroctf-2026/am-i-obsessed/index.mdx",
+    "slug": "boroctf-2026-am-i-obsessed",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Am I Obsessed? — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 100
+  },
+  {
+    "path": "./writeups/boroctf-2026/amazing/index.mdx",
+    "slug": "boroctf-2026-amazing",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Amazing — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 198
+  },
+  {
+    "path": "./writeups/boroctf-2026/anatomically-incorrect/index.mdx",
+    "slug": "boroctf-2026-anatomically-incorrect",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Anatomically Incorrect — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 153
+  },
+  {
+    "path": "./writeups/boroctf-2026/apocalypses-sister/index.mdx",
+    "slug": "boroctf-2026-apocalypses-sister",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Apocalypse's Sister — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 212
+  },
+  {
+    "path": "./writeups/boroctf-2026/babels-vault/index.mdx",
+    "slug": "boroctf-2026-babels-vault",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Babel's Vault — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 156
+  },
+  {
+    "path": "./writeups/boroctf-2026/beyond-the-homepage/index.mdx",
+    "slug": "boroctf-2026-beyond-the-homepage",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Beyond the Homepage — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 171
+  },
+  {
+    "path": "./writeups/boroctf-2026/bike-rack/index.mdx",
+    "slug": "boroctf-2026-bike-rack",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Bike Rack — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 199
+  },
+  {
+    "path": "./writeups/boroctf-2026/billie-eilish/index.mdx",
+    "slug": "boroctf-2026-billie-eilish",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Billie Eilish — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 125
+  },
+  {
+    "path": "./writeups/boroctf-2026/blackwall-protocol/index.mdx",
+    "slug": "boroctf-2026-blackwall-protocol",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Blackwall Protocol — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 134
+  },
+  {
+    "path": "./writeups/boroctf-2026/boro-coin-1/index.mdx",
+    "slug": "boroctf-2026-boro-coin-1",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Boro Coin 1 — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 144
+  },
+  {
+    "path": "./writeups/boroctf-2026/boro-coin-2/index.mdx",
+    "slug": "boroctf-2026-boro-coin-2",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Boro Coin 2 — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 145
+  },
+  {
+    "path": "./writeups/boroctf-2026/boro-hero/index.mdx",
+    "slug": "boroctf-2026-boro-hero",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Boro Hero — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 101
+  },
+  {
+    "path": "./writeups/boroctf-2026/boro-senpai-1/index.mdx",
+    "slug": "boroctf-2026-boro-senpai-1",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "boro-senpai 1 — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 172
+  },
+  {
+    "path": "./writeups/boroctf-2026/boro-senpai-2/index.mdx",
+    "slug": "boroctf-2026-boro-senpai-2",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "boro-senpai 2 — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 176
+  },
+  {
+    "path": "./writeups/boroctf-2026/boro-senpai-3/index.mdx",
+    "slug": "boroctf-2026-boro-senpai-3",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "boro-senpai 3 — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 177
+  },
+  {
+    "path": "./writeups/boroctf-2026/borogpt/index.mdx",
+    "slug": "boroctf-2026-borogpt",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "boroGPT — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 178
+  },
+  {
+    "path": "./writeups/boroctf-2026/broken-promise/index.mdx",
+    "slug": "boroctf-2026-broken-promise",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Broken Promise — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 165
+  },
+  {
+    "path": "./writeups/boroctf-2026/cat-in-the-box/index.mdx",
+    "slug": "boroctf-2026-cat-in-the-box",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Cat in the ... Box? — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 200
+  },
+  {
+    "path": "./writeups/boroctf-2026/chicken-dinner/index.mdx",
+    "slug": "boroctf-2026-chicken-dinner",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Chicken Dinner — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 192
+  },
+  {
+    "path": "./writeups/boroctf-2026/chronos/index.mdx",
+    "slug": "boroctf-2026-chronos",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Chronos — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 135
+  },
+  {
+    "path": "./writeups/boroctf-2026/coming-together/index.mdx",
+    "slug": "boroctf-2026-coming-together",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Coming Together — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 184
+  },
+  {
+    "path": "./writeups/boroctf-2026/cracking-the-vault/index.mdx",
+    "slug": "boroctf-2026-cracking-the-vault",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Cracking the Vault — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 173
+  },
+  {
+    "path": "./writeups/boroctf-2026/disco/index.mdx",
+    "slug": "boroctf-2026-disco",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Disco — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 154
+  },
+  {
+    "path": "./writeups/boroctf-2026/distortion/index.mdx",
+    "slug": "boroctf-2026-distortion",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Distortion — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 159
+  },
+  {
+    "path": "./writeups/boroctf-2026/dotdotslashflagtxt/index.mdx",
+    "slug": "boroctf-2026-dotdotslashflagtxt",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "dotdotslashflagtxt — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 174
+  },
+  {
+    "path": "./writeups/boroctf-2026/drone-dash/index.mdx",
+    "slug": "boroctf-2026-drone-dash",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Drone Dash — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 175
+  },
+  {
+    "path": "./writeups/boroctf-2026/efficient-encryption/index.mdx",
+    "slug": "boroctf-2026-efficient-encryption",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Efficient Encryption — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 146
+  },
+  {
+    "path": "./writeups/boroctf-2026/eschew/index.mdx",
+    "slug": "boroctf-2026-eschew",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Eschew — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 126
+  },
+  {
+    "path": "./writeups/boroctf-2026/et-tu-brute/index.mdx",
+    "slug": "boroctf-2026-et-tu-brute",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Et Tu, Brute — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 147
+  },
+  {
+    "path": "./writeups/boroctf-2026/far-far-away/index.mdx",
+    "slug": "boroctf-2026-far-far-away",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Far Far Away — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 102
+  },
+  {
+    "path": "./writeups/boroctf-2026/fast-reactions/index.mdx",
+    "slug": "boroctf-2026-fast-reactions",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Fast Reactions — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 185
+  },
+  {
+    "path": "./writeups/boroctf-2026/file-et-mignon/index.mdx",
+    "slug": "boroctf-2026-file-et-mignon",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "File-et Mignon — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 136
+  },
+  {
+    "path": "./writeups/boroctf-2026/file-file-crocodile/index.mdx",
+    "slug": "boroctf-2026-file-file-crocodile",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "File File Crocodile — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 166
+  },
+  {
+    "path": "./writeups/boroctf-2026/file-me-to-the-moon/index.mdx",
+    "slug": "boroctf-2026-file-me-to-the-moon",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "File Me to the Moon — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 127
+  },
+  {
+    "path": "./writeups/boroctf-2026/fireman/index.mdx",
+    "slug": "boroctf-2026-fireman",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Fireman — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 103
+  },
+  {
+    "path": "./writeups/boroctf-2026/flight/index.mdx",
+    "slug": "boroctf-2026-flight",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Flight — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 148
+  },
+  {
+    "path": "./writeups/boroctf-2026/flippers-dilemma/index.mdx",
+    "slug": "boroctf-2026-flippers-dilemma",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Flipper's Dilemma — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 149
+  },
+  {
+    "path": "./writeups/boroctf-2026/franklin/index.mdx",
+    "slug": "boroctf-2026-franklin",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Franklin — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 201
+  },
+  {
+    "path": "./writeups/boroctf-2026/free-challenge/index.mdx",
+    "slug": "boroctf-2026-free-challenge",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Free Challenge — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 193
+  },
+  {
+    "path": "./writeups/boroctf-2026/geopro-1/index.mdx",
+    "slug": "boroctf-2026-geopro-1",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Geopro 1 — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 205
+  },
+  {
+    "path": "./writeups/boroctf-2026/geopro-2/index.mdx",
+    "slug": "boroctf-2026-geopro-2",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Geopro 2 — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 208
+  },
+  {
+    "path": "./writeups/boroctf-2026/geopro-3/index.mdx",
+    "slug": "boroctf-2026-geopro-3",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Geopro 3 — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 209
+  },
+  {
+    "path": "./writeups/boroctf-2026/geopro-4/index.mdx",
+    "slug": "boroctf-2026-geopro-4",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Geopro 4 — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 206
+  },
+  {
+    "path": "./writeups/boroctf-2026/geopro-5/index.mdx",
+    "slug": "boroctf-2026-geopro-5",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Geopro 5 — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 207
+  },
+  {
+    "path": "./writeups/boroctf-2026/george-orwell/index.mdx",
+    "slug": "boroctf-2026-george-orwell",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "George Orwell — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 195
+  },
+  {
+    "path": "./writeups/boroctf-2026/go-knicks/index.mdx",
+    "slug": "boroctf-2026-go-knicks",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Go Knicks! — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 104
+  },
+  {
+    "path": "./writeups/boroctf-2026/grepn-it/index.mdx",
+    "slug": "boroctf-2026-grepn-it",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Grep'n it — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 128
+  },
+  {
+    "path": "./writeups/boroctf-2026/hidden-but-definitely-not/index.mdx",
+    "slug": "boroctf-2026-hidden-but-definitely-not",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Hidden but definitely not — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 196
+  },
+  {
+    "path": "./writeups/boroctf-2026/hidden-meaning/index.mdx",
+    "slug": "boroctf-2026-hidden-meaning",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Hidden Meaning — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 105
+  },
+  {
+    "path": "./writeups/boroctf-2026/houston-we-have-a-problem/index.mdx",
+    "slug": "boroctf-2026-houston-we-have-a-problem",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Houston, we have a problem — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 194
+  },
+  {
+    "path": "./writeups/boroctf-2026/i-wont-forget/index.mdx",
+    "slug": "boroctf-2026-i-wont-forget",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "I Won't Forget — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 160
+  },
+  {
+    "path": "./writeups/boroctf-2026/intruder/index.mdx",
+    "slug": "boroctf-2026-intruder",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Intruder — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 106
+  },
+  {
+    "path": "./writeups/boroctf-2026/island-boy/index.mdx",
+    "slug": "boroctf-2026-island-boy",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Island Boy — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 210
+  },
+  {
+    "path": "./writeups/boroctf-2026/its-a-simple-challenge-really/index.mdx",
+    "slug": "boroctf-2026-its-a-simple-challenge-really",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Its a Simple Challenge Really — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 161
+  },
+  {
+    "path": "./writeups/boroctf-2026/its-so-easy/index.mdx",
+    "slug": "boroctf-2026-its-so-easy",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "It's So Easy — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 116
+  },
+  {
+    "path": "./writeups/boroctf-2026/jay-w-tee/index.mdx",
+    "slug": "boroctf-2026-jay-w-tee",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Jay. W. Tee — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 179
+  },
+  {
+    "path": "./writeups/boroctf-2026/jin-sakai/index.mdx",
+    "slug": "boroctf-2026-jin-sakai",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Jin Sakai — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 186
+  },
+  {
+    "path": "./writeups/boroctf-2026/johnny-boy/index.mdx",
+    "slug": "boroctf-2026-johnny-boy",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Johnny Boy — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 150
+  },
+  {
+    "path": "./writeups/boroctf-2026/join-the-discord/index.mdx",
+    "slug": "boroctf-2026-join-the-discord",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Join the Discord — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 99
+  },
+  {
+    "path": "./writeups/boroctf-2026/judgment-of-solomon/index.mdx",
+    "slug": "boroctf-2026-judgment-of-solomon",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Judgment of Solomon — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 142
+  },
+  {
+    "path": "./writeups/boroctf-2026/kitty-kitty-meow-meow/index.mdx",
+    "slug": "boroctf-2026-kitty-kitty-meow-meow",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "kitty kitty meow meow — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 129
   },
   {
     "path": "./writeups/boroctf-2026/klaud-code/index.mdx",
@@ -31,6 +681,116 @@ export const writeupIndex = [
     "order": 183
   },
   {
+    "path": "./writeups/boroctf-2026/kobenis-dashboard/index.mdx",
+    "slug": "boroctf-2026-kobenis-dashboard",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Kobeni's Dashboard — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 180
+  },
+  {
+    "path": "./writeups/boroctf-2026/lake-of-doom-and-despair/index.mdx",
+    "slug": "boroctf-2026-lake-of-doom-and-despair",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Lake of Doom and Despair — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 211
+  },
+  {
+    "path": "./writeups/boroctf-2026/lazing-around/index.mdx",
+    "slug": "boroctf-2026-lazing-around",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Lazing Around — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 137
+  },
+  {
+    "path": "./writeups/boroctf-2026/liminal-memories/index.mdx",
+    "slug": "boroctf-2026-liminal-memories",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Liminal Memories — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 117
+  },
+  {
+    "path": "./writeups/boroctf-2026/listen-close/index.mdx",
+    "slug": "boroctf-2026-listen-close",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Listen Close — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 138
+  },
+  {
+    "path": "./writeups/boroctf-2026/looking-through-windows/index.mdx",
+    "slug": "boroctf-2026-looking-through-windows",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Looking through Windows — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 139
+  },
+  {
+    "path": "./writeups/boroctf-2026/mania/index.mdx",
+    "slug": "boroctf-2026-mania",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Mania — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 188
+  },
+  {
+    "path": "./writeups/boroctf-2026/mansion/index.mdx",
+    "slug": "boroctf-2026-mansion",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Mansion — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 107
+  },
+  {
+    "path": "./writeups/boroctf-2026/mark-zuckerburg/index.mdx",
+    "slug": "boroctf-2026-mark-zuckerburg",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Mark Zuckerburg — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 130
+  },
+  {
+    "path": "./writeups/boroctf-2026/meeting-location/index.mdx",
+    "slug": "boroctf-2026-meeting-location",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Meeting Location — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 140
+  },
+  {
+    "path": "./writeups/boroctf-2026/minecraftsint/index.mdx",
+    "slug": "boroctf-2026-minecraftsint",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Minecraftsint — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 108
+  },
+  {
     "path": "./writeups/boroctf-2026/my-mayor-muslim/index.mdx",
     "slug": "boroctf-2026-my-mayor-muslim",
     "ctfSlug": "boroctf-2026",
@@ -39,6 +799,86 @@ export const writeupIndex = [
     "title": "My Mayor Muslim... — BoroCTF 2026",
     "date": "2026-06-18",
     "order": 181
+  },
+  {
+    "path": "./writeups/boroctf-2026/natures-delight/index.mdx",
+    "slug": "boroctf-2026-natures-delight",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Nature's Delight — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 162
+  },
+  {
+    "path": "./writeups/boroctf-2026/natures-takeover/index.mdx",
+    "slug": "boroctf-2026-natures-takeover",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Nature's Takeover — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 109
+  },
+  {
+    "path": "./writeups/boroctf-2026/nerv/index.mdx",
+    "slug": "boroctf-2026-nerv",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "NERV — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 182
+  },
+  {
+    "path": "./writeups/boroctf-2026/new-to-the-format/index.mdx",
+    "slug": "boroctf-2026-new-to-the-format",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "New to the Format — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 189
+  },
+  {
+    "path": "./writeups/boroctf-2026/next-challenge/index.mdx",
+    "slug": "boroctf-2026-next-challenge",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Next Challenge — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 187
+  },
+  {
+    "path": "./writeups/boroctf-2026/not-the-flag/index.mdx",
+    "slug": "boroctf-2026-not-the-flag",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Not the Flag — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 151
+  },
+  {
+    "path": "./writeups/boroctf-2026/not-your-time/index.mdx",
+    "slug": "boroctf-2026-not-your-time",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Not Your Time — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 197
+  },
+  {
+    "path": "./writeups/boroctf-2026/nutella/index.mdx",
+    "slug": "boroctf-2026-nutella",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Nutella — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 118
   },
   {
     "path": "./writeups/boroctf-2026/omegacode/index.mdx",
@@ -51,6 +891,76 @@ export const writeupIndex = [
     "order": 204
   },
   {
+    "path": "./writeups/boroctf-2026/one-small-13-year-old-edit-for-mankind/index.mdx",
+    "slug": "boroctf-2026-one-small-13-year-old-edit-for-mankind",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "One Small (13 Year Old Edit) for Mankind — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 119
+  },
+  {
+    "path": "./writeups/boroctf-2026/oops/index.mdx",
+    "slug": "boroctf-2026-oops",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Oops... — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 110
+  },
+  {
+    "path": "./writeups/boroctf-2026/panorama-paradise/index.mdx",
+    "slug": "boroctf-2026-panorama-paradise",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Panorama Paradise — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 213
+  },
+  {
+    "path": "./writeups/boroctf-2026/perfectly-destructive-file/index.mdx",
+    "slug": "boroctf-2026-perfectly-destructive-file",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Perfectly Destructive File — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 202
+  },
+  {
+    "path": "./writeups/boroctf-2026/phantom/index.mdx",
+    "slug": "boroctf-2026-phantom",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Phantom — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 167
+  },
+  {
+    "path": "./writeups/boroctf-2026/physical-access/index.mdx",
+    "slug": "boroctf-2026-physical-access",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Physical Access >> — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 111
+  },
+  {
+    "path": "./writeups/boroctf-2026/planetary-destruction/index.mdx",
+    "slug": "boroctf-2026-planetary-destruction",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Planetary Destruction — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 168
+  },
+  {
     "path": "./writeups/boroctf-2026/player-2/index.mdx",
     "slug": "boroctf-2026-player-2",
     "ctfSlug": "boroctf-2026",
@@ -59,6 +969,56 @@ export const writeupIndex = [
     "title": "Player 2 — BoroCTF 2026",
     "date": "2026-06-18",
     "order": 157
+  },
+  {
+    "path": "./writeups/boroctf-2026/qwerty/index.mdx",
+    "slug": "boroctf-2026-qwerty",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Qwerty! — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 155
+  },
+  {
+    "path": "./writeups/boroctf-2026/retinal-burn/index.mdx",
+    "slug": "boroctf-2026-retinal-burn",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Retinal Burn — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 141
+  },
+  {
+    "path": "./writeups/boroctf-2026/sailing-the-seven-seas/index.mdx",
+    "slug": "boroctf-2026-sailing-the-seven-seas",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Sailing the Seven Seas — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 190
+  },
+  {
+    "path": "./writeups/boroctf-2026/satoshi-a-memory-of-the-past/index.mdx",
+    "slug": "boroctf-2026-satoshi-a-memory-of-the-past",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Satoshi: A Memory of The Past — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 131
+  },
+  {
+    "path": "./writeups/boroctf-2026/satoshi-hunt/index.mdx",
+    "slug": "boroctf-2026-satoshi-hunt",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Satoshi Hunt — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 112
   },
   {
     "path": "./writeups/boroctf-2026/satoshis-revenge/index.mdx",
@@ -91,6 +1051,86 @@ export const writeupIndex = [
     "order": 124
   },
   {
+    "path": "./writeups/boroctf-2026/silent-sentinel/index.mdx",
+    "slug": "boroctf-2026-silent-sentinel",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Silent Sentinel — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 132
+  },
+  {
+    "path": "./writeups/boroctf-2026/so-many-layers/index.mdx",
+    "slug": "boroctf-2026-so-many-layers",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "So Many Layers — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 152
+  },
+  {
+    "path": "./writeups/boroctf-2026/solarologist/index.mdx",
+    "slug": "boroctf-2026-solarologist",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Solarologist — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 121
+  },
+  {
+    "path": "./writeups/boroctf-2026/the-shattered-needle/index.mdx",
+    "slug": "boroctf-2026-the-shattered-needle",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "The Shattered Needle — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 133
+  },
+  {
+    "path": "./writeups/boroctf-2026/the-squad/index.mdx",
+    "slug": "boroctf-2026-the-squad",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "The Squad — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 113
+  },
+  {
+    "path": "./writeups/boroctf-2026/third-times-the-charm/index.mdx",
+    "slug": "boroctf-2026-third-times-the-charm",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Third Time's the Charm — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 114
+  },
+  {
+    "path": "./writeups/boroctf-2026/tuff-ash-challenge/index.mdx",
+    "slug": "boroctf-2026-tuff-ash-challenge",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "tuff ash challenge — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 163
+  },
+  {
+    "path": "./writeups/boroctf-2026/two-words-one-problem/index.mdx",
+    "slug": "boroctf-2026-two-words-one-problem",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Two words, One problem — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 191
+  },
+  {
     "path": "./writeups/boroctf-2026/whats-even-the-point/index.mdx",
     "slug": "boroctf-2026-whats-even-the-point",
     "ctfSlug": "boroctf-2026",
@@ -99,6 +1139,16 @@ export const writeupIndex = [
     "title": "What's even the POINT? — BoroCTF 2026",
     "date": "2026-06-18",
     "order": 169
+  },
+  {
+    "path": "./writeups/boroctf-2026/where-theres-smoke-theres-fire/index.mdx",
+    "slug": "boroctf-2026-where-theres-smoke-theres-fire",
+    "ctfSlug": "boroctf-2026",
+    "ctfTitle": "BoroCTF 2026",
+    "writeupKind": "challenge",
+    "title": "Where there's smoke, there's fire. — BoroCTF 2026",
+    "date": "2026-06-18",
+    "order": 122
   },
   {
     "path": "./writeups/boroctf-2026/worthful-glory/index.mdx",

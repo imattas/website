@@ -128,7 +128,6 @@ for (const file of await collectFiles(root)) {
   if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(fields.slug)) {
     throw new Error(`Invalid writeup slug for URL routing: ${fields.slug}`);
   }
-  if (body.includes("No solve transcript was present")) continue;
   if (slugs.has(fields.slug)) throw new Error(`Duplicate writeup slug: ${fields.slug}`);
   if (!fields.ctfSlug || !fields.ctfTitle || !fields.title?.trim()) {
     throw new Error(`Incomplete writeup metadata: ${fields.slug}`);

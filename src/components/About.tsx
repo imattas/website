@@ -7,7 +7,7 @@ import { challengeWriteups } from "../content/writeups";
 
 const stats = [
   { value: "05", label: "Years reversing" },
-  { value: String(challengeWriteups.length), label: "Writeups published" },
+  { value: String(challengeWriteups.length), label: "Challenge writeup pages" },
   { value: "20", label: "Public repositories" },
   { value: "02", label: "Security orgs" },
 ];
