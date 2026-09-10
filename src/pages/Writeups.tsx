@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { ctfGroups, challengeWriteups } from "../content/writeups";
+import { ctfGroups, challengeWriteups, writeups } from "../content/writeups";
 import Reveal from "../components/Reveal";
 import { applyDocumentMeta } from "../documentMeta";
 
@@ -26,7 +26,7 @@ export default function Writeups() {
       path: "/writeups",
     });
   }, []);
-  const total = ctfGroups.reduce((n, g) => n + g.writeups.length, 0);
+  const total = writeups.length;
   const categories = Array.from(new Set(challengeWriteups.map((w) => w.ctfTitle))).sort();
   const normalizedQuery = query.trim().toLowerCase();
   const filteredGroups = ctfGroups
