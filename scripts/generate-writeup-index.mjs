@@ -125,6 +125,20 @@ for (const file of await collectFiles(root)) {
 }
 
 records.sort((a, b) => a.slug.localeCompare(b.slug));
+const ctfMetadata = new Map();
+for (const record of records) {
+  const existing = ctfMetadata.get(record.ctfSlug);
+  if (existing && existing.title !== record.ctfTitle) {
+    throw new Error(`Conflicting CTF title for ${record.ctfSlug}: ${existing.title} / ${record.ctfTitle}`);
+  }
+  if (record.writeupKind === "ctf" && existing?.overview) {
+    throw new Error(`Duplicate CTF overview for ${record.ctfSlug}: ${existing.overview} / ${record.slug}`);
+  }
+  ctfMetadata.set(record.ctfSlug, {
+    title: record.ctfTitle,
+    overview: record.writeupKind === "ctf" ? record.slug : existing?.overview,
+  });
+}
 const linkKey = (value) => decodeURIComponent(value)
   .replace(/\.mdx$/i, "")
   .replace(/[^a-z0-9]+/gi, "")
