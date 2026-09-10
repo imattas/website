@@ -105,7 +105,7 @@ function ScrollToTop() {
         observerTimeout = window.setTimeout(() => observer?.disconnect(), 10000);
         return;
       }
-      window.scrollTo(0, 0);
+      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
       if (isRouteTransition) document.getElementById("main-content")?.focus({ preventScroll: true });
     });
     return () => {
