@@ -31,8 +31,11 @@ function resolveLocalWriteup(href: string | undefined, current: Writeup) {
   if (!match) return undefined;
   const targetKey = linkKey(match[1]);
   const candidates = writeups.filter((item) => item.ctfSlug === current.ctfSlug);
-  const target = candidates.find((item) => linkKey(item.slug) === targetKey)
-    ?? candidates.find((item) => linkKey(item.title).startsWith(targetKey));
+  const ctfKey = linkKey(current.ctfSlug);
+  const target = candidates.find((item) => {
+    const slugKey = linkKey(item.slug);
+    return (slugKey.startsWith(ctfKey) ? slugKey.slice(ctfKey.length) : slugKey) === targetKey;
+  }) ?? candidates.find((item) => linkKey(item.title).startsWith(targetKey));
   return target ? { target, suffix: match[2] ?? "" } : undefined;
 }
 

@@ -103,10 +103,17 @@ for (const record of records) {
   const headingIds = new Set([...raw.matchAll(/^#{1,6}\s+(.+)$/gm)].map((match) => headingKey(match[1])));
   for (const match of raw.matchAll(/\]\(((?:\.\.\/|\.\/)+([^?#)]+\.mdx))([?#][^)]*)?\)/gi)) {
     const targetKey = linkKey(match[2]);
-    const resolved = (recordsByCtf.get(record.ctfSlug) ?? []).some((candidate) =>
-      linkKey(candidate.slug) === targetKey || linkKey(candidate.title).startsWith(targetKey)
-    );
-    if (!resolved) {
+    const candidates = recordsByCtf.get(record.ctfSlug) ?? [];
+    const ctfKey = linkKey(record.ctfSlug);
+    const exact = candidates.filter((candidate) => {
+      const slugKey = linkKey(candidate.slug);
+      return (slugKey.startsWith(ctfKey) ? slugKey.slice(ctfKey.length) : slugKey) === targetKey;
+    });
+    const titleMatches = candidates.filter((candidate) => linkKey(candidate.title).startsWith(targetKey));
+    if (exact.length === 0 && titleMatches.length > 1) {
+      throw new Error(`Ambiguous local writeup link in ${record.slug}: ${match[1]}`);
+    }
+    if (exact.length === 0 && titleMatches.length === 0) {
       throw new Error(`Unresolved local writeup link in ${record.slug}: ${match[1]}`);
     }
   }
