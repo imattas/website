@@ -21,7 +21,7 @@ export default function Skills() {
               <details className="skill-row" style={{ "--skill-color": group.color } as React.CSSProperties}>
                 <summary>
                   <span className="skill-row-number">{String(i + 1).padStart(2, "0")}</span>
-                  <h3>{group.title}</h3>
+                  <span className="skill-row-title" role="heading" aria-level={3}>{group.title}</span>
                   <span className="skill-row-toggle" aria-hidden="true">+</span>
                 </summary>
                 <div className="skill-row-detail">

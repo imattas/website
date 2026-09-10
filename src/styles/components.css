@@ -143,7 +143,7 @@
 .skill-row summary::-webkit-details-marker { display: none; }
 .skill-row summary:hover, .skill-row summary:focus-visible { background: var(--bg-soft); }
 .skill-row-number { color: var(--skill-color); font: 700 0.75rem var(--font-mono); }
-.skill-row h3 { font-size: clamp(1.15rem, 2.5vw, 1.55rem); text-transform: uppercase; }
+.skill-row-title { font-size: clamp(1.15rem, 2.5vw, 1.55rem); text-transform: uppercase; }
 .skill-row-toggle { color: var(--skill-color); font: 1.7rem var(--font-display); text-align: center; transition: transform 0.25s ease; }
 .skill-row:hover .skill-row-toggle { transform: rotate(45deg); }
 .skill-row[open] .skill-row-toggle { transform: rotate(45deg); }
