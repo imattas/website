@@ -57,7 +57,7 @@ export default function About() {
               the guts of how software actually runs.
             </p>
             <div className="availability-note">
-              <span className="availability-dot" />
+              <span className="availability-dot" aria-hidden="true" />
               Open to interesting security, systems, and research collaborations.
             </div>
           </Reveal>
