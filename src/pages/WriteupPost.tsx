@@ -51,6 +51,19 @@ function headingSlug(value: string) {
     .replace(/^-+|-+$/g, "") || "section";
 }
 
+function isSafeMarkdownUrl(value: string | undefined) {
+  if (!value) return false;
+  const href = value.trim();
+  if (/^(?:javascript|data|vbscript|file):/i.test(href)) return false;
+  if (href.startsWith("#") || href.startsWith("/") || href.startsWith("./") || href.startsWith("../")) return true;
+  try {
+    const protocol = new URL(href, window.location.origin).protocol;
+    return ["http:", "https:", "mailto:", "tel:"].includes(protocol);
+  } catch {
+    return false;
+  }
+}
+
 function markdownComponents(currentWriteup: Writeup): Components {
   const headingId = (children: ReactNode) => {
     return headingSlug(headingText(children));
@@ -81,16 +94,33 @@ function markdownComponents(currentWriteup: Writeup): Components {
         );
       }
 
+      if (!isSafeMarkdownUrl(href)) {
+        return (
+          <span
+            className="mdx-unavailable-link"
+            aria-label="Unsafe link removed"
+            title="Unsafe link removed"
+          >
+            {children}
+          </span>
+        );
+      }
+
       return <a href={href} {...props}>{children}</a>;
     },
-    img: ({ alt, ...props }) => (
+    img: ({ alt, src, ...props }) => isSafeMarkdownUrl(src) ? (
       <img
         {...props}
+        src={src}
         alt={alt || "Writeup image"}
         loading="lazy"
         decoding="async"
         referrerPolicy="no-referrer"
       />
+    ) : (
+      <span className="mdx-unavailable-link" aria-label="Unsafe image removed" title="Unsafe image removed">
+        Image unavailable
+      </span>
     ),
     h1: ({ children, ...props }) => <h1 {...props} id={headingId(children)}>{children}</h1>,
     h2: ({ children, ...props }) => <h2 {...props} id={headingId(children)}>{children}</h2>,
