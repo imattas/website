@@ -142,6 +142,7 @@ for (const record of records) {
 }
 for (const record of records) {
   const raw = await fs.readFile(path.resolve("src/content", record.path.slice(2)), "utf8");
+  const { body } = parseFrontmatter(raw);
   const headingIds = new Set(
     markdownLines(body)
       .map((line) => line.match(/^#{1,6}\s+(.+?)\s*#*\s*$/))
