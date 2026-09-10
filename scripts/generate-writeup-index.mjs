@@ -50,10 +50,12 @@ async function collectFiles(directory) {
 
 const records = [];
 const slugs = new Set();
+const knownSlugs = new Set();
 for (const file of await collectFiles(root)) {
   const raw = await fs.readFile(file, "utf8");
   const { fields, body } = parseFrontmatter(raw);
   if (!fields.slug || fields.slug === "writeup-template" || fields.slug === "writeups-index") continue;
+  knownSlugs.add(fields.slug);
   if (body.includes("No solve transcript was present")) continue;
   if (slugs.has(fields.slug)) throw new Error(`Duplicate writeup slug: ${fields.slug}`);
   if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(fields.slug)) {
@@ -115,6 +117,11 @@ for (const record of records) {
     }
     if (exact.length === 0 && titleMatches.length === 0) {
       throw new Error(`Unresolved local writeup link in ${record.slug}: ${match[1]}`);
+    }
+  }
+  for (const match of raw.matchAll(/\]\(\/volume\/2\/([^/)]+)\/?\)/g)) {
+    if (!knownSlugs.has(match[1])) {
+      throw new Error(`Unresolved legacy writeup link in ${record.slug}: /volume/2/${match[1]}/`);
     }
   }
   for (const match of raw.matchAll(/\]\(#([^\s)]+)\)/g)) {
