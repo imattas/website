@@ -1,4 +1,5 @@
 import { writeupIndex } from "./writeup-index.generated";
+import { contentModules } from "./writeup-content.generated";
 
 export interface WriteupFrontmatter {
   title: string;
@@ -28,11 +29,6 @@ export interface CtfGroup {
   title: string;
   writeups: Writeup[];
 }
-
-const contentModules = import.meta.glob<string>("./writeups/**/index.mdx", {
-  query: "?raw",
-  import: "default",
-});
 
 function parseFrontmatter(raw: string): { fm: Record<string, string>; body: string } {
   // Normalize CRLF -> LF so regexes are robust across platforms.
