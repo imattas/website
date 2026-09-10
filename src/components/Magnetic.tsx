@@ -27,7 +27,11 @@ export default function Magnetic({ children, strength = 0.4, className }: Magnet
   }, [reducedMotion, x, y]);
 
   const onMove = (e: React.PointerEvent) => {
-    if (reducedMotion || e.pointerType !== "mouse") return;
+    if (reducedMotion || e.pointerType !== "mouse") {
+      x.set(0);
+      y.set(0);
+      return;
+    }
     const el = ref.current;
     if (!el) return;
     const rect = el.getBoundingClientRect();

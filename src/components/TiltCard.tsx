@@ -32,7 +32,11 @@ export default function TiltCard({ children, className, max = 10 }: TiltCardProp
   }, [reducedMotion, px, py]);
 
   const onMove = (e: React.PointerEvent) => {
-    if (reducedMotion || e.pointerType !== "mouse") return;
+    if (reducedMotion || e.pointerType !== "mouse") {
+      px.set(0.5);
+      py.set(0.5);
+      return;
+    }
     const el = ref.current;
     if (!el) return;
     const rect = el.getBoundingClientRect();
