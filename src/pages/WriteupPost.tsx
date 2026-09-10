@@ -112,7 +112,7 @@ function markdownComponents(currentWriteup: Writeup): Components {
       <img
         {...props}
         src={src}
-        alt={alt || "Writeup image"}
+        alt={alt ?? "Writeup image"}
         loading="lazy"
         decoding="async"
         referrerPolicy="no-referrer"
