@@ -67,6 +67,16 @@ function isSafeMarkdownUrl(value: string | undefined) {
   }
 }
 
+function isExternalMarkdownUrl(value: string | undefined) {
+  if (!value) return false;
+  try {
+    const url = new URL(value, window.location.origin);
+    return (url.protocol === "http:" || url.protocol === "https:") && url.origin !== window.location.origin;
+  } catch {
+    return false;
+  }
+}
+
 function markdownComponents(currentWriteup: Writeup): Components {
   const headingId = (children: ReactNode) => {
     return headingSlug(headingText(children));
@@ -109,7 +119,17 @@ function markdownComponents(currentWriteup: Writeup): Components {
         );
       }
 
-      return <a href={href} {...props}>{children}</a>;
+      const external = isExternalMarkdownUrl(href);
+      return (
+        <a
+          href={href}
+          {...props}
+          target={external ? "_blank" : props.target}
+          rel={external ? "noopener noreferrer" : props.rel}
+        >
+          {children}
+        </a>
+      );
     },
     img: ({ alt, src, ...props }) => isSafeMarkdownUrl(src) ? (
       <img
