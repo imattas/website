@@ -77,6 +77,12 @@ function ScrollToTop() {
       }
       const target = document.getElementById(id);
       if (!target) return false;
+      if (target instanceof HTMLElement) {
+        if (target.tabIndex < 0 && !target.matches("a, button, input, select, textarea")) {
+          target.tabIndex = -1;
+        }
+        target.focus({ preventScroll: true });
+      }
       target.scrollIntoView();
       if (!settleObserver) {
         const article = target.closest("article");
