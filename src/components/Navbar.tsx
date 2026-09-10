@@ -133,7 +133,10 @@ export default function Navbar() {
                   <Link
                     to={l.href}
                     aria-current={currentPage(l, location.pathname) ? "page" : undefined}
-                    onClick={() => setOpen(false)}
+                    onClick={() => {
+                      setOpen(false);
+                      menuButtonRef.current?.focus();
+                    }}
                     style={{ display: "block", padding: "12px 24px", color: "var(--ink)", fontSize: "1.1rem", fontWeight: 600 }}
                   >
                     {l.label}
