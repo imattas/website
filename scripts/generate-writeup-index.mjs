@@ -86,9 +86,10 @@ function validateDocumentStructure(body, slug) {
       if (link[0].startsWith("!")) {
         try {
           const imageUrl = new URL(destination, "https://ianmattas.com");
-          if ((imageUrl.protocol === "http:" || imageUrl.protocol === "https:") &&
-              imageUrl.origin !== "https://ianmattas.com" &&
-              !allowedRemoteImageHosts.has(imageUrl.hostname)) {
+          if (imageUrl.protocol !== "https:") {
+            throw new Error(`Invalid image URL in ${slug}: ${destination}`);
+          }
+          if (imageUrl.origin !== "https://ianmattas.com" && !allowedRemoteImageHosts.has(imageUrl.hostname)) {
             throw new Error(`Unapproved remote image host in ${slug}: ${imageUrl.hostname}`);
           }
         } catch (error) {
