@@ -111,8 +111,10 @@ export default function Writeups() {
                       textAlign: "left",
                     }}
                   >
-                    <div style={{ display: "flex", alignItems: "baseline", gap: 16, flexWrap: "wrap" }}>
-                      <h3
+                    <span style={{ display: "flex", alignItems: "baseline", gap: 16, flexWrap: "wrap" }}>
+                      <span
+                        role="heading"
+                        aria-level={3}
                         style={{
                           fontSize: "1.5rem",
                           textTransform: "uppercase",
@@ -120,7 +122,7 @@ export default function Writeups() {
                         }}
                       >
                         {group.title}
-                      </h3>
+                      </span>
                       <span
                         style={{
                           fontFamily: "var(--font-mono)",
@@ -130,7 +132,7 @@ export default function Writeups() {
                       >
                         {group.writeups.length} writeups
                       </span>
-                    </div>
+                    </span>
                     <motion.span
                       animate={{ rotate: reducedMotion ? 0 : (isOpen ? 45 : 0) }}
                       transition={reducedMotion ? { duration: 0 } : { duration: 0.2 }}
