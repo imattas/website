@@ -100,7 +100,7 @@ export default function Navbar() {
             cursor: "pointer",
           }}
         >
-          {open ? "✕" : "☰"}
+          <span aria-hidden="true">{open ? "✕" : "☰"}</span>
         </button>
       </nav>
 

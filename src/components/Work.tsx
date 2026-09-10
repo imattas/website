@@ -87,7 +87,7 @@ export default function Work() {
                         </span>
                       ))}
                     </div>
-                    <span className="project-cta">View repository ↗</span>
+                    <span className="project-cta">View repository <span aria-hidden="true">↗</span></span>
                   </div>
                 </motion.a>
               </TiltCard>

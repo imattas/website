@@ -26,7 +26,7 @@ export default function Contact() {
               <p>Open to security research, systems work, collaboration, and thoughtful technical conversations.</p>
             </div>
             <Magnetic>
-              <a className="btn btn-primary" href="mailto:ian@mattas.net?subject=Hello%20Ian">Email me →</a>
+            <a className="btn btn-primary" href="mailto:ian@mattas.net?subject=Hello%20Ian">Email me <span aria-hidden="true">→</span></a>
             </Magnetic>
           </div>
         </Reveal>

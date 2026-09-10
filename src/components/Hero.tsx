@@ -85,7 +85,7 @@ export default function Hero() {
         style={{ position: "relative", zIndex: 2 }}
       >
         <motion.p variants={item} className="section-label" style={{ marginBottom: 28 }}>
-          ✦ Aspiring red teamer — CTF grinding
+          <span aria-hidden="true">✦</span> Aspiring red teamer — CTF grinding
         </motion.p>
 
         <motion.h1
@@ -119,12 +119,12 @@ export default function Hero() {
         <motion.div variants={item} style={{ display: "flex", gap: 20, marginTop: 44, flexWrap: "wrap" }}>
           <Magnetic>
             <Link to="/writeups" className="btn btn-primary">
-              View Writeups →
+              View Writeups <span aria-hidden="true">→</span>
             </Link>
           </Magnetic>
           <Magnetic>
             <a href="https://github.com/imattas" target="_blank" rel="noopener noreferrer" className="btn btn-ghost">
-              GitHub ↗
+              GitHub <span aria-hidden="true">↗</span>
             </a>
           </Magnetic>
         </motion.div>

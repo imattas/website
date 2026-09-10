@@ -233,8 +233,8 @@ export default function WriteupPost() {
           </article>
 
           <nav className="post-navigation" aria-label="Writeup navigation">
-            {previous ? <Link to={`/writeups/${previous.slug}`}><span>← Previous</span>{previous.title}</Link> : <span />}
-            {next ? <Link to={`/writeups/${next.slug}`}><span>Next →</span>{next.title}</Link> : <span />}
+            {previous ? <Link to={`/writeups/${previous.slug}`}><span><span aria-hidden="true">←</span> Previous</span>{previous.title}</Link> : <span />}
+            {next ? <Link to={`/writeups/${next.slug}`}><span>Next <span aria-hidden="true">→</span></span>{next.title}</Link> : <span />}
           </nav>
         </motion.div>
       </div>

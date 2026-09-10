@@ -11,7 +11,7 @@ export default function Footer() {
           © {new Date().getFullYear()} Ian Mattas. Crafted with React &amp; motion.
         </span>
         <Link to="/#home" style={{ color: "var(--ink)", fontSize: "0.9rem", fontWeight: 600 }}>
-          Back to top ↑
+          Back to top <span aria-hidden="true">↑</span>
         </Link>
       </div>
     </footer>
