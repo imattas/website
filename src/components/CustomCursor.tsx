@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from "react";
 export default function CustomCursor() {
   const dotRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
+  const hoveringRef = useRef(false);
   const [hovering, setHovering] = useState(false);
 
   useEffect(() => {
@@ -28,10 +29,13 @@ export default function CustomCursor() {
       dot.style.transform = `translate(${mx}px, ${my}px) translate(-50%, -50%)`;
 
       const target = e.target;
-      setHovering(
+      const nextHovering =
         target instanceof Element &&
-          !!target.closest("a, button, input, textarea, .project-card, .stat-card, .skill-card, .social-pill")
-      );
+          !!target.closest("a, button, input, textarea, .project-card, .stat-card, .skill-card, .social-pill");
+      if (nextHovering !== hoveringRef.current) {
+        hoveringRef.current = nextHovering;
+        setHovering(nextHovering);
+      }
     };
 
     const tick = () => {
@@ -47,7 +51,7 @@ export default function CustomCursor() {
     return () => {
       window.removeEventListener("mousemove", onMove);
       cancelAnimationFrame(raf);
-      setHovering(false);
+      hoveringRef.current = false;
     };
   }, []);
 
