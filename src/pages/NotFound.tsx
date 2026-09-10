@@ -1,14 +1,16 @@
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { applyDocumentMeta } from "../documentMeta";
 
 export default function NotFound() {
+  const { pathname } = useLocation();
+
   useEffect(() => applyDocumentMeta({
     title: "Page Not Found — Ian Mattas",
     description: "The requested page could not be found on Ian Mattas's portfolio.",
-    path: window.location.pathname,
+    path: pathname,
     robots: "noindex, follow",
-  }), []);
+  }), [pathname]);
 
   return (
     <section className="section route-loading" aria-labelledby="not-found-title">
