@@ -23,8 +23,24 @@ export default function Hero() {
 
   useEffect(() => {
     if (reducedMotion) return;
-    const id = setInterval(() => setRoleIndex((i) => (i + 1) % roles.length), 3200);
-    return () => clearInterval(id);
+    let id: number | undefined;
+    const start = () => {
+      if (document.hidden || id !== undefined) return;
+      id = window.setInterval(() => setRoleIndex((i) => (i + 1) % roles.length), 3200);
+    };
+    const stop = () => {
+      if (id === undefined) return;
+      window.clearInterval(id);
+      id = undefined;
+    };
+    const onVisibilityChange = () => (document.hidden ? stop() : start());
+
+    document.addEventListener("visibilitychange", onVisibilityChange);
+    start();
+    return () => {
+      document.removeEventListener("visibilitychange", onVisibilityChange);
+      stop();
+    };
   }, [reducedMotion]);
   return (
     <section
