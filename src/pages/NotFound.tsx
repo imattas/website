@@ -10,6 +10,8 @@ export default function NotFound() {
     description: "The requested page could not be found on Ian Mattas's portfolio.",
     path: pathname,
     robots: "noindex, follow",
+    canonical: null,
+    openGraphUrl: null,
   }), [pathname]);
 
   return (
