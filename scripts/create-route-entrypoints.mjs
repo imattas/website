@@ -77,7 +77,7 @@ for (const route of routes) {
   const metadata = routeMetadata(route);
   if (metadata) {
     html = html.replace(/<title>[\s\S]*?<\/title>/, `<title>${escapeHtml(metadata.title)}</title>`);
-    html = replaceCaptured(html, /(<meta name="description" content=")[^"]*(" \/>)/, metadata.description);
+    html = replaceCaptured(html, /(<meta\s+name="description"\s+content=")[^"]*(")/s, metadata.description);
     html = replaceCaptured(html, /(<meta property="og:title" content=")[^"]*(" \/>)/, metadata.title);
     html = replaceCaptured(html, /(<meta property="og:description" content=")[^"]*(" \/>)/, metadata.description);
     html = replaceCaptured(html, /(<meta property="og:url" content=")[^"]*(" \/>)/, `${siteUrl}${route}`);
