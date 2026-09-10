@@ -90,7 +90,7 @@ export default function Navbar() {
           onClick={() => setOpen((o) => !o)}
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
-          aria-controls="mobile-navigation"
+          aria-controls={open ? "mobile-navigation" : undefined}
           style={{
             display: "none",
             background: "none",
