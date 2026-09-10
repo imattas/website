@@ -24,8 +24,8 @@ export default function TiltCard({ children, className, max = 10 }: TiltCardProp
     return `radial-gradient(circle at ${gx} ${gy}, rgba(255,255,255,0.35), transparent 60%)`;
   });
 
-  const onMove = (e: React.MouseEvent) => {
-    if (reducedMotion) return;
+  const onMove = (e: React.PointerEvent) => {
+    if (reducedMotion || e.pointerType !== "mouse") return;
     const el = ref.current;
     if (!el) return;
     const rect = el.getBoundingClientRect();
@@ -42,8 +42,8 @@ export default function TiltCard({ children, className, max = 10 }: TiltCardProp
   return (
     <motion.div
       ref={ref}
-      onMouseMove={onMove}
-      onMouseLeave={onLeave}
+      onPointerMove={onMove}
+      onPointerLeave={onLeave}
       style={{ rotateX, rotateY, transformStyle: "preserve-3d", perspective: 800 }}
       className={className}
     >

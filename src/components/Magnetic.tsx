@@ -19,8 +19,8 @@ export default function Magnetic({ children, strength = 0.4, className }: Magnet
   const sx = useSpring(x, { stiffness: 200, damping: 15 });
   const sy = useSpring(y, { stiffness: 200, damping: 15 });
 
-  const onMove = (e: React.MouseEvent) => {
-    if (reducedMotion) return;
+  const onMove = (e: React.PointerEvent) => {
+    if (reducedMotion || e.pointerType !== "mouse") return;
     const el = ref.current;
     if (!el) return;
     const rect = el.getBoundingClientRect();
@@ -39,8 +39,8 @@ export default function Magnetic({ children, strength = 0.4, className }: Magnet
   return (
     <motion.div
       ref={ref}
-      onMouseMove={onMove}
-      onMouseLeave={onLeave}
+      onPointerMove={onMove}
+      onPointerLeave={onLeave}
       style={{ x: sx, y: sy, display: "inline-block" }}
       className={className}
     >
