@@ -713,6 +713,8 @@
   .hero-content { padding-top: 72px; }
   .hero-content h1 { font-size: clamp(2.7rem, 17vw, 4rem) !important; }
   .hero-content .section-label { max-width: 100%; white-space: normal; }
+  .hero-actions,
+  .hero-actions > div { width: 100%; }
   .btn { width: 100%; justify-content: center; }
 }
 

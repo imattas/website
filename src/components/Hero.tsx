@@ -116,7 +116,7 @@ export default function Hero() {
           analysis, and low-level systems — five years deep.
         </motion.p>
 
-        <motion.div variants={item} style={{ display: "flex", gap: 20, marginTop: 44, flexWrap: "wrap" }}>
+        <motion.div className="hero-actions" variants={item} style={{ display: "flex", gap: 20, marginTop: 44, flexWrap: "wrap" }}>
           <Magnetic>
             <Link to="/writeups" className="btn btn-primary">
               View Writeups <span aria-hidden="true">→</span>
