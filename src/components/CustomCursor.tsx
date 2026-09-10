@@ -22,11 +22,17 @@ export default function CustomCursor() {
     let ry = 0;
     let raf = 0;
     let listening = false;
+    let activated = false;
 
     const onMove = (e: MouseEvent) => {
       mx = e.clientX;
       my = e.clientY;
       dot.style.transform = `translate(${mx}px, ${my}px) translate(-50%, -50%)`;
+      if (!activated) {
+        activated = true;
+        document.body.classList.add("has-custom-cursor");
+        raf = requestAnimationFrame(tick);
+      }
 
       const target = e.target;
       const nextHovering =
@@ -51,6 +57,7 @@ export default function CustomCursor() {
       cancelAnimationFrame(raf);
       raf = 0;
       listening = false;
+      activated = false;
       document.body.classList.remove("has-custom-cursor");
       hoveringRef.current = false;
       setHovering(false);
@@ -59,9 +66,7 @@ export default function CustomCursor() {
     const start = () => {
       if (media.matches || listening) return;
       listening = true;
-      document.body.classList.add("has-custom-cursor");
       window.addEventListener("mousemove", onMove);
-      raf = requestAnimationFrame(tick);
     };
 
     const onMediaChange = () => (media.matches ? stop() : start());
