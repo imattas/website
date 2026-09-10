@@ -23,8 +23,9 @@ export default function ScrambleText({ text, className, as = "span", speed = 30,
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
+    started.current = false;
+    setDisplay(text);
     if (reducedMotion) {
-      setDisplay(text);
       return;
     }
     const el = ref.current;
