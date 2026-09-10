@@ -75,16 +75,15 @@ for (const route of routes) {
   await fs.mkdir(path.dirname(destination), { recursive: true });
   let html = await fs.readFile(indexPath, "utf8");
   const metadata = routeMetadata(route);
-  if (metadata) {
-    html = html.replace(/<title>[\s\S]*?<\/title>/, `<title>${escapeHtml(metadata.title)}</title>`);
-    html = replaceCaptured(html, /(<meta\s+name="description"\s+content=")[^"]*(")/s, metadata.description);
-    html = replaceCaptured(html, /(<meta property="og:title" content=")[^"]*(" \/>)/, metadata.title);
-    html = replaceCaptured(html, /(<meta property="og:description" content=")[^"]*(" \/>)/, metadata.description);
-    html = replaceCaptured(html, /(<meta property="og:url" content=")[^"]*(" \/>)/, `${siteUrl}${route}`);
-    html = replaceCaptured(html, /(<meta name="twitter:title" content=")[^"]*(" \/>)/, metadata.title);
-    html = replaceCaptured(html, /(<meta name="twitter:description" content=")[^"]*(" \/>)/, metadata.description);
-    html = replaceCaptured(html, /(<link rel="canonical" href=")[^"]*(" \/>)/, `${siteUrl}${route}`);
-  }
+  if (!metadata) throw new Error(`Missing static metadata for route: ${route}`);
+  html = html.replace(/<title>[\s\S]*?<\/title>/, `<title>${escapeHtml(metadata.title)}</title>`);
+  html = replaceCaptured(html, /(<meta\s+name="description"\s+content=")[^"]*(")/s, metadata.description);
+  html = replaceCaptured(html, /(<meta property="og:title" content=")[^"]*(" \/>)/, metadata.title);
+  html = replaceCaptured(html, /(<meta property="og:description" content=")[^"]*(" \/>)/, metadata.description);
+  html = replaceCaptured(html, /(<meta property="og:url" content=")[^"]*(" \/>)/, `${siteUrl}${route}`);
+  html = replaceCaptured(html, /(<meta name="twitter:title" content=")[^"]*(" \/>)/, metadata.title);
+  html = replaceCaptured(html, /(<meta name="twitter:description" content=")[^"]*(" \/>)/, metadata.description);
+  html = replaceCaptured(html, /(<link rel="canonical" href=")[^"]*(" \/>)/, `${siteUrl}${route}`);
   await fs.writeFile(destination, html);
 }
 

@@ -47,7 +47,7 @@ class RouteErrorBoundary extends Component<{ children: ReactNode }, RouteErrorBo
           <p className="section-sub">The page could not be rendered. Return home and try again.</p>
           <div className="route-error-actions">
             <button className="btn btn-ghost" type="button" onClick={() => this.setState({ hasError: false })}>Try again</button>
-            <Link className="btn btn-primary route-home-link" to="/">Back home →</Link>
+            <Link className="btn btn-primary route-home-link" to="/">Back home <span aria-hidden="true">→</span></Link>
           </div>
         </div>
       </section>
