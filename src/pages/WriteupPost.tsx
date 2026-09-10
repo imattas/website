@@ -58,7 +58,7 @@ function isSafeMarkdownUrl(value: string | undefined) {
   if (!value) return false;
   const href = value.trim();
   if (/^(?:javascript|data|vbscript|file):/i.test(href)) return false;
-  if (href.startsWith("#") || href.startsWith("/") || href.startsWith("./") || href.startsWith("../")) return true;
+  if (href.startsWith("#") || (href.startsWith("/") && !href.startsWith("//")) || href.startsWith("./") || href.startsWith("../")) return true;
   try {
     const protocol = new URL(href, window.location.origin).protocol;
     return ["http:", "https:", "mailto:", "tel:"].includes(protocol);

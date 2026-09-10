@@ -83,6 +83,9 @@ function validateDocumentStructure(body, slug) {
       if (/^(?:javascript|data|vbscript|file):/i.test(destination)) {
         throw new Error(`Unsafe Markdown destination in ${slug}: ${destination}`);
       }
+      if (destination.startsWith("//")) {
+        throw new Error(`Unsafe protocol-relative Markdown destination in ${slug}: ${destination}`);
+      }
       if (link[0].startsWith("!")) {
         try {
           const imageUrl = new URL(destination, "https://ianmattas.com");
