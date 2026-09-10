@@ -70,11 +70,13 @@ export default function CustomCursor() {
     };
 
     const onMediaChange = () => (media.matches ? stop() : start());
-    media.addEventListener("change", onMediaChange);
+    if (typeof media.addEventListener === "function") media.addEventListener("change", onMediaChange);
+    else media.addListener(onMediaChange);
     start();
 
     return () => {
-      media.removeEventListener("change", onMediaChange);
+      if (typeof media.removeEventListener === "function") media.removeEventListener("change", onMediaChange);
+      else media.removeListener(onMediaChange);
       stop();
     };
   }, []);

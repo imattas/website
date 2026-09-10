@@ -21,8 +21,12 @@ export default function About() {
     const media = window.matchMedia("(pointer: coarse)");
     const update = () => setCoarsePointer(media.matches);
     update();
-    media.addEventListener("change", update);
-    return () => media.removeEventListener("change", update);
+    if (typeof media.addEventListener === "function") media.addEventListener("change", update);
+    else media.addListener(update);
+    return () => {
+      if (typeof media.removeEventListener === "function") media.removeEventListener("change", update);
+      else media.removeListener(update);
+    };
   }, []);
 
   return (
