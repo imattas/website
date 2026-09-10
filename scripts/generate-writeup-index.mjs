@@ -93,6 +93,7 @@ function validateDocumentStructure(body, slug) {
           }
         } catch (error) {
           if (error instanceof Error && error.message.startsWith("Unapproved remote image host")) throw error;
+          throw new Error(`Invalid image URL in ${slug}: ${destination}`);
         }
       }
     }

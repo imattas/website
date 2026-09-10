@@ -77,6 +77,17 @@ function isExternalMarkdownUrl(value: string | undefined) {
   }
 }
 
+function isSafeMarkdownImageUrl(value: string | undefined) {
+  if (!value) return false;
+  try {
+    const url = new URL(value.trim(), window.location.origin);
+    return (url.protocol === "https:" && url.hostname === "raw.githubusercontent.com")
+      || (url.origin === window.location.origin && (url.protocol === "http:" || url.protocol === "https:"));
+  } catch {
+    return false;
+  }
+}
+
 function markdownComponents(currentWriteup: Writeup): Components {
   const headingId = (children: ReactNode) => {
     return headingSlug(headingText(children));
@@ -131,7 +142,7 @@ function markdownComponents(currentWriteup: Writeup): Components {
         </a>
       );
     },
-    img: ({ alt, src, node: _node, ...props }) => isSafeMarkdownUrl(src) ? (
+    img: ({ alt, src, node: _node, ...props }) => isSafeMarkdownImageUrl(src) ? (
       <img
         {...props}
         src={src}
