@@ -12,6 +12,12 @@ const links = [
   { label: "Writeups", href: "/writeups", num: "05" },
 ];
 
+function currentPage(link: typeof links[number], pathname: string) {
+  if (link.label === "Home") return pathname === "/";
+  if (link.label === "Writeups") return pathname === "/writeups" || pathname.startsWith("/writeups/");
+  return false;
+}
+
 export default function Navbar() {
   const reducedMotion = useReducedMotion();
   const location = useLocation();
@@ -68,6 +74,7 @@ export default function Navbar() {
             <li key={l.href}>
               <Link
                 to={l.href}
+                aria-current={currentPage(l, location.pathname) ? "page" : undefined}
                 style={{ color: "var(--ink)", fontSize: "0.95rem", fontWeight: 600, transition: "color 0.2s" }}
                 onMouseEnter={(e) => (e.currentTarget.style.color = "var(--accent)")}
                 onMouseLeave={(e) => (e.currentTarget.style.color = "var(--ink)")}
@@ -125,6 +132,7 @@ export default function Navbar() {
                 <li key={l.href}>
                   <Link
                     to={l.href}
+                    aria-current={currentPage(l, location.pathname) ? "page" : undefined}
                     onClick={() => setOpen(false)}
                     style={{ display: "block", padding: "12px 24px", color: "var(--ink)", fontSize: "1.1rem", fontWeight: 600 }}
                   >
