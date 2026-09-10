@@ -8,6 +8,7 @@ interface DocumentMeta {
 }
 
 const SITE_URL = "https://ianmattas.com";
+const DEFAULT_ROBOTS = "index, follow, max-image-preview:large";
 
 export function applyDocumentMeta({ title, description, path, robots, canonical, openGraphUrl }: DocumentMeta) {
   const previousTitle = document.title;
@@ -22,7 +23,7 @@ export function applyDocumentMeta({ title, description, path, robots, canonical,
   ];
   if (openGraphUrl !== null) updates.push(["meta", 'property="og:url"', openGraphUrl ?? `${SITE_URL}${path}`]);
   if (canonical !== null) updates.push(["link", 'rel="canonical"', canonical ?? `${SITE_URL}${path}`]);
-  if (robots) updates.push(["meta", 'name="robots"', robots]);
+  updates.push(["meta", 'name="robots"', robots ?? DEFAULT_ROBOTS]);
 
   for (const [tag, attributes] of [
     ["meta", 'property="og:url"'],
