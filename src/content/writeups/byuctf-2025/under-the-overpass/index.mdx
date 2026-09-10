@@ -63,8 +63,8 @@ Source: [osint/under_the_overpass/README.md](https://github.com/BYU-CSA/BYUCTF-2
     ```json
     [out:json][timeout:25];
     {{geocodeArea:Berlin}}->.searchArea; (
-    nwr["amenity"="embassy"](https://github.com/BYU-CSA/BYUCTF-2025/blob/main/osint/under_the_overpass/area.searchArea);
-    nwr["office"="diplomatic"](https://github.com/BYU-CSA/BYUCTF-2025/blob/main/osint/under_the_overpass/area.searchArea); ); out
+    nwr["amenity"="embassy"](area.searchArea);
+    nwr["office"="diplomatic"](area.searchArea); ); out
     center;
     ```
 2. Looking for an embassy next to a dentist office gives us the embassy for El Salvador.
