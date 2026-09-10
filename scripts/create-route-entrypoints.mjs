@@ -61,12 +61,14 @@ function routeMetadata(route) {
   const slug = route.slice("/writeups/".length);
   const record = metadataBySlug.get(slug);
   if (!record) return undefined;
-  const writeupTitle = record.title.endsWith(` — ${record.ctfTitle}`)
+  const writeupTitle = record.writeupKind === "ctf" || record.title.endsWith(` — ${record.ctfTitle}`)
     ? record.title
     : `${record.title} — ${record.ctfTitle}`;
   return {
     title: `${writeupTitle} | Ian Mattas`,
-    description: `${writeupTitle} writeup for ${record.ctfTitle}, documented by Ian Mattas.`,
+    description: record.writeupKind === "ctf"
+      ? `${writeupTitle}, documented by Ian Mattas.`
+      : `${writeupTitle} writeup for ${record.ctfTitle}, documented by Ian Mattas.`,
   };
 }
 

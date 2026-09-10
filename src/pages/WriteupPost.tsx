@@ -169,12 +169,15 @@ export default function WriteupPost() {
 
   useEffect(() => {
     if (!writeup) return;
-    const title = writeup.title.endsWith(` — ${writeup.ctfTitle}`)
+    const title = writeup.writeupKind === "ctf" || writeup.title.endsWith(` — ${writeup.ctfTitle}`)
       ? writeup.title
       : `${writeup.title} — ${writeup.ctfTitle}`;
+    const description = writeup.writeupKind === "ctf"
+      ? `${title}, documented by Ian Mattas.`
+      : `${title} writeup for ${writeup.ctfTitle}, documented by Ian Mattas.`;
     return applyDocumentMeta({
       title: `${title} | Ian Mattas`,
-      description: `${title} writeup for ${writeup.ctfTitle}, documented by Ian Mattas.`,
+      description,
       path: `/writeups/${encodeURIComponent(writeup.slug)}`,
     });
   }, [writeup]);
