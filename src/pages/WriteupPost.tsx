@@ -5,7 +5,7 @@ import ReactMarkdown from "react-markdown";
 import type { Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
-import { challengeWriteups, getWriteup, formatDate, writeups, type Writeup } from "../content/writeups";
+import { ctfGroups, getWriteup, formatDate, writeups, type Writeup } from "../content/writeups";
 import { applyDocumentMeta } from "../documentMeta";
 import NotFound from "./NotFound";
 
@@ -184,9 +184,10 @@ export default function WriteupPost() {
   if (content === null) return <section className="section route-loading" role="status">Loading writeup…</section>;
 
   const { ctfTitle, date } = writeup;
-  const currentIndex = challengeWriteups.findIndex((item) => item.slug === writeup.slug);
-  const previous = currentIndex >= 0 ? challengeWriteups[currentIndex + 1] : undefined;
-  const next = currentIndex > 0 ? challengeWriteups[currentIndex - 1] : undefined;
+  const ctfWriteups = ctfGroups.find((group) => group.slug === writeup.ctfSlug)?.writeups ?? [];
+  const currentIndex = ctfWriteups.findIndex((item) => item.slug === writeup.slug);
+  const previous = currentIndex > 0 ? ctfWriteups[currentIndex - 1] : undefined;
+  const next = currentIndex >= 0 ? ctfWriteups[currentIndex + 1] : undefined;
 
   return (
     <section className="section" style={{ minHeight: "80vh" }}>
