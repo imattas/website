@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { motion, useMotionValue, useSpring, useTransform, useReducedMotion } from "framer-motion";
 
 interface TiltCardProps {
   children: React.ReactNode;
@@ -11,6 +11,7 @@ interface TiltCardProps {
  * 3D tilt card that rotates toward the cursor with a subtle glare highlight.
  */
 export default function TiltCard({ children, className, max = 10 }: TiltCardProps) {
+  const reducedMotion = useReducedMotion();
   const ref = useRef<HTMLDivElement>(null);
   const px = useMotionValue(0.5);
   const py = useMotionValue(0.5);
@@ -24,6 +25,7 @@ export default function TiltCard({ children, className, max = 10 }: TiltCardProp
   });
 
   const onMove = (e: React.MouseEvent) => {
+    if (reducedMotion) return;
     const el = ref.current;
     if (!el) return;
     const rect = el.getBoundingClientRect();
@@ -32,6 +34,7 @@ export default function TiltCard({ children, className, max = 10 }: TiltCardProp
   };
 
   const onLeave = () => {
+    if (reducedMotion) return;
     px.set(0.5);
     py.set(0.5);
   };

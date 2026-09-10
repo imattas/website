@@ -46,7 +46,7 @@ Because each prime factor is small, the modulus can be fully factored with off-t
 
 ### Attack Strategy
 
-1. **Factor the modulus `n`**: Since each prime factor is relatively small, we can use services like [factordb.com](http://factordb.com) or tools like `sympy.factorint()`, `yafu`, or `msieve` to factor `n`.
+1. **Factor the modulus `n`**: Since each prime factor is relatively small, we can use services like [factordb.com](https://factordb.com) or tools like `sympy.factorint()`, `yafu`, or `msieve` to factor `n`.
 2. **Compute Euler's totient**: For multi-prime RSA, the totient is:
    ```
    phi(n) = (p1 - 1) * (p2 - 1) * ... * (pk - 1)

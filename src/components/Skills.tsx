@@ -1,8 +1,10 @@
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { programmingLanguages, skillGroups } from "../data";
 import Reveal from "./Reveal";
 
 export default function Skills() {
+  const reducedMotion = useReducedMotion();
+
   return (
     <section id="skills" className="section">
       <div className="container">
@@ -41,13 +43,20 @@ export default function Skills() {
                     <strong>{language.name}</strong>
                     <span>{language.level}%</span>
                   </div>
-                  <div className="language-track" aria-label={`${language.name}: ${language.level}%`}>
+                  <div
+                    className="language-track"
+                    role="progressbar"
+                    aria-label={`${language.name} proficiency`}
+                    aria-valuemin={0}
+                    aria-valuemax={100}
+                    aria-valuenow={language.level}
+                  >
                     <motion.div
                       className="language-fill"
-                      initial={{ width: 0 }}
+                      initial={reducedMotion ? { width: `${language.level}%` } : { width: 0 }}
                       whileInView={{ width: `${language.level}%` }}
                       viewport={{ once: true }}
-                      transition={{ duration: 0.9, delay: index * 0.08 }}
+                      transition={reducedMotion ? { duration: 0 } : { duration: 0.9, delay: index * 0.08 }}
                       style={{ background: language.color }}
                     />
                   </div>

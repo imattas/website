@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { Link } from "react-router-dom";
 import { socials } from "../data";
 
 const links = [
@@ -7,11 +8,13 @@ const links = [
   { label: "About", href: "/#about", num: "01" },
   { label: "Work", href: "/#work", num: "02" },
   { label: "Skills", href: "/#skills", num: "03" },
-  { label: "Writeups", href: "/writeups", num: "04" },
-  { label: "Contact", href: "/#contact", num: "05" },
+  { label: "Writeups", href: "/writeups", num: "05" },
+  { label: "Contact", href: "/#contact", num: "04" },
 ];
 
 export default function Navbar() {
+  const reducedMotion = useReducedMotion();
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -22,11 +25,23 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    if (!open) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setOpen(false);
+        menuButtonRef.current?.focus();
+      }
+    };
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [open]);
+
   return (
     <motion.header
-      initial={{ y: -80, opacity: 0 }}
+      initial={reducedMotion ? false : { y: -80, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
+      transition={reducedMotion ? { duration: 0 } : { duration: 0.6, ease: "easeOut" }}
       style={{
         position: "fixed",
         top: 0,
@@ -39,15 +54,15 @@ export default function Navbar() {
       }}
     >
       <nav className="container" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", height: 72 }}>
-        <a href="/#home" aria-label="Ian Mattas home" style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "1.5rem", textTransform: "uppercase" }}>
+        <Link to="/#home" aria-label="Ian Mattas home" style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "1.5rem", textTransform: "uppercase" }}>
           IM<span className="accent">.</span>
-        </a>
+        </Link>
 
         <ul style={{ display: "flex", gap: 28, listStyle: "none" }} className="desktop-links">
           {links.map((l) => (
             <li key={l.href}>
-              <a
-                href={l.href}
+              <Link
+                to={l.href}
                 style={{ color: "var(--ink)", fontSize: "0.95rem", fontWeight: 600, transition: "color 0.2s" }}
                 onMouseEnter={(e) => (e.currentTarget.style.color = "var(--accent)")}
                 onMouseLeave={(e) => (e.currentTarget.style.color = "var(--ink)")}
@@ -56,23 +71,26 @@ export default function Navbar() {
                   {l.num}
                 </span>
                 {l.label}
-              </a>
+              </Link>
             </li>
           ))}
         </ul>
 
         <div className="nav-socials" style={{ display: "flex", gap: 16 }}>
           {socials.slice(0, 3).map((s) => (
-            <a key={s.label} href={s.href} target="_blank" rel="noreferrer" style={{ color: "var(--ink)", fontSize: "0.9rem", fontFamily: "var(--font-mono)" }}>
+            <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" style={{ color: "var(--ink)", fontSize: "0.9rem", fontFamily: "var(--font-mono)" }}>
               {s.label}
             </a>
           ))}
         </div>
 
         <button
+          ref={menuButtonRef}
           className="menu-btn"
           onClick={() => setOpen((o) => !o)}
-          aria-label="Toggle menu"
+          aria-label={open ? "Close menu" : "Open menu"}
+          aria-expanded={open}
+          aria-controls="mobile-navigation"
           style={{
             display: "none",
             background: "none",
@@ -89,21 +107,23 @@ export default function Navbar() {
       <AnimatePresence>
         {open && (
           <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
+            id="mobile-navigation"
+            initial={reducedMotion ? false : { height: 0, opacity: 0 }}
+            animate={reducedMotion ? undefined : { height: "auto", opacity: 1 }}
+            exit={reducedMotion ? undefined : { height: 0, opacity: 0 }}
+            transition={reducedMotion ? { duration: 0 } : undefined}
             style={{ overflow: "hidden", background: "var(--bg)", borderBottom: "2px solid var(--ink)" }}
           >
             <ul style={{ listStyle: "none", padding: "16px 0" }}>
               {links.map((l) => (
                 <li key={l.href}>
-                  <a
-                    href={l.href}
+                  <Link
+                    to={l.href}
                     onClick={() => setOpen(false)}
                     style={{ display: "block", padding: "12px 24px", color: "var(--ink)", fontSize: "1.1rem", fontWeight: 600 }}
                   >
                     {l.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>

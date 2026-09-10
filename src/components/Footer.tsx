@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export default function Footer() {
   return (
     <footer style={{ borderTop: "2px solid var(--ink)", padding: "40px 0", position: "relative", zIndex: 2, background: "var(--bg)" }}>
@@ -8,9 +10,9 @@ export default function Footer() {
         <span style={{ color: "var(--muted)", fontSize: "0.9rem", fontFamily: "var(--font-mono)" }}>
           © {new Date().getFullYear()} Ian Mattas. Crafted with React &amp; motion.
         </span>
-        <a href="#home" style={{ color: "var(--ink)", fontSize: "0.9rem", fontWeight: 600 }}>
+        <Link to="/#home" style={{ color: "var(--ink)", fontSize: "0.9rem", fontWeight: 600 }}>
           Back to top ↑
-        </a>
+        </Link>
       </div>
     </footer>
   );

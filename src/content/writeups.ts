@@ -1,3 +1,5 @@
+import { writeupIndex } from "./writeup-index.generated";
+
 export interface WriteupFrontmatter {
   title: string;
   date: string;
@@ -10,13 +12,15 @@ export interface WriteupFrontmatter {
 }
 
 export interface Writeup {
+  path: string;
+  writeupKind: "ctf" | "challenge";
   slug: string;
   ctfSlug: string;
   ctfTitle: string;
   title: string;
   date: string;
   order: number;
-  content: string;
+  loadContent: () => Promise<string>;
 }
 
 export interface CtfGroup {
@@ -25,11 +29,9 @@ export interface CtfGroup {
   writeups: Writeup[];
 }
 
-// Load every writeup as raw markdown text.
-const modules = import.meta.glob<string>("./writeups/**/index.mdx", {
+const contentModules = import.meta.glob<string>("./writeups/**/index.mdx", {
   query: "?raw",
   import: "default",
-  eager: true,
 });
 
 function parseFrontmatter(raw: string): { fm: Record<string, string>; body: string } {
@@ -47,28 +49,22 @@ function parseFrontmatter(raw: string): { fm: Record<string, string>; body: stri
   return { fm, body: text.slice(match[0].length) };
 }
 
-const all: Writeup[] = Object.entries(modules)
-  .map(([path, raw]) => {
-    const { fm, body } = parseFrontmatter(raw);
-    const parts = path.split("/");
-    const ctfSlug = parts[parts.length - 3] ?? "";
-    return {
-      slug: fm.slug ?? "",
-      ctfSlug: fm.ctfSlug ?? ctfSlug,
-      ctfTitle: fm.ctfTitle ?? ctfSlug,
-      title: fm.title ?? "",
-      date: fm.date ?? "",
-      order: Number(fm.order ?? 0),
-      content: body,
-    };
-  })
-  .filter((w) => w.slug && w.slug !== "writeup-template" && w.slug !== "writeups-index")
-  .filter((w) => !w.content.includes("No solve transcript was present"));
+const all: Writeup[] = writeupIndex.map((record) => ({
+  ...record,
+  loadContent: async () => {
+    const loader = contentModules[record.path];
+    if (!loader) throw new Error(`Missing writeup content: ${record.path}`);
+    return parseFrontmatter(await loader()).body;
+  },
+}));
+
+export const writeups: Writeup[] = all.sort((a, b) => (a.date < b.date ? 1 : -1));
+export const challengeWriteups = writeups.filter((w) => w.writeupKind === "challenge");
 
 // Group challenge writeups by CTF, sorted by order within each group.
 export const ctfGroups: CtfGroup[] = (() => {
   const map = new Map<string, CtfGroup>();
-  for (const w of all) {
+  for (const w of challengeWriteups) {
     if (!map.has(w.ctfSlug)) {
       map.set(w.ctfSlug, { slug: w.ctfSlug, title: w.ctfTitle, writeups: [] });
     }
@@ -78,8 +74,6 @@ export const ctfGroups: CtfGroup[] = (() => {
     .map((g) => ({ ...g, writeups: g.writeups.sort((a, b) => a.order - b.order) }))
     .sort((a, b) => a.title.localeCompare(b.title));
 })();
-
-export const writeups: Writeup[] = all.sort((a, b) => (a.date < b.date ? 1 : -1));
 
 export function getWriteup(slug: string): Writeup | undefined {
   return all.find((w) => w.slug === slug);

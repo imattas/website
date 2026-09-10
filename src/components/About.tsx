@@ -1,16 +1,30 @@
-import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import { motion, useReducedMotion } from "framer-motion";
 import Reveal from "./Reveal";
 import TiltCard from "./TiltCard";
 import { roadmap } from "../data";
+import { challengeWriteups } from "../content/writeups";
 
 const stats = [
   { value: "05", label: "Years reversing" },
-  { value: "200+", label: "Writeups published" },
+  { value: String(challengeWriteups.length), label: "Writeups published" },
   { value: "22", label: "Repositories" },
   { value: "02", label: "Security orgs" },
 ];
 
 export default function About() {
+  const reducedMotion = useReducedMotion();
+  const [openRoadmap, setOpenRoadmap] = useState<number | null>(null);
+  const [coarsePointer, setCoarsePointer] = useState(false);
+
+  useEffect(() => {
+    const media = window.matchMedia("(pointer: coarse)");
+    const update = () => setCoarsePointer(media.matches);
+    update();
+    media.addEventListener("change", update);
+    return () => media.removeEventListener("change", update);
+  }, []);
+
   return (
     <section id="about" className="section">
       <div className="container">
@@ -34,11 +48,11 @@ export default function About() {
           <Reveal delay={0.1}>
             <p style={{ color: "var(--ink-soft)", fontSize: "1.15rem", marginBottom: 16 }}>
               I'm Ian — a high school developer and aspiring red teamer from Ohio, five years deep
-              into reverse engineering. I’m the owner and captain of <a href="https://idktheflag.sh" target="_blank" rel="noreferrer" style={{ color: "var(--accent)", fontWeight: 600 }}>idktheflag</a> and
-              founded <a href="https://github.com/redsecc" target="_blank" rel="noreferrer" style={{ color: "var(--accent)", fontWeight: 600 }}>redsecc</a>.
+              into reverse engineering. I’m the owner and captain of <a href="https://idktheflag.sh" target="_blank" rel="noopener noreferrer" style={{ color: "var(--accent)", fontWeight: 600 }}>idktheflag</a> and
+              founded <a href="https://github.com/redsecc" target="_blank" rel="noopener noreferrer" style={{ color: "var(--accent)", fontWeight: 600 }}>redsecc</a>.
             </p>
             <p style={{ color: "var(--muted)", fontSize: "1.05rem" }}>
-              My world is reverse engineering, malware analysis, binary obfuscation, symbolic
+              My world is reverse engineering, binary exploitation, malware analysis, binary obfuscation, symbolic
               execution, and cryptography. I live in the low-level — disassemblers, debuggers, and
               the guts of how software actually runs.
             </p>
@@ -52,10 +66,10 @@ export default function About() {
             {stats.map((s, i) => (
               <TiltCard key={s.label} max={8}>
                 <motion.div
-                  initial={{ opacity: 0, scale: 0.8 }}
+                  initial={reducedMotion ? false : { opacity: 0, scale: 0.8 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: i * 0.1 }}
+                  transition={reducedMotion ? { duration: 0 } : { duration: 0.5, delay: i * 0.1 }}
                   className="stat-card"
                 >
                   <div
@@ -80,15 +94,22 @@ export default function About() {
           <span className="section-label">Now</span>
           <p><strong>Current focus:</strong> building reliable low-level tooling, writing clearer security research, and turning CTF experiments into reusable systems.</p>
         </div>
-        <div className="roadmap" aria-label="Roadmap">
-          <p className="section-label">Roadmap</p>
+        <div className="roadmap" role="region" aria-labelledby="roadmap-title">
+          <p id="roadmap-title" className="section-label">Roadmap</p>
           <div className="roadmap-track">
             {roadmap.map((item, index) => (
-              <div className="roadmap-point" key={item.title}>
-                <button className="roadmap-marker" type="button" aria-label={`${item.label}: ${item.title}`}>
-                  <span>{String(index + 1).padStart(2, "0")}</span>
+              <div className={`roadmap-point${coarsePointer || openRoadmap === index ? " is-open" : ""}`} key={item.title}>
+                <button
+                  className="roadmap-marker"
+                  type="button"
+                  aria-expanded={coarsePointer || openRoadmap === index}
+                  aria-controls={`roadmap-card-${index}`}
+                  aria-label={`${item.label}: ${item.title}`}
+                  onClick={() => setOpenRoadmap(openRoadmap === index ? null : index)}
+                >
+                  <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
                 </button>
-                <div className="roadmap-card">
+                <div id={`roadmap-card-${index}`} className="roadmap-card">
                   <span className="roadmap-label">{item.label}</span>
                   <strong>{item.title}</strong>
                   <p>{item.detail}</p>

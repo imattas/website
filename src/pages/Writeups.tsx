@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { AnimatePresence, motion } from "framer-motion";
-import { ctfGroups, writeups } from "../content/writeups";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { ctfGroups, challengeWriteups } from "../content/writeups";
 import Reveal from "../components/Reveal";
+import { applyDocumentMeta } from "../documentMeta";
 
 function formatDate(date: string): string {
   return new Date(date + "T00:00:00").toLocaleDateString("en-US", {
@@ -13,11 +14,20 @@ function formatDate(date: string): string {
 }
 
 export default function Writeups() {
+  const reducedMotion = useReducedMotion();
   const [open, setOpen] = useState<string | null>(ctfGroups[0]?.slug ?? null);
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("all");
+
+  useEffect(() => {
+    return applyDocumentMeta({
+      title: "CTF Writeups — Ian Mattas",
+      description: "Reproducible CTF writeups by Ian Mattas covering reversing, pwn, crypto, web, and forensics.",
+      path: "/writeups",
+    });
+  }, []);
   const total = ctfGroups.reduce((n, g) => n + g.writeups.length, 0);
-  const categories = Array.from(new Set(writeups.map((w) => w.ctfTitle))).sort();
+  const categories = Array.from(new Set(challengeWriteups.map((w) => w.ctfTitle))).sort();
   const normalizedQuery = query.trim().toLowerCase();
   const filteredGroups = ctfGroups
     .map((group) => ({
@@ -28,22 +38,29 @@ export default function Writeups() {
       ),
     }))
     .filter((group) => group.writeups.length > 0);
+  const filteredCount = filteredGroups.reduce((count, group) => count + group.writeups.length, 0);
+
+  useEffect(() => {
+    if (filteredGroups.length > 0 && !filteredGroups.some((group) => group.slug === open)) {
+      setOpen(filteredGroups[0].slug);
+    }
+  }, [category, normalizedQuery]);
 
   return (
     <section className="section" style={{ minHeight: "80vh" }}>
       <div className="container">
         <Reveal>
           <p className="section-label">05 — Writeups</p>
-          <h2 className="section-title">
+          <h1 className="section-title">
             CTF <span className="accent">writeups</span>
-          </h2>
+          </h1>
           <p className="section-sub">
             {total} writeups across {ctfGroups.length} competitions — reversing, pwn, crypto, web,
             forensics, and more.
           </p>
         </Reveal>
 
-        <div className="writeup-filters" aria-label="Filter writeups">
+        <div className="writeup-filters" role="search" aria-label="Filter writeups">
           <label className="sr-only" htmlFor="writeup-search">Search writeups</label>
           <input
             id="writeup-search"
@@ -59,6 +76,9 @@ export default function Writeups() {
             {categories.map((name) => <option key={name} value={name}>{name}</option>)}
           </select>
         </div>
+        <p className="sr-only" aria-live="polite">
+          {filteredCount} matching writeup{filteredCount === 1 ? "" : "s"}.
+        </p>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 16, marginTop: 56 }}>
           {filteredGroups.map((group, gi) => {
@@ -112,8 +132,8 @@ export default function Writeups() {
                       </span>
                     </div>
                     <motion.span
-                      animate={{ rotate: isOpen ? 45 : 0 }}
-                      transition={{ duration: 0.2 }}
+                      animate={{ rotate: reducedMotion ? 0 : (isOpen ? 45 : 0) }}
+                      transition={reducedMotion ? { duration: 0 } : { duration: 0.2 }}
                       style={{
                         fontFamily: "var(--font-display)",
                         fontSize: "1.8rem",
@@ -130,10 +150,10 @@ export default function Writeups() {
                     {isOpen && (
                       <motion.div
                         id={`writeups-${group.slug}`}
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: "auto", opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                        initial={reducedMotion ? false : { height: 0, opacity: 0 }}
+                        animate={reducedMotion ? undefined : { height: "auto", opacity: 1 }}
+                        exit={reducedMotion ? undefined : { height: 0, opacity: 0 }}
+                        transition={reducedMotion ? { duration: 0 } : { duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                         style={{ overflow: "hidden" }}
                       >
                         <div

@@ -13,6 +13,8 @@ export default function CustomCursor() {
     const dot = dotRef.current;
     const ring = ringRef.current;
     if (!dot || !ring) return;
+    const shouldDisable = window.matchMedia("(pointer: coarse), (prefers-reduced-motion: reduce)").matches;
+    if (shouldDisable) return;
 
     let mx = 0;
     let my = 0;
@@ -25,9 +27,10 @@ export default function CustomCursor() {
       my = e.clientY;
       dot.style.transform = `translate(${mx}px, ${my}px) translate(-50%, -50%)`;
 
-      const target = e.target as HTMLElement;
+      const target = e.target;
       setHovering(
-        !!target.closest("a, button, input, textarea, .project-card, .stat-card, .skill-card, .social-pill")
+        target instanceof Element &&
+          !!target.closest("a, button, input, textarea, .project-card, .stat-card, .skill-card, .social-pill")
       );
     };
 
@@ -44,6 +47,7 @@ export default function CustomCursor() {
     return () => {
       window.removeEventListener("mousemove", onMove);
       cancelAnimationFrame(raf);
+      setHovering(false);
     };
   }, []);
 

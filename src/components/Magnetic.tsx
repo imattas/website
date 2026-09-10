@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { motion, useMotionValue, useSpring } from "framer-motion";
+import { motion, useMotionValue, useSpring, useReducedMotion } from "framer-motion";
 
 interface MagneticProps {
   children: React.ReactNode;
@@ -12,6 +12,7 @@ interface MagneticProps {
  * and springs back when the cursor leaves.
  */
 export default function Magnetic({ children, strength = 0.4, className }: MagneticProps) {
+  const reducedMotion = useReducedMotion();
   const ref = useRef<HTMLDivElement>(null);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -19,6 +20,7 @@ export default function Magnetic({ children, strength = 0.4, className }: Magnet
   const sy = useSpring(y, { stiffness: 200, damping: 15 });
 
   const onMove = (e: React.MouseEvent) => {
+    if (reducedMotion) return;
     const el = ref.current;
     if (!el) return;
     const rect = el.getBoundingClientRect();
@@ -29,6 +31,7 @@ export default function Magnetic({ children, strength = 0.4, className }: Magnet
   };
 
   const onLeave = () => {
+    if (reducedMotion) return;
     x.set(0);
     y.set(0);
   };

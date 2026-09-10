@@ -1,9 +1,10 @@
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { projects } from "../data";
 import Reveal from "./Reveal";
 import TiltCard from "./TiltCard";
 
 export default function Work() {
+  const reducedMotion = useReducedMotion();
   return (
     <section id="work" className="section" style={{ background: "var(--bg-soft)", borderTop: "2px solid var(--ink)", borderBottom: "2px solid var(--ink)" }}>
       <div className="container">
@@ -28,7 +29,9 @@ export default function Work() {
               <TiltCard max={6}>
                 <motion.a
                   href={p.link}
-                  whileHover={{ y: -6 }}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  whileHover={reducedMotion ? undefined : { y: -6 }}
                   className="project-card"
                   style={{ display: "block", position: "relative" }}
                 >

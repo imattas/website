@@ -34,7 +34,7 @@ export default function Contact() {
         <Reveal delay={0.3}>
           <div className="contact-links">
             {socials.filter((s) => s.label !== "Website" && s.label !== "Email").map((s) => (
-              <a key={s.label} href={s.href} target="_blank" rel="noreferrer" className="social-pill" style={{ borderColor: "var(--bg)", color: "var(--bg)", background: "transparent" }}>
+              <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" className="social-pill" style={{ borderColor: "var(--bg)", color: "var(--bg)", background: "transparent" }}>
                 {s.label} <span aria-hidden="true">↗</span>
               </a>
             ))}

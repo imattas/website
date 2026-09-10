@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useReducedMotion } from "framer-motion";
 
 const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&*";
 
@@ -15,11 +16,17 @@ interface ScrambleTextProps {
  * Re-triggers when it scrolls into view.
  */
 export default function ScrambleText({ text, className, as = "span", speed = 30, style }: ScrambleTextProps) {
+  const reducedMotion = useReducedMotion();
   const ref = useRef<HTMLElement>(null);
   const [display, setDisplay] = useState(text);
   const started = useRef(false);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
+    if (reducedMotion) {
+      setDisplay(text);
+      return;
+    }
     const el = ref.current;
     if (!el) return;
 
@@ -29,7 +36,7 @@ export default function ScrambleText({ text, className, as = "span", speed = 30,
           started.current = true;
           let frame = 0;
           const total = text.length;
-          const interval = setInterval(() => {
+          intervalRef.current = setInterval(() => {
             frame++;
             const progress = frame / (total + 8);
             const revealCount = Math.floor(progress * total);
@@ -45,7 +52,8 @@ export default function ScrambleText({ text, className, as = "span", speed = 30,
             }
             setDisplay(out);
             if (revealCount >= total) {
-              clearInterval(interval);
+              if (intervalRef.current) clearInterval(intervalRef.current);
+              intervalRef.current = null;
               setDisplay(text);
             }
           }, speed);
@@ -55,12 +63,18 @@ export default function ScrambleText({ text, className, as = "span", speed = 30,
     );
 
     observer.observe(el);
-    return () => observer.disconnect();
-  }, [text, speed]);
+    return () => {
+      observer.disconnect();
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
+    };
+  }, [reducedMotion, text, speed]);
 
   const Tag = as;
   return (
-    <Tag ref={ref as never} className={className} style={style}>
+    <Tag ref={ref as never} className={className} style={style} aria-label={text}>
       {display}
     </Tag>
   );

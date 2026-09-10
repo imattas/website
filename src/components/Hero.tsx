@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
+import { Link } from "react-router-dom";
 import Magnetic from "./Magnetic";
 import ScrambleText from "./ScrambleText";
 import GlitchText from "./GlitchText";
@@ -17,12 +18,14 @@ const item = {
 const roles = ["Reverse Engineer", "Security Researcher", "Malware Analyst", "CTF Player"];
 
 export default function Hero() {
+  const reducedMotion = useReducedMotion();
   const [roleIndex, setRoleIndex] = useState(0);
 
   useEffect(() => {
+    if (reducedMotion) return;
     const id = setInterval(() => setRoleIndex((i) => (i + 1) % roles.length), 3200);
     return () => clearInterval(id);
-  }, []);
+  }, [reducedMotion]);
   return (
     <section
       id="home"
@@ -37,9 +40,9 @@ export default function Hero() {
     >
       {/* Big background word */}
       <motion.div
-        initial={{ opacity: 0, scale: 1.2 }}
+        initial={reducedMotion ? false : { opacity: 0, scale: 1.2 }}
         animate={{ opacity: 0.06, scale: 1 }}
-        transition={{ duration: 1.4, ease: "easeOut" }}
+        transition={reducedMotion ? { duration: 0 } : { duration: 1.4, ease: "easeOut" }}
         style={{
           position: "absolute",
           right: "-2%",
@@ -59,10 +62,10 @@ export default function Hero() {
       </motion.div>
 
       <motion.div
-        className="container"
-        variants={container}
-        initial="hidden"
-        animate="show"
+      className="container hero-content"
+        variants={reducedMotion ? undefined : container}
+        initial={reducedMotion ? false : "hidden"}
+        animate={reducedMotion ? undefined : "show"}
         style={{ position: "relative", zIndex: 2 }}
       >
         <motion.p variants={item} className="section-label" style={{ marginBottom: 28 }}>
@@ -71,6 +74,7 @@ export default function Hero() {
 
         <motion.h1
           variants={item}
+          aria-label="Ian Mattas"
           style={{ fontSize: "clamp(3.2rem, 10vw, 8rem)", fontWeight: 800, textTransform: "uppercase" }}
         >
           Ian
@@ -98,12 +102,12 @@ export default function Hero() {
 
         <motion.div variants={item} style={{ display: "flex", gap: 20, marginTop: 44, flexWrap: "wrap" }}>
           <Magnetic>
-            <a href="/writeups" className="btn btn-primary">
+            <Link to="/writeups" className="btn btn-primary">
               View Writeups →
-            </a>
+            </Link>
           </Magnetic>
           <Magnetic>
-            <a href="https://github.com/imattas" target="_blank" rel="noreferrer" className="btn btn-ghost">
+            <a href="https://github.com/imattas" target="_blank" rel="noopener noreferrer" className="btn btn-ghost">
               GitHub ↗
             </a>
           </Magnetic>
@@ -112,14 +116,14 @@ export default function Hero() {
 
       {/* Scroll hint */}
       <motion.div
-        initial={{ opacity: 0 }}
+        initial={reducedMotion ? false : { opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.2 }}
+        transition={reducedMotion ? { duration: 0 } : { delay: 1.2 }}
         style={{ position: "absolute", bottom: 32, left: "50%", transform: "translateX(-50%)", zIndex: 2 }}
       >
         <motion.div
-          animate={{ y: [0, 12, 0] }}
-          transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
+          animate={reducedMotion ? { y: 0 } : { y: [0, 12, 0] }}
+          transition={reducedMotion ? { duration: 0 } : { duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
           style={{
             fontFamily: "var(--font-mono)",
             fontSize: "0.8rem",

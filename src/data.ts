@@ -110,6 +110,7 @@ export const skills: Skill[] = [
 
 export const skillGroups: SkillGroup[] = [
   { title: "Reverse engineering", description: "Understanding software behavior when the source is missing, misleading, or only part of the story.", tools: ["Ghidra", "IDA", "Binary Ninja", "WinDbg", "x64dbg"], color: "#ff4d00" },
+  { title: "Binary exploitation", description: "Analyzing memory corruption, binary protections, and control-flow behavior to understand how native programs fail.", tools: ["GDB", "pwndbg", "pwntools", "ELF", "ROP", "Heap internals"], color: "#c6f432" },
   { title: "Malware analysis", description: "Following execution, persistence, and communication paths to separate behavior from assumptions.", tools: ["Static analysis", "Dynamic analysis", "Debuggers", "YARA", "Sandboxing"], color: "#2f6bff" },
   { title: "Systems programming", description: "Building close to the machine, from boot paths to memory, concurrency, and execution.", tools: ["Kernels", "Bootloaders", "Windows", "Linux", "Memory", "Concurrency"], color: "#2f6bff" },
   { title: "Security research", description: "Tracing attack surface, validating behavior, and documenting conclusions that hold up to scrutiny.", tools: ["Binary analysis", "Cryptography", "Fuzzing", "Threat modeling", "Vulnerability research"], color: "#ff4d00" },
