@@ -103,6 +103,9 @@ for (const file of await collectFiles(root)) {
   if (!fields.ctfSlug || !fields.ctfTitle || !fields.title?.trim()) {
     throw new Error(`Incomplete writeup metadata: ${fields.slug}`);
   }
+  if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(fields.ctfSlug)) {
+    throw new Error(`Invalid CTF slug for ${fields.slug}: ${fields.ctfSlug}`);
+  }
   if (fields.writeupKind !== "ctf" && fields.writeupKind !== "challenge") {
     throw new Error(`Invalid writeup kind for ${fields.slug}: ${fields.writeupKind ?? "missing"}`);
   }
