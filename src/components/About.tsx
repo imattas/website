@@ -56,7 +56,7 @@ export default function About() {
               execution, and cryptography. I live in the low-level — disassemblers, debuggers, and
               the guts of how software actually runs.
             </p>
-            <div className="availability-note" aria-label="Current availability">
+            <div className="availability-note">
               <span className="availability-dot" />
               Open to interesting security, systems, and research collaborations.
             </div>
