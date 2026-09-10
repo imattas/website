@@ -27,6 +27,7 @@ export interface Writeup {
 export interface CtfGroup {
   slug: string;
   title: string;
+  overview?: Writeup;
   writeups: Writeup[];
 }
 
@@ -57,14 +58,15 @@ const all: Writeup[] = writeupIndex.map((record) => ({
 export const writeups: Writeup[] = all.sort((a, b) => (a.date < b.date ? 1 : -1));
 export const challengeWriteups = writeups.filter((w) => w.writeupKind === "challenge");
 
-// Group challenge writeups by CTF, sorted by order within each group.
+// Group challenge writeups by CTF, retaining each competition overview.
 export const ctfGroups: CtfGroup[] = (() => {
   const map = new Map<string, CtfGroup>();
-  for (const w of challengeWriteups) {
+  for (const w of writeups) {
     if (!map.has(w.ctfSlug)) {
       map.set(w.ctfSlug, { slug: w.ctfSlug, title: w.ctfTitle, writeups: [] });
     }
-    map.get(w.ctfSlug)!.writeups.push(w);
+    if (w.writeupKind === "ctf") map.get(w.ctfSlug)!.overview = w;
+    else map.get(w.ctfSlug)!.writeups.push(w);
   }
   return Array.from(map.values())
     .map((g) => ({ ...g, writeups: g.writeups.sort((a, b) => a.order - b.order) }))

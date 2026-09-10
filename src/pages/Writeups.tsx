@@ -219,6 +219,21 @@ export default function Writeups() {
                               </span>
                             </Link>
                           ))}
+                          {group.overview && (
+                            <Link
+                              to={`/writeups/${group.overview.slug}`}
+                              style={{
+                                alignSelf: "flex-start",
+                                color: "var(--accent)",
+                                fontFamily: "var(--font-mono)",
+                                fontSize: "0.8rem",
+                                fontWeight: 600,
+                                marginTop: 6,
+                              }}
+                            >
+                              Read the competition overview <span aria-hidden="true">→</span>
+                            </Link>
+                          )}
                         </div>
                       </motion.div>
                     )}
