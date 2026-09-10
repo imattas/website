@@ -14,7 +14,11 @@ function parseFrontmatter(raw) {
   if (!match) return { fields, body: text };
   for (const line of match[1].split("\n")) {
     const field = line.match(/^([A-Za-z0-9_-]+):\s*(.*)$/);
-    if (field) fields[field[1]] = field[2].replace(/^"(.*)"$/, "$1").trim();
+    if (!field) continue;
+    if (Object.hasOwn(fields, field[1])) {
+      throw new Error(`Duplicate frontmatter field: ${field[1]}`);
+    }
+    fields[field[1]] = field[2].replace(/^"(.*)"$/, "$1").trim();
   }
   return { fields, body: text.slice(match[0].length) };
 }
