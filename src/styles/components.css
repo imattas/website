@@ -245,7 +245,6 @@
   resize: vertical;
 }
 .field:focus {
-  outline: none;
   box-shadow: var(--shadow-sm);
   transform: translate(-2px, -2px);
 }
