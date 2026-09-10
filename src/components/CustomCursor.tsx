@@ -14,14 +14,14 @@ export default function CustomCursor() {
     const dot = dotRef.current;
     const ring = ringRef.current;
     if (!dot || !ring) return;
-    const shouldDisable = window.matchMedia("(pointer: coarse), (prefers-reduced-motion: reduce)").matches;
-    if (shouldDisable) return;
+    const media = window.matchMedia("(pointer: coarse), (prefers-reduced-motion: reduce)");
 
     let mx = 0;
     let my = 0;
     let rx = 0;
     let ry = 0;
     let raf = 0;
+    let listening = false;
 
     const onMove = (e: MouseEvent) => {
       mx = e.clientX;
@@ -45,13 +45,30 @@ export default function CustomCursor() {
       raf = requestAnimationFrame(tick);
     };
 
-    window.addEventListener("mousemove", onMove);
-    raf = requestAnimationFrame(tick);
-
-    return () => {
+    const stop = () => {
+      if (!listening) return;
       window.removeEventListener("mousemove", onMove);
       cancelAnimationFrame(raf);
+      raf = 0;
+      listening = false;
       hoveringRef.current = false;
+      setHovering(false);
+    };
+
+    const start = () => {
+      if (media.matches || listening) return;
+      listening = true;
+      window.addEventListener("mousemove", onMove);
+      raf = requestAnimationFrame(tick);
+    };
+
+    const onMediaChange = () => (media.matches ? stop() : start());
+    media.addEventListener("change", onMediaChange);
+    start();
+
+    return () => {
+      media.removeEventListener("change", onMediaChange);
+      stop();
     };
   }, []);
 
