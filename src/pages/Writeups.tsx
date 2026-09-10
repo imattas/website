@@ -96,7 +96,7 @@ export default function Writeups() {
                   <button
                     onClick={() => setOpen(isOpen ? null : group.slug)}
                     aria-expanded={isOpen}
-                    aria-controls={`writeups-${group.slug}`}
+                    aria-controls={isOpen ? `writeups-${group.slug}` : undefined}
                     style={{
                       width: "100%",
                       display: "flex",
