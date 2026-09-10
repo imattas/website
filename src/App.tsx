@@ -84,10 +84,10 @@ function ScrollToTop() {
         target.focus({ preventScroll: true });
       }
       target.scrollIntoView();
-      if (!settleObserver) {
-        const article = target.closest("article");
-        if (article) {
-          settleObserver = new ResizeObserver(() => target.scrollIntoView());
+        if (!settleObserver && typeof ResizeObserver !== "undefined") {
+          const article = target.closest("article");
+          if (article) {
+            settleObserver = new ResizeObserver(() => target.scrollIntoView());
           settleObserver.observe(article);
           settleTimeout = window.setTimeout(() => {
             settleObserver?.disconnect();
@@ -101,6 +101,7 @@ function ScrollToTop() {
     frame = requestAnimationFrame(() => {
       if (hash) {
         if (scrollToHash()) return;
+        if (typeof MutationObserver === "undefined") return;
         observer = new MutationObserver(() => {
           if (scrollToHash()) {
             observer?.disconnect();

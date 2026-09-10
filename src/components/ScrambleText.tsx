@@ -30,6 +30,7 @@ export default function ScrambleText({ text, className, as = "span", speed = 30,
     }
     const el = ref.current;
     if (!el) return;
+    if (typeof IntersectionObserver === "undefined") return;
 
     const observer = new IntersectionObserver(
       (entries) => {
