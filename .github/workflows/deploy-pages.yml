@@ -36,6 +36,9 @@ jobs:
       - name: Preserve SPA routes
         run: cp dist/index.html dist/404.html
 
+      - name: Mark fallback as non-indexable
+        run: sed -i 's/name="robots" content="index, follow, max-image-preview:large"/name="robots" content="noindex, follow"/' dist/404.html
+
       - name: Configure Pages
         uses: actions/configure-pages@v6
 
