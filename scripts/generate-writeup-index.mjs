@@ -37,6 +37,44 @@ function parseOrder(value, slug) {
   return order;
 }
 
+function markdownLines(body) {
+  const lines = body.split("\n");
+  const content = [];
+  let fence = null;
+  for (const line of lines) {
+    const fenceMatch = line.match(/^\s{0,3}(`{3,}|~{3,})/);
+    if (fenceMatch) {
+      const marker = fenceMatch[1][0];
+      if (!fence) fence = marker;
+      else if (fence === marker) fence = null;
+      continue;
+    }
+    if (!fence && !/^(?: {4}|\t)/.test(line)) content.push(line);
+  }
+  return content;
+}
+
+function validateDocumentStructure(body, slug) {
+  const lines = markdownLines(body);
+  let h1Count = 0;
+  let previousHeading = 1;
+  for (const line of lines) {
+    const heading = line.match(/^(#{1,6})\s+(.+?)\s*#*\s*$/);
+    if (heading) {
+      const depth = heading[1].length;
+      if (depth === 1) h1Count += 1;
+      if (depth > previousHeading + 1) {
+        throw new Error(`Skipped heading level in ${slug}: h${previousHeading} to h${depth}`);
+      }
+      previousHeading = depth;
+    }
+    for (const image of line.matchAll(/!\[([^\]]*)\]\(/g)) {
+      if (!image[1].trim()) throw new Error(`Missing image alt text in ${slug}`);
+    }
+  }
+  if (h1Count !== 1) throw new Error(`Expected exactly one H1 in ${slug}, found ${h1Count}`);
+}
+
 async function collectFiles(directory) {
   const entries = await fs.readdir(directory, { withFileTypes: true });
   const files = [];
@@ -70,6 +108,7 @@ for (const file of await collectFiles(root)) {
   }
   const date = parseDate(fields.date, fields.slug);
   const order = parseOrder(fields.order, fields.slug);
+  validateDocumentStructure(body, fields.slug);
   slugs.add(fields.slug);
   const relative = path.relative(path.resolve("src/content"), file).split(path.sep).join("/");
   const parts = relative.split("/");
