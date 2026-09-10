@@ -697,7 +697,7 @@ body.has-custom-cursor .cursor-ring { display: block; }
   .mdx-content pre { max-width: 100%; font-size: 0.78rem; padding: 14px; }
   .mdx-content table { display: block; overflow-x: auto; white-space: nowrap; }
   .writeup-row { min-width: 0; }
-  .writeup-row h4 { overflow-wrap: anywhere; }
+.writeup-row h3 { overflow-wrap: anywhere; }
   .menu-btn { min-width: 48px; min-height: 48px; padding: 8px; }
 }
 

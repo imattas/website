@@ -115,7 +115,7 @@ export default function Writeups() {
                     <span style={{ display: "flex", alignItems: "baseline", gap: 16, flexWrap: "wrap" }}>
                       <span
                         role="heading"
-                        aria-level={3}
+                        aria-level={2}
                         style={{
                           fontSize: "1.5rem",
                           textTransform: "uppercase",
@@ -186,7 +186,7 @@ export default function Writeups() {
                               }}
                             >
                               <div style={{ flex: 1, minWidth: 200 }}>
-                                <h4
+                                <h3
                                   style={{
                                     fontFamily: "var(--font-display)",
                                     fontSize: "1rem",
@@ -195,7 +195,7 @@ export default function Writeups() {
                                   }}
                                 >
                                   {w.title}
-                                </h4>
+                                </h3>
                                 <span
                                   style={{
                                     fontFamily: "var(--font-mono)",
