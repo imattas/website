@@ -151,7 +151,6 @@ const linkKey = (value) => decodeURIComponent(value)
   .replace(/[^a-z0-9]+/gi, "")
   .toLowerCase();
 const headingKey = (value) => value
-  .replace(/[`*_]/g, "")
   .toLowerCase()
   .trim()
   .replace(/[^a-z0-9]+/g, "-")
