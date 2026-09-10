@@ -664,7 +664,7 @@
   .hero-content { min-width: 0; padding-top: 40px; padding-bottom: 64px; }
   .grain { animation: none; }
   .section-title { font-size: clamp(2rem, 10vw, 3.4rem); }
-  .projects-grid, .skills-grid { grid-template-columns: 1fr !important; }
+  .projects-grid, .skills-grid { grid-template-columns: minmax(0, 1fr) !important; }
   .stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 12px !important; }
   .contact-fields { grid-template-columns: 1fr !important; gap: 16px !important; }
   .project-card > div:first-child { height: 170px !important; }
