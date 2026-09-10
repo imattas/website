@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { motion, useMotionValue, useSpring, useTransform, useReducedMotion } from "framer-motion";
 
 interface TiltCardProps {
@@ -23,6 +23,13 @@ export default function TiltCard({ children, className, max = 10 }: TiltCardProp
   const glare = useTransform([glareX, glareY], ([gx, gy]) => {
     return `radial-gradient(circle at ${gx} ${gy}, rgba(255,255,255,0.35), transparent 60%)`;
   });
+
+  useEffect(() => {
+    if (reducedMotion) {
+      px.set(0.5);
+      py.set(0.5);
+    }
+  }, [reducedMotion, px, py]);
 
   const onMove = (e: React.PointerEvent) => {
     if (reducedMotion || e.pointerType !== "mouse") return;

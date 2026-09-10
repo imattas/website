@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { motion, useMotionValue, useSpring, useReducedMotion } from "framer-motion";
 
 interface MagneticProps {
@@ -18,6 +18,13 @@ export default function Magnetic({ children, strength = 0.4, className }: Magnet
   const y = useMotionValue(0);
   const sx = useSpring(x, { stiffness: 200, damping: 15 });
   const sy = useSpring(y, { stiffness: 200, damping: 15 });
+
+  useEffect(() => {
+    if (reducedMotion) {
+      x.set(0);
+      y.set(0);
+    }
+  }, [reducedMotion, x, y]);
 
   const onMove = (e: React.PointerEvent) => {
     if (reducedMotion || e.pointerType !== "mouse") return;
