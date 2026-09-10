@@ -134,6 +134,7 @@ export default function Writeups() {
                       </span>
                     </span>
                     <motion.span
+                      aria-hidden="true"
                       animate={{ rotate: reducedMotion ? 0 : (isOpen ? 45 : 0) }}
                       transition={reducedMotion ? { duration: 0 } : { duration: 0.2 }}
                       style={{
@@ -205,6 +206,7 @@ export default function Writeups() {
                                 </span>
                               </div>
                               <span
+                                aria-hidden="true"
                                 style={{
                                   fontFamily: "var(--font-display)",
                                   fontWeight: 800,
