@@ -36,8 +36,9 @@ body {
   line-height: 1.5;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
-  cursor: none;
 }
+
+body.has-custom-cursor { cursor: none; }
 
 img,
 svg,

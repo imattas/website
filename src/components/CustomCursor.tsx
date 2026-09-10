@@ -51,6 +51,7 @@ export default function CustomCursor() {
       cancelAnimationFrame(raf);
       raf = 0;
       listening = false;
+      document.body.classList.remove("has-custom-cursor");
       hoveringRef.current = false;
       setHovering(false);
     };
@@ -58,6 +59,7 @@ export default function CustomCursor() {
     const start = () => {
       if (media.matches || listening) return;
       listening = true;
+      document.body.classList.add("has-custom-cursor");
       window.addEventListener("mousemove", onMove);
       raf = requestAnimationFrame(tick);
     };
