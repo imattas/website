@@ -6,6 +6,11 @@ const sitemap = await fs.readFile(path.resolve("public/sitemap.xml"), "utf8");
 const routes = [...sitemap.matchAll(/<loc>https:\/\/ianmattas\.com(\/[^<]*)<\/loc>/g)]
   .map((match) => decodeURIComponent(match[1]));
 
+if (routes.length === 0) throw new Error("Sitemap contains no routes");
+if (new Set(routes).size !== routes.length) throw new Error("Sitemap contains duplicate routes");
+
+const escapeRegex = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
 function required(value, pattern, message) {
   if (!pattern.test(value)) throw new Error(message);
 }
@@ -20,7 +25,8 @@ for (const route of routes) {
   } catch {
     throw new Error(`Missing static route output: ${route}`);
   }
-  required(html, new RegExp(`<link rel="canonical" href="https:\\/\\/ianmattas\\.com${route.replaceAll("/", "\\/")}" \\/>`), `Invalid canonical for route: ${route}`);
+  const canonical = `https://ianmattas.com${route}`;
+  required(html, new RegExp(`<link rel="canonical" href="${escapeRegex(canonical)}" \\/>`), `Invalid canonical for route: ${route}`);
   required(html, /<meta name="robots" content="index, follow, max-image-preview:large" \/>/, `Missing indexable robots metadata: ${route}`);
 }
 
