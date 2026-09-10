@@ -136,18 +136,28 @@ export default function WriteupPost() {
   const { slug } = useParams<{ slug: string }>();
   const writeup = slug ? getWriteup(slug) : undefined;
   const [content, setContent] = useState<string | null>(null);
+  const [contentSlug, setContentSlug] = useState<string | null>(null);
   const [loadError, setLoadError] = useState(false);
+  const [errorSlug, setErrorSlug] = useState<string | null>(null);
   const articleRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     let active = true;
     setContent(null);
+    setContentSlug(null);
     setLoadError(false);
+    setErrorSlug(null);
     if (writeup) {
       writeup.loadContent().then((loaded) => {
-        if (active) setContent(loaded);
+        if (active) {
+          setContent(loaded);
+          setContentSlug(writeup.slug);
+        }
       }).catch(() => {
-        if (active) setLoadError(true);
+        if (active) {
+          setLoadError(true);
+          setErrorSlug(writeup.slug);
+        }
       });
     }
     return () => {
@@ -165,7 +175,7 @@ export default function WriteupPost() {
       counts.set(base, count + 1);
       heading.id = count ? `${base}-${count + 1}` : base;
     }
-  }, [content]);
+  }, [content, contentSlug, writeup]);
 
   useEffect(() => {
     if (!writeup) return;
@@ -183,8 +193,8 @@ export default function WriteupPost() {
   }, [writeup]);
 
   if (!writeup) return <NotFound />;
-  if (loadError) return <section className="section route-loading" role="alert">This writeup could not be loaded.</section>;
-  if (content === null) return <section className="section route-loading" role="status">Loading writeup…</section>;
+  if (loadError && errorSlug === writeup.slug) return <section className="section route-loading" role="alert">This writeup could not be loaded.</section>;
+  if (content === null || contentSlug !== writeup.slug) return <section className="section route-loading" role="status">Loading writeup…</section>;
 
   const { ctfTitle, date } = writeup;
   const ctfWriteups = ctfGroups.find((group) => group.slug === writeup.ctfSlug)?.writeups ?? [];
