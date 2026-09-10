@@ -142,7 +142,12 @@ for (const record of records) {
 }
 for (const record of records) {
   const raw = await fs.readFile(path.resolve("src/content", record.path.slice(2)), "utf8");
-  const headingIds = new Set([...raw.matchAll(/^#{1,6}\s+(.+)$/gm)].map((match) => headingKey(match[1])));
+  const headingIds = new Set(
+    markdownLines(body)
+      .map((line) => line.match(/^#{1,6}\s+(.+?)\s*#*\s*$/))
+      .filter(Boolean)
+      .map((match) => headingKey(match[1]))
+  );
   for (const match of raw.matchAll(/\]\(((?:\.\.\/|\.\/)+([^?#)]+\.mdx))([?#][^)]*)?\)/gi)) {
     const targetKey = linkKey(match[2]);
     const candidates = recordsByCtf.get(record.ctfSlug) ?? [];
