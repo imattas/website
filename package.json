@@ -8,7 +8,7 @@
     "predev": "node scripts/generate-writeup-index.mjs",
     "build": "tsc -b && vite build",
     "prebuild": "node scripts/generate-writeup-index.mjs",
-    "postbuild": "node scripts/create-route-entrypoints.mjs",
+    "postbuild": "node scripts/create-route-entrypoints.mjs && node scripts/create-pages-fallback.mjs",
     "preview": "vite preview"
   },
   "dependencies": {

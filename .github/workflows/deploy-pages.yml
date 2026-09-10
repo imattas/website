@@ -36,9 +36,6 @@ jobs:
       - name: Audit dependencies
         run: npm audit --audit-level=moderate
 
-      - name: Preserve SPA routes
-        run: node scripts/create-pages-fallback.mjs
-
       - name: Configure Pages
         uses: actions/configure-pages@v6
 
