@@ -61,7 +61,7 @@ View page source (Ctrl+U) and look for:
 
 Several common vulnerabilities exist when applications use hashing for authentication:
 
-#### 1. PHP Type Juggling / Magic Hashes
+### 1. PHP Type Juggling / Magic Hashes
 If the application is written in PHP and uses loose comparison (`==`) to compare hash values, it is vulnerable to "magic hash" attacks:
 - In PHP, strings matching `0+e[0-9]+` are interpreted as zero in scientific notation
 - If `md5("some_input")` produces a hash like `0e462097431906509019562988736854`, PHP's loose comparison treats it as `0`
@@ -72,18 +72,18 @@ Known magic hash inputs for MD5:
 - `QNKCDZO` -> `0e830400451993494058024219903391`
 - `aabg7XSs` -> `0e087386482136013740957780965295`
 
-#### 2. Hash Length Extension Attack
+### 2. Hash Length Extension Attack
 If the server constructs authentication tokens like `hash(secret + user_data)`, hash length extension attacks allow forging valid tokens without knowing the secret.
 
-#### 3. Predictable or Weak Hashing
+### 3. Predictable or Weak Hashing
 The application might use a simple or reversible hash that can be cracked or predicted.
 
-#### 4. Hash Comparison Bypass via Array Injection
+### 4. Hash Comparison Bypass via Array Injection
 In PHP, passing an array instead of a string to hash functions causes them to return `NULL`:
 - `md5(array()) === md5(array())` -> `NULL === NULL` -> `true`
 - Send `email[]=foo&password[]=bar` to trigger array processing
 
-#### 5. Always-True Comparison
+### 5. Always-True Comparison
 The application might compare the hash of user input against a stored hash incorrectly:
 ```php
 if (md5($input) == $stored_hash) { ... }

@@ -107,19 +107,19 @@ Throwing the app open in JADX, our `MainActivity` function has some basic detail
 
 So I'll cover each of these checks in the order that I think it makes sense to (not chronologically, probably in terms of simplicity). There are more than just 4, but idk how many at the time I'm writing this, we'll see :)
 
-##### underscores
+### underscores
 
 It just checks that certain indices are underscores, nice.
 
-##### `flag.startsWith`
+### `flag.startsWith`
 
 This one uses a string resource to check that the flag starts with a certain value. This value is probably `byuctf{`, BUT you can track it down by finding the string `s` in the resources section in jadx (`resources.arsc/res/values/strings.xml`). You can search something like `<string name="s">`, which will bring you right to it.
 
-##### Check 2
+### Check 2
 
 This one uses an embedded sqlite database to pull data, comparing it against the set of bytes from the database. You can find that database inside the Resources section of the apk in jadx, specifically `Resources/assets/mydb.sqlite`. Now, you can pull it out like a good person and read it using the sqlite cli, but you can also just strings it and you'll find `4ndr01d` and can then populate that into the flag. JADX will also show you the strings in the GUI.
 
-##### Check 1
+### Check 1
 
 This is our first native code check and a weird one. It's designed to help you with the flag but it's a SHA256 hash but only checking every other character of the hash. Theoretically, this would add verification of the finished flag. You can extract the native code from the `Resources/lib/*/libbackandforth.so` (using whichever architecture you like). Then the functions you care about will have a prefix that lets Java find and use them, specifically one that matches the namespace of the application. For check 1, this is `Java_com_example_backandforth_MainActivity_check1`.
 
@@ -129,7 +129,7 @@ Note: I was wrong about this. I wrote the writeup as I solved it and made severa
 uint64_t Java_com_example_backandforth_MainActivity_check1(_jstring* arg1, int64_t arg2, uint8_t* arg3)
 ```
 
-##### Finalize
+### Finalize
 
 This is another native function, and it does two separate checks. It can be found in `Java_com_example_backandforth_MainActivity_finalize` in the same library. Both of these checks are the reason for the challenge's original creation: you can have Java call C++ and then have that C++ go back and call Java functions, which I thought was really cool.
 
@@ -245,7 +245,7 @@ for i in range(7):
 
 Just two more parts to go: `byuctf{*******_thr0ugh_4ndr01d_****_styl3s_28f6}`.
 
-##### wasm
+### wasm
 
 The next part of the flag check is in the wasm. This is a little funky bc I think I had to wrap the wasm in js, which I then had to wrap in Java. This is all in `WasmRunner` in the program. The Javascript section is found through string references, as seen earlier: `String jsCode = context.getString(R.string.async) + context.getString(R.string.consumeNamedData) + context.getString(R.string.bindgen) + context.getString(R.string.flStr) + escapedFlag + "';" + context.getString(R.string.runcheck) + "})()";`
 
@@ -327,7 +327,7 @@ This took me so long to track down. But when you trace upwards, you can find tha
 
 Current knowledge of the flag: `byuctf{j0mp1n6_thr0ugh_4ndr01d_****_styl3s_28f6}`
 
-##### The last section
+### The last section
 
 Remember how I said I thought it was doing a whole hash check earlier? I was wrong. The decompliation forgot an argument so I was completely mistaken. Let's look at the check1 again:
 ```c
