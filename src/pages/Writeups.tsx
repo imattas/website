@@ -38,7 +38,10 @@ export default function Writeups() {
       ),
     }))
     .filter((group) => group.writeups.length > 0);
-  const filteredCount = filteredGroups.reduce((count, group) => count + group.writeups.length, 0);
+  const filteredCount = filteredGroups.reduce(
+    (count, group) => count + group.writeups.length + (group.overview ? 1 : 0),
+    0,
+  );
 
   useEffect(() => {
     if (filteredGroups.length > 0 && !filteredGroups.some((group) => group.slug === open)) {
