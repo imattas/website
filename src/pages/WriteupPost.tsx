@@ -206,7 +206,7 @@ export default function WriteupPost() {
       ? writeup.title
       : `${writeup.title} — ${writeup.ctfTitle}`;
     const description = writeup.writeupKind === "ctf"
-      ? `${title}, documented by Ian Mattas.`
+      ? `${title} CTF competition overview, documented by Ian Mattas.`
       : `${title} writeup for ${writeup.ctfTitle}, documented by Ian Mattas.`;
     return applyDocumentMeta({
       title: `${title} | Ian Mattas`,

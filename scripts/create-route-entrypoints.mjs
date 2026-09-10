@@ -67,7 +67,7 @@ function routeMetadata(route) {
   return {
     title: `${writeupTitle} | Ian Mattas`,
     description: record.writeupKind === "ctf"
-      ? `${writeupTitle}, documented by Ian Mattas.`
+      ? `${writeupTitle} CTF competition overview, documented by Ian Mattas.`
       : `${writeupTitle} writeup for ${record.ctfTitle}, documented by Ian Mattas.`,
   };
 }
