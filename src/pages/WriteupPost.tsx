@@ -42,7 +42,7 @@ function resolveLocalWriteup(href: string | undefined, current: Writeup) {
 function headingText(value: ReactNode): string {
   if (typeof value === "string" || typeof value === "number") return String(value);
   if (Array.isArray(value)) return value.map(headingText).join("");
-  if (isValidElement(value)) return headingText(value.props.children);
+  if (isValidElement<{ children?: ReactNode }>(value)) return headingText(value.props.children);
   return "";
 }
 
