@@ -92,6 +92,7 @@ export default function Navbar() {
         <button
           ref={menuButtonRef}
           className="menu-btn"
+          type="button"
           onClick={() => setOpen((o) => !o)}
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
