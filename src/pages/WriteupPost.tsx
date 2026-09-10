@@ -83,7 +83,7 @@ function markdownComponents(currentWriteup: Writeup): Components {
   };
 
   return {
-    a: ({ href, children, ...props }) => {
+    a: ({ href, children, node: _node, ...props }) => {
       const legacyMatch = href?.match(/^\/volume\/2\/([^/]+)\/?$/);
       const linkedWriteup = legacyMatch ? getWriteup(legacyMatch[1]) : undefined;
       const localWriteup = resolveLocalWriteup(href, currentWriteup);
@@ -131,7 +131,7 @@ function markdownComponents(currentWriteup: Writeup): Components {
         </a>
       );
     },
-    img: ({ alt, src, ...props }) => isSafeMarkdownUrl(src) ? (
+    img: ({ alt, src, node: _node, ...props }) => isSafeMarkdownUrl(src) ? (
       <img
         {...props}
         src={src}
@@ -145,12 +145,12 @@ function markdownComponents(currentWriteup: Writeup): Components {
         Image unavailable
       </span>
     ),
-    h1: ({ children, ...props }) => <h1 {...props} id={headingId(children)}>{children}</h1>,
-    h2: ({ children, ...props }) => <h2 {...props} id={headingId(children)}>{children}</h2>,
-    h3: ({ children, ...props }) => <h3 {...props} id={headingId(children)}>{children}</h3>,
-    h4: ({ children, ...props }) => <h4 {...props} id={headingId(children)}>{children}</h4>,
-    h5: ({ children, ...props }) => <h5 {...props} id={headingId(children)}>{children}</h5>,
-    h6: ({ children, ...props }) => <h6 {...props} id={headingId(children)}>{children}</h6>,
+    h1: ({ children, node: _node, ...props }) => <h1 {...props} id={headingId(children)}>{children}</h1>,
+    h2: ({ children, node: _node, ...props }) => <h2 {...props} id={headingId(children)}>{children}</h2>,
+    h3: ({ children, node: _node, ...props }) => <h3 {...props} id={headingId(children)}>{children}</h3>,
+    h4: ({ children, node: _node, ...props }) => <h4 {...props} id={headingId(children)}>{children}</h4>,
+    h5: ({ children, node: _node, ...props }) => <h5 {...props} id={headingId(children)}>{children}</h5>,
+    h6: ({ children, node: _node, ...props }) => <h6 {...props} id={headingId(children)}>{children}</h6>,
   };
 }
 
