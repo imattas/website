@@ -6,6 +6,7 @@ const output = path.resolve("src/content/writeup-index.generated.ts");
 const contentOutput = path.resolve("src/content/writeup-content.generated.ts");
 const sitemapOutput = path.resolve("public/sitemap.xml");
 const siteUrl = "https://ianmattas.com";
+const allowedRemoteImageHosts = new Set(["raw.githubusercontent.com"]);
 
 function parseFrontmatter(raw) {
   const text = raw.replace(/\r\n/g, "\n");
@@ -81,6 +82,18 @@ function validateDocumentStructure(body, slug) {
       if (!destination) throw new Error(`Empty Markdown destination in ${slug}`);
       if (/^(?:javascript|data|vbscript|file):/i.test(destination)) {
         throw new Error(`Unsafe Markdown destination in ${slug}: ${destination}`);
+      }
+      if (link[0].startsWith("!")) {
+        try {
+          const imageUrl = new URL(destination, "https://ianmattas.com");
+          if ((imageUrl.protocol === "http:" || imageUrl.protocol === "https:") &&
+              imageUrl.origin !== "https://ianmattas.com" &&
+              !allowedRemoteImageHosts.has(imageUrl.hostname)) {
+            throw new Error(`Unapproved remote image host in ${slug}: ${imageUrl.hostname}`);
+          }
+        } catch (error) {
+          if (error instanceof Error && error.message.startsWith("Unapproved remote image host")) throw error;
+        }
       }
     }
   }
