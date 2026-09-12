@@ -752,3 +752,100 @@ body.has-custom-cursor .cursor-ring { display: block; }
     animation: none !important;
   }
 }
+
+/* ===== Living signal lab system ===== */
+.signal-nav { background: rgba(7, 10, 16, .68) !important; border-bottom: 1px solid rgba(85, 217, 255, .12) !important; backdrop-filter: blur(18px); }
+.signal-nav[style*="background"] { background: rgba(7, 10, 16, .9) !important; }
+.signal-nav-link:hover, .signal-nav-social:hover { color: var(--cyan) !important; }
+.signal-nav .accent { color: var(--cyan); }
+.signal-nav .menu-btn { color: var(--cyan) !important; }
+.hero-signal {
+  position: relative;
+  min-height: 100svh;
+  padding-top: 72px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  isolation: isolate;
+  background: #070a10;
+  border-bottom: 1px solid var(--line);
+}
+.hero-signal::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(90deg, rgba(7, 10, 16, .98) 0%, rgba(7, 10, 16, .74) 38%, rgba(7, 10, 16, .1) 100%);
+}
+.hero-content { position: relative; z-index: 3; padding-top: 80px; }
+.hero-title { font-size: clamp(3.8rem, 12vw, 10rem); font-weight: 800; text-transform: uppercase; letter-spacing: -0.085em; text-shadow: 0 0 48px rgba(85, 217, 255, .1); }
+.hero-role { margin-top: 24px; min-height: 2.4rem; }
+.hero-description { max-width: 520px; color: var(--ink-soft); font-size: 1.1rem; margin-top: 20px; }
+.hero-actions { display: flex; gap: 14px; margin-top: 44px; flex-wrap: wrap; }
+.hero-signal .section-label { margin-bottom: 28px; }
+.hero-signal .btn { border-radius: 999px; }
+.hero-signal .btn-primary { background: var(--cyan); color: #061016; border-color: var(--cyan); box-shadow: 0 0 28px rgba(85, 217, 255, .24); }
+.hero-signal .btn-primary:hover { box-shadow: 0 0 42px rgba(85, 217, 255, .48); transform: translateY(-3px); }
+.hero-signal .btn-ghost { background: rgba(13, 19, 28, .62); color: var(--ink); border-color: rgba(238, 247, 247, .3); box-shadow: none; }
+.hero-signal .btn-ghost:hover { background: rgba(167, 139, 250, .13); border-color: var(--violet); color: var(--ink); transform: translateY(-3px); }
+.hero-aurora { position: absolute; inset: -20%; z-index: -3; pointer-events: none; background: radial-gradient(ellipse at calc(72% + var(--signal-x)) calc(46% + var(--signal-y)), rgba(85, 217, 255, .19), transparent 23%), radial-gradient(ellipse at 84% 70%, rgba(167, 139, 250, .16), transparent 25%); filter: blur(18px); transition: background .4s ease; }
+.signal-grid { position: absolute; inset: 0; z-index: -2; opacity: .32; background-image: linear-gradient(rgba(85, 217, 255, .08) 1px, transparent 1px), linear-gradient(90deg, rgba(85, 217, 255, .08) 1px, transparent 1px); background-size: 68px 68px; mask-image: linear-gradient(90deg, black 0%, transparent 92%); transform: perspective(700px) rotateX(58deg) translateY(24%); transform-origin: bottom; }
+.signal-orbit { position: absolute; right: 7vw; top: 50%; width: min(54vw, 720px); aspect-ratio: 1; border: 1px solid rgba(85, 217, 255, .16); border-radius: 50%; pointer-events: none; transform: translate(calc(-50% + var(--signal-x)), calc(-50% + var(--signal-y))) rotate(-24deg) scaleY(.42); box-shadow: 0 0 80px rgba(85, 217, 255, .07); transition: transform .55s cubic-bezier(.2, .8, .2, 1); }
+.signal-orbit::after { content: ""; position: absolute; inset: 12%; border: 1px dashed rgba(167, 139, 250, .28); border-radius: 50%; }
+.signal-orbit-one { transform: translate(calc(-50% + var(--signal-x)), calc(-50% + var(--signal-y))) rotate(28deg) scaleY(.36); }
+.signal-orbit-two { width: min(38vw, 500px); border-color: rgba(255, 118, 87, .22); transform: translate(calc(-50% - var(--signal-x)), calc(-50% - var(--signal-y))) rotate(-54deg) scaleY(.42); }
+.signal-constellation { position: absolute; right: -3vw; top: 50%; z-index: -1; width: min(58vw, 820px); transform: translate(calc(4% + var(--signal-x)), calc(-50% + var(--signal-y))); opacity: .78; transition: transform .55s cubic-bezier(.2, .8, .2, 1); }
+.constellation-ring { fill: none; stroke: rgba(85, 217, 255, .25); stroke-width: 1; stroke-dasharray: 3 15; animation: signal-spin 36s linear infinite; transform-origin: 400px 400px; }
+.constellation-ring-inner { stroke: rgba(167, 139, 250, .42); stroke-dasharray: 1 10; animation-direction: reverse; animation-duration: 23s; }
+.constellation-path { fill: rgba(85, 217, 255, .025); stroke: rgba(85, 217, 255, .42); stroke-width: 1; stroke-dasharray: 5 10; }
+.constellation-node { fill: var(--cyan); filter: drop-shadow(0 0 10px var(--cyan)); }
+.constellation-node-core { fill: var(--accent); filter: drop-shadow(0 0 16px var(--accent)); }
+.signal-readout { position: absolute; z-index: 1; color: rgba(85, 217, 255, .65); font: .66rem var(--font-mono); letter-spacing: .16em; line-height: 1.6; }
+.signal-readout-top { top: 29%; right: 22%; }
+.signal-readout-side { right: 5%; bottom: 23%; writing-mode: vertical-rl; }
+.scroll-cue { position: absolute; bottom: 32px; left: 50%; z-index: 3; transform: translateX(-50%); }
+.scroll-cue-label { color: var(--muted); font: .7rem var(--font-mono); letter-spacing: .2em; text-transform: uppercase; }
+.marquee { background: #0c1119; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.marquee-item, .marquee-word { color: var(--cyan); }
+.marquee-track .dot { background: var(--accent); }
+.section-label { border-radius: 999px; }
+.section-title { letter-spacing: -.06em; }
+.stat-card, .skill-card, .project-card, .language-card, .focus-strip, .roadmap-card, .skill-row, .contact-panel, .social-pill { border-color: var(--line); background: linear-gradient(145deg, rgba(16, 23, 34, .94), rgba(10, 15, 23, .88)); box-shadow: var(--shadow-sm); }
+.stat-card:hover, .skill-card:hover, .project-card:hover, .language-card:hover { border-color: rgba(85, 217, 255, .55); box-shadow: 0 0 30px rgba(85, 217, 255, .12); transform: translateY(-5px); }
+.project-card { overflow: hidden; }
+.project-meta, .project-cta, .roadmap-label, .contact-kicker { color: var(--cyan); }
+.project-outcome, .availability-note, .focus-strip p, .roadmap-card p { color: var(--ink-soft); }
+.availability-dot { background: var(--lime); border: 0; box-shadow: 0 0 12px var(--lime); }
+.focus-strip { position: relative; overflow: hidden; }
+.focus-strip::after { content: ""; position: absolute; right: -10%; bottom: -100%; width: 50%; height: 260%; background: linear-gradient(90deg, transparent, rgba(85, 217, 255, .08), transparent); transform: rotate(24deg); }
+.roadmap-track::before { background: linear-gradient(90deg, var(--cyan), var(--violet)); height: 1px; }
+.roadmap-marker { border-color: var(--cyan); background: var(--bg); color: var(--cyan); }
+.roadmap-marker:hover, .roadmap-marker:focus-visible { background: var(--cyan); color: var(--bg); }
+.skill-index { border-top-color: var(--line); }
+.skill-row { border-bottom-color: var(--line); }
+.skill-row summary:hover, .skill-row summary:focus-visible { background: rgba(85, 217, 255, .06); }
+.language-track, .skill-track { border-color: var(--line); background: #06090e; }
+.tag { border-color: rgba(85, 217, 255, .35); background: rgba(85, 217, 255, .05); color: var(--cyan); border-radius: 999px; }
+.contact-panel { box-shadow: 0 0 40px rgba(85, 217, 255, .09); }
+.contact-panel h3 { color: var(--cyan); }
+.social-pill:hover { border-color: var(--cyan) !important; color: var(--cyan) !important; background: rgba(85, 217, 255, .08) !important; transform: translateY(-3px); }
+
+@keyframes signal-spin { to { transform: rotate(360deg); } }
+
+@media (max-width: 768px) {
+  .hero-signal { min-height: 760px; padding-top: 0; align-items: flex-start; }
+  .hero-content { padding-top: 150px; }
+  .hero-title { font-size: clamp(3.7rem, 19vw, 7rem); }
+  .signal-constellation { right: -32vw; top: 58%; width: 130vw; opacity: .42; }
+  .signal-orbit { right: -22vw; top: 58%; width: 100vw; opacity: .46; }
+  .signal-orbit-two { width: 72vw; }
+  .signal-readout-top { top: 17%; right: 8%; }
+  .signal-readout-side { display: none; }
+  .hero-signal::after { background: linear-gradient(180deg, rgba(7, 10, 16, .9) 0%, rgba(7, 10, 16, .68) 52%, rgba(7, 10, 16, .2) 100%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .constellation-ring { animation: none; }
+  .hero-aurora, .signal-orbit, .signal-constellation { transition: none; }
+}

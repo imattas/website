@@ -1,20 +1,23 @@
 :root {
-  --bg: #f4f1ea;
-  --bg-soft: #ece7dc;
-  --ink: #14120f;
-  --ink-soft: #3a352c;
-  --muted: #6b6455;
-  --line: #14120f;
-  --paper: #faf7f0;
-  --accent: #b93800;
-  --accent-ink: #ff4d00;
-  --lime: #c6f432;
-  --blue: #2f6bff;
+  --bg: #070a10;
+  --bg-soft: #101722;
+  --ink: #eef7f7;
+  --ink-soft: #b1c4ca;
+  --muted: #71858d;
+  --line: #263640;
+  --paper: #0d131c;
+  --accent: #ff7657;
+  --accent-ink: #ff9b82;
+  --lime: #b6f36a;
+  --blue: #55d9ff;
+  --cyan: #55d9ff;
+  --violet: #a78bfa;
+  --glow: rgba(85, 217, 255, 0.35);
   --font-display: "Syne", "Space Grotesk", system-ui, sans-serif;
   --font-body: "Space Grotesk", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
-  --shadow: 6px 6px 0 0 var(--ink);
-  --shadow-sm: 3px 3px 0 0 var(--ink);
+  --shadow: 0 18px 50px rgba(0, 0, 0, 0.28);
+  --shadow-sm: 0 8px 24px rgba(0, 0, 0, 0.22);
 }
 
 * {
@@ -31,6 +34,7 @@ html {
 
 body {
   background: var(--bg);
+  background-image: radial-gradient(circle at 50% -10%, rgba(85, 217, 255, 0.09), transparent 34rem);
   color: var(--ink);
   font-family: var(--font-body);
   line-height: 1.5;
@@ -88,7 +92,7 @@ a {
   z-index: 10001;
   padding: 10px 14px;
   border: 2px solid var(--ink);
-  background: var(--lime);
+  background: var(--cyan);
   color: var(--ink);
   font-family: var(--font-mono);
   transform: translateY(-200%);
@@ -130,7 +134,8 @@ h4 {
 
 .section {
   position: relative;
-  padding: 140px 0;
+  padding: 148px 0;
+  border-top: 1px solid rgba(113, 133, 141, 0.18);
 }
 
 .section-label {
@@ -141,11 +146,11 @@ h4 {
   font-size: 0.8rem;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: var(--ink);
-  background: var(--lime);
+  color: var(--cyan);
+  background: rgba(85, 217, 255, 0.08);
   padding: 6px 14px;
-  border: 2px solid var(--ink);
-  box-shadow: var(--shadow-sm);
+  border: 1px solid rgba(85, 217, 255, 0.5);
+  box-shadow: 0 0 24px rgba(85, 217, 255, 0.08);
   margin-bottom: 28px;
 }
 
@@ -162,12 +167,12 @@ h4 {
 }
 
 .accent {
-  color: var(--accent);
+  color: var(--cyan);
 }
 
 .outline-text {
   color: transparent;
-  -webkit-text-stroke: 2px var(--ink);
+  -webkit-text-stroke: 1px var(--cyan);
 }
 
 @media (prefers-reduced-motion: reduce) {
