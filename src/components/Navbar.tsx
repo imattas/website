@@ -50,7 +50,6 @@ export default function Navbar() {
 
   return (
     <motion.header
-      className="signal-nav"
       initial={reducedMotion ? false : { y: -80, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={reducedMotion ? { duration: 0 } : { duration: 0.6, ease: "easeOut" }}
@@ -76,7 +75,6 @@ export default function Navbar() {
               <Link
                 to={l.href}
                 aria-current={currentPage(l, location.pathname) ? "page" : undefined}
-                className="signal-nav-link"
                 style={{ color: "var(--ink)", fontSize: "0.95rem", fontWeight: 600, transition: "color 0.2s" }}
                 onMouseEnter={(e) => (e.currentTarget.style.color = "var(--accent)")}
                 onMouseLeave={(e) => (e.currentTarget.style.color = "var(--ink)")}
@@ -92,7 +90,7 @@ export default function Navbar() {
 
         <div className="nav-socials" style={{ display: "flex", gap: 16 }}>
           {socials.slice(0, 3).map((s) => (
-            <a className="signal-nav-social" key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" style={{ color: "var(--ink)", fontSize: "0.9rem", fontFamily: "var(--font-mono)" }}>
+            <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" style={{ color: "var(--ink)", fontSize: "0.9rem", fontFamily: "var(--font-mono)" }}>
               {s.label}
             </a>
           ))}
