@@ -15,17 +15,17 @@ I work with Rust, C, C++, Assembly, Python, JavaScript, TypeScript, Java, and C#
 
 ## CTF Results
 
-Selected competition placements:
-
-- **THEM?!CTF 2026** — 1st place
-- **GaianSpace CTF 2026** — 3rd place
-- **scriptCTF 2026** — 3rd place
-- **0xV01D CTF 2026 V2** — 4th place
-- **BroncoCTF 2026** — 8th place
-- **kBxAc CTF 2026** — 8th place
-- **Lexington Informatics Tournament CTF 2026** — 9th place
-- **V1T CTF 2026** — 9th place
-- **LYKNCTF** — 10th place
-- **UND National CyberHawks High School Qualifiers & Finals** — 2nd place
+| Competition | Date | Placement |
+| --- | --- | ---: |
+| THEM?!CTF 2026 | May 29 | 1st |
+| GaianSpace CTF 2026 | Oct 10 | 3rd |
+| scriptCTF 2026 | Aug 8 | 3rd |
+| 0xV01D CTF 2026 V2 | Aug 15 | 4th |
+| BroncoCTF 2026 | Jul 11 | 8th |
+| kBxAc CTF 2026 | Oct 9 | 8th |
+| Lexington Informatics Tournament CTF 2026 | Aug 1 | 9th |
+| V1T CTF 2026 | Jun 27 | 9th |
+| LYKNCTF | Jul 6 | 10th |
+| UND National CyberHawks High School Qualifiers & Finals | Not provided | 2nd |
 
 I’m open to interesting security, systems, and research collaborations. Find my projects on [GitHub](https://github.com/imattas) or get in touch at [ian@mattas.net](mailto:ian@mattas.net).
