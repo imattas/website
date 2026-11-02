@@ -30,7 +30,6 @@ tags:
 - **Affected versions:** [Verified versions or range]
 - **Required configuration:** [Relevant settings, if any]
 - **Attacker prerequisites:** [Access, position, or user interaction required]
-- **Fixed version / workaround:** [Version or mitigations, if confirmed]
 
 ## Technical details
 
@@ -53,7 +52,7 @@ tags:
 [Summarize demonstrated confidentiality, integrity, or availability impact. Explain any limits or assumptions.]
 
 - **Severity:** [Assessment and brief rationale]
-- **CVSS version / score:** [If calculated]
+- **CVSS score:** [If calculated]
 - **CVSS vector:** [If calculated]
 - **CWE:** [If applicable]
 
