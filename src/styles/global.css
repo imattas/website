@@ -60,6 +60,10 @@ html[data-theme="dark"] {
   @apply mx-auto w-full max-w-app px-4;
 }
 
+@utility list-row {
+  @apply my-0 border-b border-border py-5 last:border-b-0;
+}
+
 .active-nav {
   @apply underline decoration-wavy decoration-2 underline-offset-8;
 }

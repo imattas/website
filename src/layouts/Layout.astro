@@ -35,6 +35,7 @@ const {
   schemaType = "WebPage",
 } = Astro.props;
 
+const canonical = new URL(canonicalURL, SITE.website);
 const socialImageURL = new URL(ogImage, Astro.url);
 
 const person = {
@@ -46,17 +47,21 @@ const person = {
 const structuredData = {
   "@context": "https://schema.org",
   "@type": schemaType,
-  name: title,
-  url: canonicalURL,
+  name: schemaType === "WebSite" ? SITE.title : title,
+  url: canonical.href,
   description,
-  ...(schemaType === "WebSite" && { publisher: person }),
+  ...(schemaType === "WebSite" && { publisher: person, inLanguage: SITE.lang }),
+  ...(schemaType === "WebPage" && { isPartOf: { "@type": "WebSite", name: SITE.title, url: SITE.website } }),
   ...(schemaType === "ProfilePage" && { mainEntity: person }),
   ...(["BlogPosting", "Article"].includes(schemaType) && {
     headline: title,
     image: `${socialImageURL}`,
+    mainEntityOfPage: canonical.href,
     ...(pubDatetime && { datePublished: pubDatetime.toISOString() }),
     ...(modDatetime && { dateModified: modDatetime.toISOString() }),
     author: person,
+    publisher: person,
+    inLanguage: SITE.lang,
   }),
 };
 ---
@@ -71,7 +76,7 @@ const structuredData = {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="canonical" href={canonicalURL} />
+    <link rel="canonical" href={canonical.href} />
     <meta name="generator" content={Astro.generator} />
 
     <meta name="color-scheme" content="dark" />
@@ -81,14 +86,20 @@ const structuredData = {
     <meta name="title" content={title} />
     <meta name="description" content={description} />
     <meta name="author" content={author} />
+    <meta name="robots" content={noindex ? "noindex, nofollow" : "index, follow, max-image-preview:large"} />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
     <link rel="sitemap" href="/sitemap-index.xml" />
-    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <link rel="me" href={profile || SITE.profile} />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:url" content={canonical.href} />
     <meta property="og:image" content={socialImageURL} />
+    <meta property="og:image:alt" content={`${title} — ${SITE.author}`} />
+    <meta property="og:type" content={schemaType === "BlogPosting" || schemaType === "Article" ? "article" : "website"} />
+    <meta property="og:site_name" content={SITE.title} />
+    <meta property="og:locale" content="en_US" />
 
     <!-- Article Published/Modified time -->
     {
@@ -97,6 +108,11 @@ const structuredData = {
           property="article:published_time"
           content={pubDatetime.toISOString()}
         />
+      )
+    }
+    {
+      (schemaType === "BlogPosting" || schemaType === "Article") && author && (
+        <meta property="article:author" content={author} />
       )
     }
     {
@@ -109,11 +125,12 @@ const structuredData = {
     }
 
     <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content={canonicalURL} />
-    <meta property="twitter:title" content={title} />
-    <meta property="twitter:description" content={description} />
-    <meta property="twitter:image" content={socialImageURL} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={canonical.href} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImageURL} />
+    <meta name="twitter:image:alt" content={`${title} — ${SITE.author}`} />
 
     <!-- Google JSON-LD Structured data -->
     <script

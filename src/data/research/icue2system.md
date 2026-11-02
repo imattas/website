@@ -55,7 +55,7 @@ The public project contains a Windows proof of concept and a detailed descriptio
 
 **Expected result:** The update service should authorize the caller and validate package metadata using trusted identity and ownership checks before starting any privileged package action.
 
-For source and reproduction context, see the [iCUE2SYSTEM project report](https://github.com/imattas/POCs/blob/main/iCUE2SYSTEM/README.md) and [proof-of-concept source](https://github.com/imattas/POCs/blob/main/iCUE2SYSTEM/poc.cpp).
+Download the [iCUE2SYSTEM proof-of-concept source](/icue2system.poc.cpp "download:poc.cpp") from this site.
 
 ## Security impact and severity
 
@@ -82,5 +82,4 @@ These are remediation recommendations based on the observed trust boundaries.
 | 2026-10-28 | Disclosed to public |
 ## References
 
-- [iCUE2SYSTEM project report](https://github.com/imattas/POCs/blob/main/iCUE2SYSTEM/README.md)
-- [iCUE2SYSTEM proof-of-concept source](https://github.com/imattas/POCs/blob/main/iCUE2SYSTEM/poc.cpp)
+- [Download the iCUE2SYSTEM proof-of-concept source](/icue2system.poc.cpp "download:poc.cpp")
