@@ -1,4 +1,4 @@
----
+﻿---
 import Layout from "@/layouts/Layout.astro";
 import Header from "@/components/Header.astro";
 import Main from "@/layouts/Main.astro";
@@ -9,8 +9,6 @@ import {
   getStatusTypeClass,
   type StatusEntry,
 } from "@/utils/status";
-
-export const prerender = false;
 
 const statusData = await getStatusData();
 const statuses = statusData.history;

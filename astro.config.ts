@@ -1,7 +1,6 @@
-import fs from "node:fs";
+﻿import fs from "node:fs";
 import path from "node:path";
 import { defineConfig, envField } from "astro/config";
-import vercel from "@astrojs/vercel";
 import tailwindcss from "@tailwindcss/vite";
 import sitemap from "@astrojs/sitemap";
 import remarkToc from "remark-toc";
@@ -89,7 +88,7 @@ const unlistedPaths = getUnlistedPaths();
 // https://astro.build/config
 export default defineConfig({
   site: SITE.website,
-  adapter: vercel(),
+  output: "static",
   integrations: [
     sitemap({
       filter: page => {
