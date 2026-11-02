@@ -1,4 +1,4 @@
----
+﻿---
 import Layout from "@/layouts/Layout.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
@@ -12,15 +12,15 @@ const entries = (await getCollection("research", ({ data }) => !data.draft)).sor
 );
 ---
 
-<Layout title={`Research | ${SITE.title}`} description="Research interests and technical focus areas of Ian Mattas.">
+<Layout title={`Research | ${SITE.title}`} description="Published security research and vulnerability disclosures by Ian Mattas." schemaType="WebPage">
   <Header />
   <Main pageTitle="Research" pageDesc="Research notes and disclosures.">
     <ul>
-      {entries.map(({ data }) => (
+      {entries.map(({ data, id }) => (
         <li class="my-6">
-          <h2 class="text-lg font-medium text-accent">{data.title}</h2>
+          <h2 class="text-lg font-medium"><a class="text-accent underline-offset-4 hover:underline" href={`/research/${id}/`}>{data.title}</a></h2>
           <Datetime pubDatetime={data.pubDatetime} />
-          {data.type && <p class="text-sm text-foreground/60">{data.type}{data.identifier ? ` · ${data.identifier}` : ""}</p>}
+          {data.type && <p class="text-sm text-foreground/60">{data.type}{data.identifier ? ` Â· ${data.identifier}` : ""}</p>}
           <p>{data.description}</p>
         </li>
       ))}

@@ -17,6 +17,7 @@ type Props = {
   noindex?: boolean;
   pagefindIgnore?: boolean;
   scrollSmooth?: boolean;
+  schemaType?: "WebSite" | "WebPage" | "ProfilePage" | "BlogPosting" | "Article";
 };
 
 const {
@@ -31,24 +32,32 @@ const {
   noindex = false,
   pagefindIgnore = false,
   scrollSmooth = false,
+  schemaType = "WebPage",
 } = Astro.props;
 
 const socialImageURL = new URL(ogImage, Astro.url);
 
+const person = {
+  "@type": "Person",
+  name: author,
+  url: profile || SITE.profile,
+};
+
 const structuredData = {
   "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  headline: `${title}`,
-  image: `${socialImageURL}`,
-  datePublished: `${pubDatetime?.toISOString()}`,
-  ...(modDatetime && { dateModified: modDatetime.toISOString() }),
-  author: [
-    {
-      "@type": "Person",
-      name: `${author}`,
-      ...(profile && { url: profile }),
-    },
-  ],
+  "@type": schemaType,
+  name: title,
+  url: canonicalURL,
+  description,
+  ...(schemaType === "WebSite" && { publisher: person }),
+  ...(schemaType === "ProfilePage" && { mainEntity: person }),
+  ...(["BlogPosting", "Article"].includes(schemaType) && {
+    headline: title,
+    image: `${socialImageURL}`,
+    ...(pubDatetime && { datePublished: pubDatetime.toISOString() }),
+    ...(modDatetime && { dateModified: modDatetime.toISOString() }),
+    author: person,
+  }),
 };
 ---
 

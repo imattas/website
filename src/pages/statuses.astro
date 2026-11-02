@@ -22,7 +22,7 @@ const formatStatusDate = (status: StatusEntry) =>
     : "not set";
 ---
 
-<Layout title={`Statuses | ${SITE.title}`} description={`Past status updates from ${SITE.author}.`}>
+<Layout title={`Statuses | ${SITE.title}`} description={`Past status updates from ${SITE.author}.`} noindex>
   <Header />
   <Main pageTitle="Statuses" pageDesc="Past front page statuses.">
     {

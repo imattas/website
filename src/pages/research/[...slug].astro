@@ -1,0 +1,50 @@
+---
+import type { GetStaticPaths } from "astro";
+import { getCollection, render } from "astro:content";
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import Breadcrumb from "@/components/Breadcrumb.astro";
+import Datetime from "@/components/Datetime.astro";
+import { SITE } from "@/config";
+
+export const getStaticPaths = (async () => {
+  const entries = await getCollection("research", ({ data }) => !data.draft);
+  return entries.map(entry => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}) satisfies GetStaticPaths;
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const { title, description, author, pubDatetime, type, identifier, ogImage } =
+  entry.data;
+const socialImage =
+  typeof ogImage === "string" ? ogImage : ogImage?.src;
+---
+
+<Layout
+  title={`${title} | ${SITE.title}`}
+  description={description}
+  author={author}
+  pubDatetime={pubDatetime}
+  ogImage={socialImage}
+  canonicalURL={new URL(`/research/${entry.id}/`, Astro.site).href}
+  schemaType="Article"
+  scrollSmooth
+>
+  <Header />
+  <Breadcrumb />
+  <main id="main-content" class="app-layout pb-12">
+    <p class="mb-2 text-sm text-foreground/60">
+      {type ?? "Research"}{identifier && ` · ${identifier}`}
+    </p>
+    <h1 class="text-2xl font-bold text-accent sm:text-3xl">{title}</h1>
+    <div class="my-2"><Datetime {pubDatetime} /></div>
+    <article class="app-prose mt-8 w-full max-w-app">
+      <Content />
+    </article>
+  </main>
+  <Footer />
+</Layout>
