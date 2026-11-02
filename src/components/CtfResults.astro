@@ -1,0 +1,51 @@
+---
+type Result = {
+  competition: string;
+  date: string;
+  placement: string;
+  featured?: boolean;
+};
+
+type Props = {
+  results: Result[];
+};
+
+const { results } = Astro.props;
+---
+
+<div class="not-prose my-6 overflow-hidden rounded-xl border border-border bg-background">
+  <table class="w-full border-collapse text-sm">
+    <caption class="sr-only">Ian's selected CTF competition results</caption>
+    <thead class="hidden bg-muted/40 text-left text-xs uppercase tracking-wider text-foreground/65 sm:table-header-group">
+      <tr>
+        <th scope="col" class="px-4 py-3 font-medium">Competition</th>
+        <th scope="col" class="px-4 py-3 font-medium">Date</th>
+        <th scope="col" class="px-4 py-3 text-right font-medium">Placement</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-border">
+      {results.map(result => (
+        <tr class="grid grid-cols-[minmax(0,1fr)_auto] gap-x-4 gap-y-2 px-4 py-3 transition-colors hover:bg-muted/25 sm:table-row sm:px-0 sm:py-0">
+          <th scope="row" class="col-span-2 text-left font-medium text-foreground sm:px-4 sm:py-3.5">
+            {result.competition}
+          </th>
+          <td class="text-xs text-foreground/65 sm:whitespace-nowrap sm:px-4 sm:py-3.5 sm:text-sm">
+            <span class="mr-2 text-[0.65rem] font-medium uppercase tracking-wider text-foreground/45 sm:hidden">Date</span>
+            {result.date}
+          </td>
+          <td class="flex items-center justify-end gap-2 text-right sm:px-4 sm:py-3.5">
+            <span class="mr-auto text-[0.65rem] font-medium uppercase tracking-wider text-foreground/45 sm:hidden">Placement</span>
+            <span class:list={[
+              "inline-flex whitespace-nowrap rounded-full border px-2.5 py-1 text-xs font-semibold",
+              result.featured
+                ? "border-accent/40 bg-accent/10 text-accent"
+                : "border-border bg-muted/30 text-foreground/80",
+            ]}>
+              {result.placement}
+            </span>
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>

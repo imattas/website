@@ -1,0 +1,49 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import Breadcrumb from "@/components/Breadcrumb.astro";
+import CtfResults from "@/components/CtfResults.astro";
+import { SITE } from "@/config";
+
+const ctfResults = [
+  { competition: "THEM?!CTF 2026", date: "May 29, 2026", placement: "1st place", featured: true },
+  { competition: "V1T CTF 2026", date: "June 27, 2026", placement: "9th place" },
+  { competition: "LYKNCTF", date: "July 6, 2026", placement: "10th place" },
+  { competition: "BroncoCTF 2026", date: "July 11, 2026", placement: "8th place" },
+  { competition: "Lexington Informatics Tournament CTF 2026", date: "August 1, 2026", placement: "9th place" },
+  { competition: "scriptCTF 2026", date: "August 8, 2026", placement: "3rd place", featured: true },
+  { competition: "0xV01D CTF 2026 V2", date: "August 15, 2026", placement: "4th place" },
+  { competition: "UND National CyberHawks High School Qualifiers", date: "August 29, 2026", placement: "Qualified for finals" },
+  { competition: "kBxAc CTF 2026", date: "October 9, 2026", placement: "8th place" },
+  { competition: "GaianSpace CTF 2026", date: "October 10, 2026", placement: "3rd place", featured: true },
+  { competition: "UND National CyberHawks High School Finals", date: "October 26, 2026", placement: "2nd place", featured: true },
+];
+---
+
+<Layout
+  title={`About | ${SITE.title}`}
+  description="About Ian Mattas, exploit developer and security researcher focused on reverse engineering, binary exploitation, malware analysis, and CTFs."
+  schemaType="ProfilePage"
+>
+  <Header />
+  <Breadcrumb />
+  <main id="main-content" class="app-layout">
+    <article class="app-prose mb-20 max-w-app prose-img:border-0">
+      <h1 class="mb-6 text-2xl font-bold tracking-wider text-foreground sm:text-3xl">About Ian</h1>
+
+      <p>I’m Ian Mattas, a high school developer and aspiring red teamer from Ohio. I’ve spent five years learning reverse engineering and how software behaves at a low level. I captain <a href="https://idktheflag.sh">idktheflag</a>, a team I compete with in cybersecurity competitions.</p>
+
+      <p>My interests include reverse engineering, binary exploitation, malware analysis, binary obfuscation, symbolic execution, and cryptography. I use disassemblers and debuggers to understand how software runs, and build tools to make repeated analysis easier to reproduce.</p>
+
+      <h2>Programming Languages</h2>
+      <p>Rust, C, C++, Assembly, Python, JavaScript, TypeScript, Java, and C#.</p>
+
+      <h2>CTF Results</h2>
+      <CtfResults results={ctfResults} />
+
+      <p>I’m open to interesting security, systems, and research collaborations. Find my projects on <a href="https://github.com/imattas">GitHub</a> or get in touch at <a href="mailto:ian@mattas.net">ian@mattas.net</a>.</p>
+    </article>
+  </main>
+  <Footer />
+</Layout>
