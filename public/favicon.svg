@@ -1,6 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
-  <title id="title">IM — Ian Mattas</title>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="#fff">
   <rect width="64" height="64" rx="12" fill="#101820"/>
-  <path fill="#70b8ff" d="M7 16h19v7h-6v18h6v7H7v-7h6V23H7z"/>
-  <path fill="#fff" d="M30 48V16h7l6 12 6-12h7v32h-8V31l-5 10h-1l-5-10v17z"/>
+  <g transform="translate(2.588 12) scale(.588235)">
+    <!-- I -->
+    <path d="M12 0H32L20 68H0Z"/>
+    <!-- M -->
+    <path d="M38 0H58L68 38L80 0H94L100 68H80L77 39L68 68H59L51 39L48 68H28Z"/>
+  </g>
 </svg>
