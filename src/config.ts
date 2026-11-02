@@ -4,7 +4,7 @@ export const SITE = {
   profile: "https://ianmattas.com",
   desc: "Ian Mattas - cybersecurity student, CTF player, and security researcher writing about exploitation and OSINT.",
   title: "Ian Mattas",
-  ogImage: "astropaper-og.jpg",
+  ogImage: "",
   lightAndDarkMode: false,
   postPerIndex: 5,
   postPerPage: 5,
