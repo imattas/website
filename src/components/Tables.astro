@@ -3,6 +3,7 @@ type Result = {
   competition: string;
   date: string;
   placement: string;
+  placeOrder: number;
   featured?: boolean;
 };
 
@@ -11,41 +12,244 @@ type Props = {
 };
 
 const { results } = Astro.props;
+const rows = [...results].sort(
+  (a, b) => a.placeOrder - b.placeOrder || b.date.localeCompare(a.date)
+);
+
+const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const formatDate = (iso: string) => {
+  const [, month, day] = iso.split("-");
+  return `${months[Number(month) - 1]} ${Number(day)}, ${iso.slice(0, 4)}`;
+};
 ---
 
-<div class="not-prose my-6 overflow-hidden rounded-xl border border-border bg-background">
-  <table class="w-full border-collapse text-sm">
-    <caption class="sr-only">Ian's selected CTF competition results</caption>
-    <thead class="hidden bg-muted/40 text-left text-xs uppercase tracking-wider text-foreground/65 sm:table-header-group">
+<div class="table-wrap not-prose">
+  <table class="evt-table">
+    <caption class="sr-only">Selected CTF competition results</caption>
+    <thead>
       <tr>
-        <th scope="col" class="px-4 py-3 font-medium">Competition</th>
-        <th scope="col" class="px-4 py-3 font-medium">Date</th>
-        <th scope="col" class="px-4 py-3 text-right font-medium">Placement</th>
+        <th scope="col" data-sort="event" aria-sort="none">
+          <button type="button" class="th-inner" aria-label="Sort by event">
+            Event<span class="sort-caret" aria-hidden="true"></span>
+          </button>
+        </th>
+        <th scope="col" data-sort="date" aria-sort="none">
+          <button type="button" class="th-inner" aria-label="Sort by date">
+            Date<span class="sort-caret" aria-hidden="true"></span>
+          </button>
+        </th>
+        <th scope="col" class="num is-active" data-sort="place" aria-sort="ascending">
+          <button type="button" class="th-inner" aria-label="Sort by placement">
+            Place<span class="sort-caret" aria-hidden="true"></span>
+          </button>
+        </th>
       </tr>
     </thead>
-    <tbody class="divide-y divide-border">
-      {results.map(result => (
-        <tr class="grid grid-cols-[minmax(0,1fr)_auto] gap-x-4 gap-y-2 px-4 py-3 transition-colors hover:bg-muted/25 sm:table-row sm:px-0 sm:py-0">
-          <th scope="row" class="col-span-2 text-left font-medium text-foreground sm:px-4 sm:py-3.5">
-            {result.competition}
-          </th>
-          <td class="text-xs text-foreground/65 sm:whitespace-nowrap sm:px-4 sm:py-3.5 sm:text-sm">
-            <span class="mr-2 text-[0.65rem] font-medium uppercase tracking-wider text-foreground/45 sm:hidden">Date</span>
-            {result.date}
-          </td>
-          <td class="flex items-center justify-end gap-2 text-right sm:px-4 sm:py-3.5">
-            <span class="mr-auto text-[0.65rem] font-medium uppercase tracking-wider text-foreground/45 sm:hidden">Placement</span>
+    <tbody>
+      {rows.map(result => (
+        <tr
+          data-event={result.competition.toLocaleLowerCase()}
+          data-date={result.date}
+          data-place={result.placeOrder}
+        >
+          <th scope="row" class="evt-name">{result.competition}</th>
+          <td class="evt-date" data-date-display={formatDate(result.date)}>{formatDate(result.date)}</td>
+          <td class="num">
             <span class:list={[
-              "inline-flex whitespace-nowrap rounded-full border px-2.5 py-1 text-xs font-semibold",
-              result.featured
-                ? "border-accent/40 bg-accent/10 text-accent"
-                : "border-border bg-muted/30 text-foreground/80",
+              "place",
+              result.featured ? "place--featured" : result.placement === "Qualified for finals" ? "place--muted" : "place--standard",
             ]}>
               {result.placement}
             </span>
           </td>
         </tr>
       ))}
+      <tr class="show-all-row">
+        <td colspan="3">
+          <button type="button" class="show-all-btn">
+            Show all ({rows.length} events)
+          </button>
+        </td>
+      </tr>
     </tbody>
   </table>
 </div>
+
+<script>
+  const initializeResultTables = () => {
+    document.querySelectorAll<HTMLTableElement>(".evt-table:not([data-ready])").forEach(table => {
+      table.dataset.ready = "true";
+      const tbody = table.tBodies[0];
+      if (!tbody) return;
+
+      const headers = Array.from(table.querySelectorAll<HTMLTableCellElement>("th[data-sort]"));
+      const showAllRow = tbody.querySelector<HTMLTableRowElement>(".show-all-row");
+      const showAllButton = showAllRow?.querySelector<HTMLButtonElement>(".show-all-btn");
+      let sortedBy: "event" | "date" | "place" = "place";
+      let descending = false;
+      let expanded = false;
+
+      const getRows = () => Array.from(tbody.querySelectorAll<HTMLTableRowElement>("tr:not(.show-all-row)"));
+
+      const updateVisibility = () => {
+        const rows = getRows();
+        rows.forEach((row, index) => row.classList.toggle("is-hidden", !expanded && index >= 7));
+        if (showAllRow) {
+          showAllRow.classList.toggle("is-hidden", rows.length <= 7 || expanded);
+          tbody.append(showAllRow);
+        }
+      };
+
+      headers.forEach(header => {
+        header.querySelector("button")?.addEventListener("click", () => {
+          const column = header.dataset.sort as typeof sortedBy | undefined;
+          if (!column) return;
+
+          if (sortedBy === column) descending = !descending;
+          else {
+            sortedBy = column;
+          descending = column === "date";
+          }
+
+          headers.forEach(item => {
+            const active = item === header;
+            item.setAttribute("aria-sort", active ? (descending ? "descending" : "ascending") : "none");
+            item.classList.toggle("is-active", active);
+          });
+
+          getRows()
+            .sort((a, b) => {
+              const valueA = a.dataset[column] ?? "";
+              const valueB = b.dataset[column] ?? "";
+              const order = column === "place"
+                ? Number(valueA) - Number(valueB)
+                : valueA.localeCompare(valueB, undefined, { numeric: true, sensitivity: "base" });
+              return descending ? -order : order;
+            })
+            .forEach(row => tbody.insertBefore(row, showAllRow));
+
+          updateVisibility();
+        });
+      });
+
+      showAllButton?.addEventListener("click", () => {
+        expanded = !expanded;
+        showAllButton.textContent = expanded ? "Show fewer results" : `Show all (${getRows().length} events)`;
+        updateVisibility();
+      });
+
+      headers.find(header => header.dataset.sort === sortedBy)?.classList.add("is-active");
+      updateVisibility();
+    });
+  };
+
+  initializeResultTables();
+  document.addEventListener("astro:page-load", initializeResultTables);
+</script>
+
+<style>
+  .table-wrap {
+    margin: 1.5rem 0;
+    overflow-x: auto;
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    background: var(--background);
+  }
+
+  .evt-table {
+    width: 100%;
+    min-width: 34rem;
+    border-collapse: collapse;
+  }
+
+  .evt-table th[scope="col"] {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border);
+    background: color-mix(in srgb, var(--muted) 45%, var(--background));
+    color: color-mix(in srgb, var(--foreground) 62%, var(--background));
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    user-select: none;
+  }
+
+  .th-inner {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    text-align: inherit;
+  }
+
+  th[data-sort] { cursor: pointer; }
+  th[data-sort]:hover,
+  th.is-active { color: var(--foreground); }
+  .num .th-inner { justify-content: flex-end; }
+
+  .sort-caret {
+    opacity: 0;
+    transition: opacity 0.16s ease;
+  }
+  .sort-caret::after { content: "↕"; }
+  th:hover .sort-caret,
+  th.is-active .sort-caret { opacity: 0.75; }
+  th[aria-sort="ascending"] .sort-caret::after { content: "↑"; }
+  th[aria-sort="descending"] .sort-caret::after { content: "↓"; }
+
+  .evt-table tbody tr:not(.show-all-row) {
+    border-bottom: 1px solid color-mix(in srgb, var(--border) 55%, transparent);
+    transition: background-color 0.15s ease;
+  }
+  .evt-table tbody tr:not(.show-all-row):hover { background: color-mix(in srgb, var(--muted) 30%, transparent); }
+  .evt-table tbody tr.is-hidden,
+  .show-all-row.is-hidden { display: none; }
+
+  .evt-table td,
+  .evt-table th[scope="row"] {
+    padding: 0.72rem 1rem;
+    font-size: 0.88rem;
+  }
+  .evt-name { color: var(--foreground); font-weight: 500; text-align: left; }
+  .evt-date { color: color-mix(in srgb, var(--foreground) 62%, var(--background)); white-space: nowrap; }
+  .num { text-align: right; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-variant-numeric: tabular-nums; }
+
+  .place {
+    display: inline-block;
+    padding: 0.22rem 0.58rem;
+    border: 1px solid transparent;
+    border-radius: 0.4rem;
+    font-size: 0.76rem;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .place--featured { border-color: color-mix(in srgb, var(--accent) 42%, transparent); background: color-mix(in srgb, var(--accent) 15%, transparent); color: var(--accent); }
+  .place--standard { border-color: color-mix(in srgb, var(--border) 70%, transparent); background: color-mix(in srgb, var(--muted) 36%, transparent); color: var(--foreground); }
+  .place--muted { border-color: var(--border); color: color-mix(in srgb, var(--foreground) 65%, var(--background)); }
+
+  .show-all-row td { padding: 0; }
+  .show-all-btn {
+    width: 100%;
+    padding: 0.8rem;
+    border: 0;
+    background: color-mix(in srgb, var(--muted) 40%, var(--background));
+    color: var(--accent);
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.74rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: background-color 0.16s ease, color 0.16s ease;
+  }
+  .show-all-btn:hover { background: var(--muted); color: var(--foreground); }
+
+  @media (max-width: 639px) {
+    .evt-table { min-width: 31rem; }
+  }
+</style>
