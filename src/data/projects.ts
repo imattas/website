@@ -1,13 +1,5 @@
 export const projects = [
   {
-    title: "CTF-Challenges",
-    description: "A local-only collection of CTF challenges with packaging, validation, and solver tools.",
-    tags: ["CTF", "Python"],
-    link: "https://github.com/imattas/CTF-Challenges",
-    stars: 2,
-    forks: 0,
-  },
-  {
     title: "HexLab",
     description: "A C++20 reverse engineering workbench with desktop and CLI tools for binary analysis, disassembly, decompilation, and debugging.",
     tags: ["C++", "Reverse Engineering", "Binary Analysis"],
