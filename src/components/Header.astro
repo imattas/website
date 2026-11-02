@@ -68,7 +68,6 @@ const isActive = (path: string) => {
         class:list={[
       "mt-4 grid w-full grid-cols-2 place-content-center gap-2",
           "[&>li>a]:block [&>li>a]:px-4 [&>li>a]:py-3 [&>li>a]:text-center [&>li>a]:font-medium [&>li>a]:hover:text-accent sm:[&>li>a]:px-2 sm:[&>li>a]:py-1",
-          "hidden",
           "sm:mt-0 sm:flex sm:w-auto sm:gap-x-5 sm:gap-y-0",
         ]}
       >
@@ -127,6 +126,49 @@ const isActive = (path: string) => {
   </div>
 </header>
 
+<style>
+  @media (max-width: 639px) {
+    #menu-items {
+      max-height: 0;
+      margin-top: 0;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(-0.5rem);
+      visibility: hidden;
+      pointer-events: none;
+      transition:
+        max-height 240ms ease,
+        margin-top 240ms ease,
+        opacity 180ms ease,
+        transform 180ms ease,
+        visibility 240ms;
+    }
+
+    #menu-items.is-open {
+      max-height: 28rem;
+      margin-top: 1rem;
+      opacity: 1;
+      transform: translateY(0);
+      visibility: visible;
+      pointer-events: auto;
+    }
+  }
+
+  @media (min-width: 640px) {
+    #menu-items {
+      max-height: none;
+      opacity: 1;
+      transform: none;
+      visibility: visible;
+      pointer-events: auto;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #menu-items { transition: none; }
+  }
+</style>
+
 <script>
   function toggleNav() {
     const menuBtn = document.querySelector("#menu-btn");
@@ -145,16 +187,16 @@ const isActive = (path: string) => {
       menuBtn.setAttribute("aria-expanded", openMenu ? "false" : "true");
       menuBtn.setAttribute("aria-label", openMenu ? "Open Menu" : "Close Menu");
 
-      menuItems.classList.toggle("hidden");
+      menuItems.classList.toggle("is-open", !openMenu);
       menuIcon.classList.toggle("hidden");
       closeIcon.classList.toggle("hidden");
     });
 
       menuItems.addEventListener("click", event => {
-        if ((event.target as HTMLElement).closest("a")) {
+        if (event.target instanceof Element && event.target.closest("a")) {
           menuBtn.setAttribute("aria-expanded", "false");
           menuBtn.setAttribute("aria-label", "Open Menu");
-          menuItems.classList.add("hidden");
+          menuItems.classList.remove("is-open");
           menuIcon.classList.remove("hidden");
           closeIcon.classList.add("hidden");
         }
