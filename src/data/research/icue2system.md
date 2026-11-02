@@ -49,7 +49,7 @@ The tested proof used a copied registry file rather than changing the installed 
 
 ## Demonstration
 
-The public project contains a Windows proof of concept and a detailed description of the test environment. In the reported reproduction, a standard local account triggered the service path and the resulting fixed identity check recorded SYSTEM as the executing identity.
+In the reported reproduction, a standard local account triggered the service path and the resulting fixed identity check recorded SYSTEM as the executing identity.
 
 **Observed result:** The proof output identified `NT AUTHORITY\SYSTEM`, SID `S-1-5-18`, with System Mandatory Level.
 
