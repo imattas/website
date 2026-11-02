@@ -4,7 +4,7 @@ pubDatetime: 2026-01-01
 title: "[Post title]"
 description: "[One sentence describing the post and why a reader should care.]"
 tags:
-  - [topic]
+  - "[topic]"
 ---
 
 ## Introduction

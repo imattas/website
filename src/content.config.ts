@@ -13,7 +13,7 @@ const blog = defineCollection({
       modDatetime: z.date().optional().nullable(),
       title: z.string(),
       featured: z.boolean().optional(),
-      status: z.enum(["draft", "soon", "release"]).default("release"),
+      draft: z.boolean().optional(),
       unlisted: z.boolean().optional(),
       tags: z.array(z.string()).default(["others"]),
       ogImage: image().or(z.string()).optional(),
@@ -35,7 +35,7 @@ const research = defineCollection({
       type: z.string().optional(),
       identifier: z.string().optional(),
       tags: z.array(z.string()).default(["research"]),
-      draft: z.boolean().optional(),
+      status: z.enum(["draft", "soon", "release"]).default("release"),
       ogImage: image().or(z.string()).optional(),
     }),
 });
