@@ -26,6 +26,7 @@ I work with Rust, C, C++, Assembly, Python, JavaScript, TypeScript, Java, and C#
 | Lexington Informatics Tournament CTF 2026 | Aug 1 | 9th |
 | V1T CTF 2026 | Jun 27 | 9th |
 | LYKNCTF | Jul 6 | 10th |
-| UND National CyberHawks High School Qualifiers & Finals | Aug 29 (qualifiers); Oct 26 (finals) | 2nd |
+| UND National CyberHawks High School Qualifiers | Aug 29, 2026 | Qualified for finals |
+| UND National CyberHawks High School Finals | Oct 26, 2026 | 2nd |
 
 I’m open to interesting security, systems, and research collaborations. Find my projects on [GitHub](https://github.com/imattas) or get in touch at [ian@mattas.net](mailto:ian@mattas.net).
