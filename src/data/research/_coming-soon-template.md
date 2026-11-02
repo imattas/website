@@ -1,5 +1,5 @@
 ---
-draft: true
+status: soon
 pubDatetime: 2026-01-01
 title: "Coming soon: [research title]"
 description: "[A concise teaser about the upcoming research and why it matters.]"

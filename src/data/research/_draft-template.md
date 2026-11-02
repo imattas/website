@@ -1,5 +1,5 @@
 ---
-draft: true
+status: draft
 pubDatetime: 2026-01-01
 title: "[What the issue is, in plain language]"
 description: "[A concise explanation of the software behavior and why it matters.]"

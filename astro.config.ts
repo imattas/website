@@ -85,6 +85,27 @@ const getUnlistedPaths = () => {
 
 const unlistedPaths = getUnlistedPaths();
 
+const getSoonResearchPaths = () => {
+  const researchPath = path.join(process.cwd(), "src/data/research");
+  const soonPaths = new Set<string>();
+
+  try {
+    for (const entry of fs.readdirSync(researchPath, { withFileTypes: true })) {
+      if (!entry.isFile() || !entry.name.endsWith(".md") || entry.name.startsWith("_")) continue;
+      const contents = fs.readFileSync(path.join(researchPath, entry.name), "utf8");
+      const frontmatterMatch = contents.match(/^---\s*([\s\S]*?)\s*---/);
+      if (!frontmatterMatch || !/^\s*status:\s*soon\s*$/m.test(frontmatterMatch[1])) continue;
+      soonPaths.add(normalizePath(`/research/${entry.name.replace(/\.md$/, "")}`));
+    }
+  } catch {
+    return soonPaths;
+  }
+
+  return soonPaths;
+};
+
+const soonResearchPaths = getSoonResearchPaths();
+
 // https://astro.build/config
 export default defineConfig({
   site: SITE.website,
@@ -95,6 +116,7 @@ export default defineConfig({
         const pagePath = getPagePath(page);
         if (!SITE.showArchives && pagePath.endsWith("/archives")) return false;
         if (unlistedPaths.has(pagePath)) return false;
+        if (soonResearchPaths.has(pagePath)) return false;
         return true;
       },
     }),

@@ -7,7 +7,7 @@ import Datetime from "@/components/Datetime.astro";
 import { SITE } from "@/config";
 import { getCollection } from "astro:content";
 
-const entries = (await getCollection("research", ({ data }) => !data.draft)).sort(
+const entries = (await getCollection("research", ({ data }) => data.status !== "draft")).sort(
   (a, b) => b.data.pubDatetime.valueOf() - a.data.pubDatetime.valueOf()
 );
 ---
@@ -19,9 +19,15 @@ const entries = (await getCollection("research", ({ data }) => !data.draft)).sor
       {entries.map(({ data, id }) => (
         <li class="list-row">
           <h2 class="text-lg font-medium"><a class="text-accent underline-offset-4 hover:underline" href={`/research/${id}/`}>{data.title}</a></h2>
-          <Datetime pubDatetime={data.pubDatetime} />
-          {data.type && <p class="text-sm text-foreground/60">{data.type}{data.identifier ? ` Â· ${data.identifier}` : ""}</p>}
-          <p>{data.description}</p>
+          {data.status === "soon" ? (
+            <p class="mt-1 text-sm text-foreground/60">Coming soon... stay tuned.</p>
+          ) : (
+            <>
+              <Datetime pubDatetime={data.pubDatetime} />
+              {data.type && <p class="text-sm text-foreground/60">{data.type}{data.identifier ? ` Â· ${data.identifier}` : ""}</p>}
+              <p>{data.description}</p>
+            </>
+          )}
         </li>
       ))}
     </ul>

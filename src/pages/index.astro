@@ -10,7 +10,7 @@ import { getPath } from "@/utils/getPath";
 import getSortedPosts from "@/utils/getSortedPosts";
 
 const posts = getSortedPosts(await getCollection("blog"));
-const research = (await getCollection("research", ({ data }) => !data.draft)).sort(
+const research = (await getCollection("research", ({ data }) => data.status === "release")).sort(
   (a, b) => b.data.pubDatetime.valueOf() - a.data.pubDatetime.valueOf()
 );
 const featuredItems = [
