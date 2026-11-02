@@ -19,7 +19,7 @@
     "@tailwindcss/vite": "^4.1.18",
     "@vercel/analytics": "^2.0.0",
     "@vercel/edge-config": "^1.4.3",
-    "astro": "^5.18.0",
+    "astro": "^7.3.3",
     "dayjs": "^1.11.19",
     "lodash.kebabcase": "^4.1.1",
     "remark-collapse": "^0.1.2",
