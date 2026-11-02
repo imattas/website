@@ -4,7 +4,12 @@ import Main from "@/layouts/Main.astro";
 import Layout from "@/layouts/Layout.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
+import Card from "@/components/Card.astro";
 import { SITE } from "@/config";
+import { getCollection } from "astro:content";
+import getSortedPosts from "@/utils/getSortedPosts";
+
+const posts = getSortedPosts(await getCollection("blog"));
 
 export const getStaticPaths = (async () => {
   return [{ params: { page: undefined } }];
@@ -13,8 +18,17 @@ export const getStaticPaths = (async () => {
 
 <Layout title={`Articles and Notes | ${SITE.title}`} description="Articles and notes by Ian Mattas on security research, reverse engineering, binary exploitation, and CTFs." schemaType="WebPage">
   <Header />
-  <Main pageTitle="Posts" pageDesc="No posts yet.">
-    <p>New posts will appear here.</p>
+  <Main
+    pageTitle="Posts"
+    pageDesc={posts.length ? "Articles and notes on security, reverse engineering, and CTFs." : "No posts yet."}
+  >
+    {posts.length ? (
+      <ul>
+        {posts.map(post => <Card {...post} />)}
+      </ul>
+    ) : (
+      <p>New posts will appear here.</p>
+    )}
   </Main>
   <Footer />
 </Layout>

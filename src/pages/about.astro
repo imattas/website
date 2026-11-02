@@ -3,7 +3,7 @@ import Layout from "@/layouts/Layout.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
 import Breadcrumb from "@/components/Breadcrumb.astro";
-import CtfResults from "@/components/CtfResults.astro";
+import Tables from "@/components/Tables.astro";
 import { SITE } from "@/config";
 
 const ctfResults = [
@@ -40,7 +40,7 @@ const ctfResults = [
       <p>Rust, C, C++, Assembly, Python, JavaScript, TypeScript, Java, and C#.</p>
 
       <h2>CTF Results</h2>
-      <CtfResults results={ctfResults} />
+      <Tables results={ctfResults} />
 
       <p>I’m open to interesting security, systems, and research collaborations. Find my projects on <a href="https://github.com/imattas">GitHub</a> or get in touch at <a href="mailto:ian@mattas.net">ian@mattas.net</a>.</p>
     </article>
