@@ -4,6 +4,11 @@ dist/
 # generated types
 .astro/
 
+# local agent and task notes
+superpowers/
+.superpowers/
+.docs/
+
 # dependencies
 node_modules/
 
