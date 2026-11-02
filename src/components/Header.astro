@@ -6,7 +6,6 @@ import IconSunHigh from "@/assets/icons/IconSunHigh.svg";
 import IconMenuDeep from "@/assets/icons/IconMenuDeep.svg";
 import LinkButton from "./LinkButton.astro";
 import { SITE } from "@/config";
-import Logo from "@/assets/profile.png";
 
 const { pathname } = Astro.url;
 
@@ -46,11 +45,7 @@ const isActive = (path: string) => {
       href="/"
       class="absolute inline-flex items-center gap-3 py-1 text-xl leading-8 font-semibold whitespace-nowrap sm:static sm:my-auto sm:text-2xl sm:leading-none"
     >
-      <img
-        src={Logo.src}
-        alt="Logo"
-        class="inline-block h-[2em] w-[2em] rounded-full object-cover"
-      />
+      <span aria-hidden="true" class="inline-flex size-[2em] items-center justify-center rounded-full bg-muted text-sm font-bold text-accent">IM</span>
       {SITE.title}
     </a>
     <nav
