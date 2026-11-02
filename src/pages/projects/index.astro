@@ -1,0 +1,23 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import Main from "@/layouts/Main.astro";
+import { projects } from "@/data/projects";
+import { SITE } from "@/config";
+---
+
+<Layout title={`Projects | ${SITE.title}`} description="Selected software and security projects by Ian Mattas.">
+  <Header />
+  <Main pageTitle="Projects" pageDesc="Selected software and research tooling.">
+    <ul>
+      {projects.map(project => (
+        <li class="my-6 border-b border-border pb-5 last:border-0">
+          <h2 class="text-lg font-medium"><a class="text-accent underline-offset-4 hover:underline" href={project.link} target="_blank" rel="noreferrer">{project.title}</a></h2>
+          <p class="mt-1">{project.description}</p>
+        </li>
+      ))}
+    </ul>
+  </Main>
+  <Footer />
+</Layout>

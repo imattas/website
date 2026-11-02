@@ -1,0 +1,86 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import Socials from "@/components/Socials.astro";
+import { projects } from "@/data/projects";
+import { getCollection } from "astro:content";
+import Datetime from "@/components/Datetime.astro";
+import { getPath } from "@/utils/getPath";
+import getSortedPosts from "@/utils/getSortedPosts";
+
+const posts = getSortedPosts(await getCollection("blog"));
+const research = (await getCollection("research", ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDatetime.valueOf() - a.data.pubDatetime.valueOf()
+);
+const featuredItems = [
+  ...posts.map(post => ({
+    title: post.data.title,
+    description: post.data.description,
+    pubDatetime: post.data.pubDatetime,
+    href: getPath(post.id, post.filePath),
+    type: "Post",
+  })),
+  ...research.map(item => ({
+    title: item.data.title,
+    description: item.data.description,
+    pubDatetime: item.data.pubDatetime,
+    href: `/research/${item.id}/`,
+    type: item.data.type ?? "Research",
+  })),
+]
+  .sort((a, b) => b.pubDatetime.valueOf() - a.pubDatetime.valueOf())
+  .slice(0, 3);
+---
+
+<Layout description="Ian Mattas — reverse engineer, binary exploitation researcher, and CTF player.">
+  <Header />
+  <main id="main-content" class="app-layout">
+    <section class="border-b border-border pt-8 pb-6">
+      <p class="mb-3 text-sm uppercase tracking-[0.18em] text-accent">Reverse Engineer · Security Researcher</p>
+      <h1 class="my-4 inline-block text-4xl font-bold sm:my-8 sm:text-5xl">Ian Mattas</h1>
+      <p class="max-w-2xl text-lg leading-8 text-foreground/80">
+        I’m a high school developer and aspiring red teamer from Ohio, five years into reverse engineering. I lead <a class="text-accent underline underline-offset-4" href="https://idktheflag.sh" target="_blank" rel="noreferrer">idktheflag</a>. My work focuses on reverse engineering, binary exploitation, malware analysis, binary obfuscation, symbolic execution, and cryptography.
+      </p>
+      <div class="mt-4"><Socials /></div>
+    </section>
+
+    <section class="border-b border-border py-10" aria-labelledby="featured-title">
+      <div class="mb-6">
+        <h2 id="featured-title" class="text-2xl font-semibold">Featured</h2>
+      </div>
+      {featuredItems.length > 0 ? (
+        <ul>
+          {featuredItems.map(item => (
+            <li class="my-6 border-b border-border pb-5 last:border-0">
+              <p class="mb-1 text-xs uppercase tracking-wide text-foreground/60">{item.type}</p>
+              <h3 class="text-lg font-medium"><a class="text-accent underline-offset-4 hover:underline" href={item.href}>{item.title}</a></h3>
+              <Datetime pubDatetime={item.pubDatetime} />
+              <p>{item.description}</p>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p class="text-foreground/70">New posts and research will be featured here.</p>
+      )}
+    </section>
+
+    <section class="py-10" aria-labelledby="projects-title">
+      <div class="mb-6 flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <h2 id="projects-title" class="mt-1 text-2xl font-semibold">Projects</h2>
+        </div>
+        <a class="text-accent underline underline-offset-4" href="/projects/">All projects</a>
+      </div>
+      <ul class="grid gap-4 sm:grid-cols-2">
+        {projects.slice(0, 4).map(project => (
+          <li class="rounded-lg border border-border p-5 transition-colors hover:border-accent/70">
+            <h3 class="mb-2 text-lg font-semibold"><a class="text-accent underline-offset-4 hover:underline" href={project.link} target="_blank" rel="noreferrer">{project.title}</a></h3>
+            <p class="text-sm leading-6 text-foreground/80">{project.description}</p>
+          </li>
+        ))}
+      </ul>
+    </section>
+  </main>
+  <Footer />
+</Layout>

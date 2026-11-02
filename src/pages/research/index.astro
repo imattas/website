@@ -1,0 +1,30 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import Main from "@/layouts/Main.astro";
+import Datetime from "@/components/Datetime.astro";
+import { SITE } from "@/config";
+import { getCollection } from "astro:content";
+
+const entries = (await getCollection("research", ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDatetime.valueOf() - a.data.pubDatetime.valueOf()
+);
+---
+
+<Layout title={`Research | ${SITE.title}`} description="Research interests and technical focus areas of Ian Mattas.">
+  <Header />
+  <Main pageTitle="Research" pageDesc="Research notes and disclosures.">
+    <ul>
+      {entries.map(({ data }) => (
+        <li class="my-6">
+          <h2 class="text-lg font-medium text-accent">{data.title}</h2>
+          <Datetime pubDatetime={data.pubDatetime} />
+          {data.type && <p class="text-sm text-foreground/60">{data.type}{data.identifier ? ` · ${data.identifier}` : ""}</p>}
+          <p>{data.description}</p>
+        </li>
+      ))}
+    </ul>
+  </Main>
+  <Footer />
+</Layout>

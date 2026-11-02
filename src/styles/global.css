@@ -1,193 +1,71 @@
-:root {
-  --bg: #f4f1ea;
-  --bg-soft: #ece7dc;
-  --ink: #14120f;
-  --ink-soft: #3a352c;
-  --muted: #6b6455;
-  --line: #14120f;
-  --paper: #faf7f0;
-  --accent: #b93800;
-  --accent-ink: #ff4d00;
-  --lime: #c6f432;
-  --blue: #2f6bff;
-  --font-display: "Syne", "Space Grotesk", system-ui, sans-serif;
-  --font-body: "Space Grotesk", system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, monospace;
-  --shadow: 6px 6px 0 0 var(--ink);
-  --shadow-sm: 3px 3px 0 0 var(--ink);
+@import "tailwindcss";
+@import "./typography.css";
+
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+:root,
+html[data-theme="light"] {
+  --background: #161717;
+  --accent: #617bff;
+  --foreground: #eaedf3;
+  --muted: #0c0e4f;
+  --border: #303f8a;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+html[data-theme="dark"] {
+  --background: #161717;
+  --accent: #617bff;
+  --foreground: #eaedf3;
+  --muted: #0c0e4f;
+  --border: #303f8a;
 }
 
-html {
-  scroll-behavior: smooth;
-  scroll-padding-top: 84px;
-  overflow-x: clip;
+@theme inline {
+  --font-app: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-accent: var(--accent);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
 }
 
-body {
-  background: var(--bg);
-  color: var(--ink);
-  font-family: var(--font-body);
-  line-height: 1.5;
-  overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
-}
-
-body.has-custom-cursor { cursor: none; }
-
-img,
-svg,
-video,
-canvas {
-  max-width: 100%;
-}
-
-button,
-input,
-textarea,
-select {
-  font: inherit;
-}
-
-:focus-visible {
-  outline: 3px solid var(--blue);
-  outline-offset: 4px;
-}
-
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-
-::selection {
-  background: var(--accent);
-  color: #fff;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-.skip-link {
-  position: fixed;
-  top: 16px;
-  left: 16px;
-  z-index: 10001;
-  padding: 10px 14px;
-  border: 2px solid var(--ink);
-  background: var(--lime);
-  color: var(--ink);
-  font-family: var(--font-mono);
-  transform: translateY(-200%);
-  transition: transform 0.15s ease;
-}
-
-.skip-link:focus-visible {
-  transform: translateY(0);
-}
-
-h1,
-h2,
-h3,
-h4 {
-  font-family: var(--font-display);
-  line-height: 0.95;
-  letter-spacing: -0.03em;
-  font-weight: 700;
-}
-
-/* Scrollbar */
-::-webkit-scrollbar {
-  width: 12px;
-}
-::-webkit-scrollbar-track {
-  background: var(--bg);
-}
-::-webkit-scrollbar-thumb {
-  background: var(--ink);
-  border: 3px solid var(--bg);
-  border-radius: 10px;
-}
-
-/* Utility */
-.container {
-  width: min(1200px, 92vw);
-  margin: 0 auto;
-}
-
-.section {
-  position: relative;
-  padding: 140px 0;
-}
-
-.section-label {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  font-family: var(--font-mono);
-  font-size: 0.8rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--ink);
-  background: var(--lime);
-  padding: 6px 14px;
-  border: 2px solid var(--ink);
-  box-shadow: var(--shadow-sm);
-  margin-bottom: 28px;
-}
-
-.section-title {
-  font-size: clamp(2.4rem, 6vw, 4.5rem);
-  margin-bottom: 20px;
-  text-transform: uppercase;
-}
-
-.section-sub {
-  color: var(--muted);
-  max-width: 560px;
-  font-size: 1.1rem;
-}
-
-.accent {
-  color: var(--accent);
-}
-
-.outline-text {
-  color: transparent;
-  -webkit-text-stroke: 2px var(--ink);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    scroll-behavior: auto !important;
-    transition-duration: 0.01ms !important;
+@layer base {
+  * {
+    @apply border-border outline-accent/75;
+    scrollbar-width: auto;
+    scrollbar-color: var(--color-muted) transparent;
   }
   html {
-    scroll-behavior: auto;
+    @apply overflow-y-scroll scroll-smooth;
+    scrollbar-gutter: stable;
   }
   body {
-    cursor: auto;
+    @apply flex min-h-svh flex-col bg-background font-app text-foreground selection:bg-accent/75 selection:text-background;
   }
-  .grain,
-  .marquee-track,
-  .terminal-cursor {
-    animation: none !important;
+  a,
+  button {
+    @apply outline-offset-1 outline-accent focus-visible:no-underline focus-visible:outline-2 focus-visible:outline-dashed;
   }
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+}
+
+@utility max-w-app {
+  @apply max-w-3xl;
+}
+
+@utility app-layout {
+  @apply mx-auto w-full max-w-app px-4;
+}
+
+.active-nav {
+  @apply underline decoration-wavy decoration-2 underline-offset-8;
+}
+
+/* Source: https://piccalil.li/blog/a-more-modern-css-reset/ */
+/* Anything that has been anchored to should have extra scroll margin */
+:target {
+  scroll-margin-block: 1rem;
 }

@@ -1,0 +1,20 @@
+---
+import type { GetStaticPaths } from "astro";
+import Main from "@/layouts/Main.astro";
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import { SITE } from "@/config";
+
+export const getStaticPaths = (async () => {
+  return [{ params: { page: undefined } }];
+}) satisfies GetStaticPaths;
+---
+
+<Layout title={`Posts | ${SITE.title}`}>
+  <Header />
+  <Main pageTitle="Posts" pageDesc="No posts yet.">
+    <p>New posts will appear here.</p>
+  </Main>
+  <Footer />
+</Layout>
