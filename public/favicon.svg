@@ -1,6 +1,6 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
-  <title id="title">Ian Mattas monogram</title>
-  <rect width="64" height="64" rx="14" fill="#101820"/>
-  <path fill="#70b8ff" d="M13 16h10v32H13z"/>
-  <path fill="#fff" d="M28 48V16h8l8 17 8-17h8v32h-9V32l-7 14h-1l-7-14v16z"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+  <title id="title">IM — Ian Mattas</title>
+  <rect width="64" height="64" rx="12" fill="#101820"/>
+  <path fill="#70b8ff" d="M7 16h19v7h-6v18h6v7H7v-7h6V23H7z"/>
+  <path fill="#fff" d="M30 48V16h7l6 12 6-12h7v32h-8V31l-5 10h-1l-5-10v17z"/>
 </svg>

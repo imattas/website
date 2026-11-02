@@ -1,77 +1,84 @@
 ---
 draft: true
 pubDatetime: 2026-01-01
-title: "[Working title]"
-description: "[One or two sentences describing the confirmed research finding.]"
+title: "[What the issue is, in plain language]"
+description: "[A concise explanation of the software behavior and why it matters.]"
 type: "Vulnerability research"
 identifier: "CVE: TBD (not assigned)"
 tags:
   - research
-  - vulnerability-disclosure
+  - vulnerability
 ---
 
-> **Draft template:** Replace bracketed prompts with verified information. Remove sections that do not apply. Do not publish until disclosure coordination and all claims have been reviewed.
+> **Research draft template:** Start with the underlying behavior and your finding. Explain it so a technical reader can understand what the software does, what goes wrong, and when it matters. Add CVE and coordination details as identifiers and context; they should not replace the technical explanation. Remove sections that do not apply and replace every prompt with verified information before publishing.
 
-## Summary
+## What it is
 
-[Describe the issue, the affected component, and the security consequence in a few sentences. Do not include unverified claims.]
+[Give the issue a clear name. In a few sentences, explain the vulnerable behavior and the consequence. Describe what a user or system can observe.]
 
-## Identification
+## How the behavior works
 
-- **CVE ID:** TBD (not assigned; add the ID only after assignment)
-- **Advisory or vendor reference:** [TBD]
-- **CWE:** [CWE-ID and name, if applicable]
-- **Disclosure status:** [Private / Coordinated / Public]
-- **Date reported:** [YYYY-MM-DD]
-- **Date disclosed:** [YYYY-MM-DD or TBD]
+[Walk through the relevant normal behavior first, then explain where the implementation or trust assumption breaks down. Name the component, input, boundary, or state involved.]
 
-## Affected software
+## Why it matters
 
-- **Product and component:** [Name]
-- **Affected versions:** [Verified version range]
-- **Unaffected versions:** [Known fixed or unaffected versions]
-- **Environment:** [Platform, configuration, and prerequisites]
-- **Fixed version:** [Version or not yet available]
+[Explain the realistic security consequence and who or what could be affected. State the conditions required for the behavior to occur. Separate demonstrated impact from possible impact.]
 
-## Severity and impact
+## Affected component and conditions
 
-- **Severity:** [Vendor rating or reasoned qualitative rating]
-- **CVSS version and score:** [For example, CVSS 4.0: TBD]
-- **CVSS vector:** [Vector string, if calculated]
-- **Prerequisites:** [Access, user interaction, configuration, or other conditions]
-- **Impact:** [Confidentiality, integrity, and availability effects supported by evidence]
+- **Product / component:** [Name and relevant subsystem]
+- **Affected versions:** [Verified versions or range]
+- **Required configuration:** [Relevant settings, if any]
+- **Attacker prerequisites:** [Access, position, or user interaction required]
+- **Fixed version / workaround:** [Version or mitigations, if confirmed]
 
-## Technical analysis
+## Technical details
 
-[Explain the root cause and the code or behavior involved. Distinguish observed behavior from interpretation.]
+[Describe the root cause with enough implementation context to make the finding understandable. Include relevant code paths, protocol steps, or state transitions. Explain why existing checks do not prevent the behavior.]
 
-## Reproduction and evidence
+## Demonstration
 
-1. [State the test environment and exact affected version.]
-2. [Provide minimal, safe reproduction steps.]
-3. [Describe the observed result and expected result.]
+[Describe a minimal, reproducible demonstration. Include exact versions and setup. Keep the proof of concept scoped to demonstrating the issue safely.]
 
 ```text
-[Add sanitized logs, output, or a minimal proof of concept only when safe to publish.]
+[Optional sanitized request, command, trace, or output]
 ```
 
-## Mitigation and remediation
+**Observed result:** [What actually happens]
 
-[Describe the vendor fix, upgrade path, or temporary mitigation. If no fix exists, state that clearly and coordinate publication.]
+**Expected result:** [What should happen instead]
 
-## Disclosure timeline
+## Security impact and severity
 
-| Date (UTC) | Event |
+[Summarize demonstrated confidentiality, integrity, or availability impact. Explain any limits or assumptions.]
+
+- **Severity:** [Assessment and brief rationale]
+- **CVSS version / score:** [If calculated]
+- **CVSS vector:** [If calculated]
+- **CWE:** [If applicable]
+
+## Mitigation and fix
+
+[Explain how to avoid or reduce exposure, then summarize the fix and why it prevents the behavior. If no fix is available, state that plainly.]
+
+## Identification and coordination
+
+- **CVE ID:** TBD (not assigned; add only after assignment)
+- **Vendor advisory:** [Link or TBD]
+- **Disclosure status:** [Private / Coordinated / Public]
+- **Reported:** [YYYY-MM-DD or not applicable]
+- **Public disclosure:** [YYYY-MM-DD or TBD]
+
+| Date (UTC) | Coordination event |
 | --- | --- |
-| [YYYY-MM-DD] | [Initial report sent to vendor or coordinator] |
-| [YYYY-MM-DD] | [Acknowledgement, fix, or advisory milestone] |
-| [YYYY-MM-DD] | [Coordinated public disclosure] |
+| [YYYY-MM-DD] | [Report or acknowledgement, if relevant] |
+| [YYYY-MM-DD] | [Fix or advisory milestone, if relevant] |
 
 ## References
 
-- [Vendor advisory, patch, CVE record, or other primary reference]
-- [Related technical reference]
+- [Primary technical, vendor, patch, or advisory reference]
+- [Additional background]
 
 ## Acknowledgements
 
-[Credit contributors and coordination contacts, if applicable.]
+[Credit collaborators or coordinators, if applicable.]
